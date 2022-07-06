@@ -1,0 +1,307 @@
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html, body {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+.chat-avatar {
+  object-fit: cover;
+  border-radius:50%;
+  margin-left: 10px;
+  width: 80px;
+  height: 80px;
+}
+
+.chat-header {
+  background-color: #03A9F4;
+}
+.chat-layout .mdl-layout__header .mdl-layout__drawer-button {
+  color: rgba(0, 0, 0, 0.54);
+}
+.mdl-layout__drawer .avatar {
+  margin-bottom: 16px;
+}
+.chat-drawer {
+  border: none;
+  overflow: hidden;
+}
+/* iOS Safari specific workaround */
+.chat-drawer .mdl-menu__container {
+  z-index: -1;
+}
+.chat-drawer .chat-navigation {
+  z-index: -2;
+  background-color: #03A9F4;
+}
+/* END iOS Safari specific workaround */
+.chat-drawer .mdl-menu .mdl-menu__item {
+  display: flex;
+  align-items: center;
+}
+.chat-drawer-header {
+  box-sizing: border-box;
+  display: inherit;
+  padding: 16px;
+  height: 151px;
+}
+.chat-avatar-dropdown {
+  box-sizing: border-box;
+  display: flex;
+}
+
+.chat-navigation {
+  flex-grow: 1;
+}
+.chat-layout .chat-navigation .mdl-navigation__link {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.56);
+  font-weight: 500;
+}
+.chat-layout .chat-navigation .mdl-navigation__link:hover {
+  background-color: #00BCD4;
+  color: #37474F;
+}
+.chat-content {
+  max-width: 1080px;
+  padding-bottom: 5em;
+}
+
+.chat-chart:nth-child(1) {
+  color: #ACEC00;
+}
+.chat-chart:nth-child(2) {
+  color: #00BBD6;
+}
+.chat-chart:nth-child(3) {
+  color: #BA65C9;
+}
+.chat-chart:nth-child(4) {
+  color: #EF3C79;
+}
+.chat-graphs {
+  padding: 16px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+/* TODO: Find a proper solution to have the graphs
+ * not float around outside their container in IE10/11.
+ * Using a browserhacks.com solution for now.
+ */
+_:-ms-input-placeholder, :root .chat-graphs {
+  min-height: 664px;
+}
+_:-ms-input-placeholder, :root .chat-graph {
+  max-height: 300px;
+}
+/* TODO end */
+.chat-graph:nth-child(1) {
+  color: #00b9d8;
+}
+.chat-graph:nth-child(2) {
+  color: #d9006e;
+}
+
+.chat-cards {
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.chat-cards .chat-separator {
+  height: 32px;
+}
+.chat-cards .mdl-card__title.mdl-card__title {
+  color: white;
+  font-size: 24px;
+  font-weight: 400;
+}
+.chat-cards ul {
+  padding: 0;
+}
+.chat-cards h3 {
+  font-size: 1em;
+}
+.chat-updates .mdl-card__title {
+  min-height: 200px;
+  background-image: url('images/dog.png');
+  background-position: 90% 100%;
+  background-repeat: no-repeat;
+}
+.chat-cards .mdl-card__actions a {
+  color: #00BCD4;
+  text-decoration: none;
+}
+
+.chat-options h3 {
+  margin: 0;
+}
+.chat-options .mdl-checkbox__box-outline {
+  border-color: rgba(255, 255, 255, 0.89);
+}
+.chat-options ul {
+  margin: 0;
+  list-style-type: none;
+}
+.chat-options li {
+  margin: 4px 0;
+}
+.chat-options .material-icons {
+  color: rgba(255, 255, 255, 0.89);
+}
+.chat-options .mdl-card__actions {
+  height: 64px;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+}
+.header-subtitle {
+  margin: 0px 40px 0px;
+  font-style: italic;
+  font-size: 12px
+}
+.chat-user {
+  border-radius: 50%;
+}
+.chat-user img {
+  width: 100%;
+  border-radius: 50%;
+}
+.chat-message {
+  padding: 0 1em;
+}
+.chat-message h4 {
+  margin: 0.2em 0;
+  font-size: 1em;
+  font-weight: 600;
+}
+.chat-message h4 span {
+  font-weight: 200;
+  font-size: 0.8em;
+  margin-left: 8px;
+}
+.chat-write-box {
+  position: fixed;
+  bottom: 1em;
+  width: 92%;
+}
+.chat-write-box div.chat-icon.right i {
+  float: right;
+}
+.chat-write-box div.chat-icon {
+  text-align: center;
+  padding-top: 0.6em;
+  margin-left: 1em;
+}
+.chat-write-box input {
+  width: 100%;
+  height: 100%;
+  font-size: 1.1em;
+  border: 0;
+}
+.chat-write-box div.chat-icon i {
+  font-size: 2em;
+}
+.setting-icon {
+  float: right;
+  padding-top: 10px;
+  font-size: 1.2em;
+  color: #adadad;
+}
+
+.chat-sidebar-header {
+  width: 100%;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: #014E72;
+}
+
+.no-margin {
+  margin: 0px !important;
+}
+
+.online-icon {
+  font-size: 9px;
+  color: #00ff00;
+}
+
+.away-icon {
+  font-size: 9px;
+  color: orange;
+}
+
+i.online-icon{
+  margin-right: 3px;
+}
+
+.online-status {
+  font-size: 12px;
+}
+.add-channel-buttom {
+  position: absolute;
+  background:white;
+  margin-top: -25px;
+  right: 15px;
+}
+.add-channel-buttom:hover {
+  background:white;
+}
+
+.menu-subtitle {
+  margin-top: 10px;
+  margin-left: 30px;
+  color:#fff;
+  font-size: 18px;
+}
+
+.menu-subtitle a {
+  padding: 2px 10px !important;
+  color:#fff !important;
+}
+.menu-subtitle a .mdl-badge.mdl-badge--no-background[data-badge]:after{
+  color: rgb(64,196,255);
+  background: #fff;
+  box-shadow: 0 0 1px gray;
+}
+.chat-notifications {
+  padding: 4px 0px 0px 35px;
+  color: #a7a7a7;
+}
+.chat-notifications .show-options {
+  float: right;
+  color: #a7a7a7;
+}
+.chat-notifications span {
+  margin-left: 0.8em;
+}
+.chat-notifications .add-buttom i {
+  font-size: 0.7em;
+}
+.chat-notifications .add-buttom {
+  background-color: #03A9F4;
+  color: #fff;
+  height: 30px;
+  min-width: 30px;
+  width: 30px;
+}
+.users-count i {
+  vertical-align: bottom;
+  font-size: 1.3em;
+}
+.users-count {
+  margin-left: 1.5em;
+  font-size: 0.7em;
+}
