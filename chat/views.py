@@ -3,5 +3,5 @@ from django.views.generic import TemplateView
 
 
 class Chat(TemplateView):
-    template_name = 'chat/chat.html'
+    template_name = 'chat/room.html'
 
