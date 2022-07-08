@@ -28,6 +28,13 @@
                         <span class="focus-input100" data-placeholder="Password"></span>
                     </div>
 
+                    <ul>
+                        {% for key, value in form.errors.items %}
+                            <li class="text-danger">{% if key != '__all__' %}{{ key }} {% endif %}{{ value }}</li>
+                        {% endfor %}
+                    </ul>
+
+
                     <div class="container-login100-form-btn">
                         <div class="wrap-login100-form-btn">
                             <div class="login100-form-bgbtn"></div>
@@ -53,4 +60,4 @@
 
     <div id="dropDownSelect1"></div>
 
-  {% endblock %}
+{% endblock %}
