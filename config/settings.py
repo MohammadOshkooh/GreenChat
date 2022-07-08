@@ -159,7 +159,7 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_FORMS = {'login': 'accounts.forms.CustomLoginForm'}
 
-LOGIN_REDIRECT_URL = reverse_lazy('chat:chat')
+LOGIN_REDIRECT_URL = reverse_lazy('chat:index')
 
 # Channels
 CHANNEL_LAYERS = {

@@ -17,7 +17,7 @@ class Message(models.Model):
     related_chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.owner
+        return self.owner.username
 
     def get_message(self, room_name):
         return Message.objects.filter(related_chat__room_name=room_name).order_by('-created')

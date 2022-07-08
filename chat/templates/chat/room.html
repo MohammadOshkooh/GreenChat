@@ -78,7 +78,10 @@
         </div> <!-- end chat -->
 
     </div> <!-- end container -->
-     {{ room_name|json_script:"room-name" }}
+
+    {{ room_name|json_script:"room-name" }}
+    {{ username|json_script:'username' }}
+
     <script id="message-template" type="text/x-handlebars-template">
         <li class="clearfix">
             <div class="message-data align-right">
@@ -104,6 +107,7 @@
     </script>
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const username = JSON.parse(document.getElementById('username').textContent);
 
         const chatSocket = new WebSocket(
             'ws://'
@@ -133,7 +137,9 @@
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': message,
+                'command': 'new_message',
+                'username': username
             }));
             messageInputDom.value = '';
         };
