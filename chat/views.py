@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class Index(TemplateView):
+class Index(LoginRequiredMixin, TemplateView):
     template_name = 'chat/index.html'
 
 
-class Chat(TemplateView):
+class Chat(LoginRequiredMixin, TemplateView):
     template_name = 'chat/room.html'
 
     def get_context_data(self, **kwargs):
