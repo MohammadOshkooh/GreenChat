@@ -54,31 +54,31 @@
                         </div>
                     </li>
 
-{#                    <li>#}
-{#                        <i class="fa fa-circle online"></i>#}
-{#                        <i class="fa fa-circle online" style="color: #AED2A6"></i>#}
-{#                        <i class="fa fa-circle online" style="color:#DAE9DA"></i>#}
-{#                    </li>#}
+                    {#                    <li>#}
+                    {#                        <i class="fa fa-circle online"></i>#}
+                    {#                        <i class="fa fa-circle online" style="color: #AED2A6"></i>#}
+                    {#                        <i class="fa fa-circle online" style="color:#DAE9DA"></i>#}
+                    {#                    </li>#}
 
                 </ul>
 
             </div> <!-- end chat-history -->
 
-            <div class="chat-message clearfix">
-                <textarea name="message-to-send" id="message-to-send" placeholder="Type your message"
-                          rows="3"></textarea>
 
+            <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+            <div class="chat-message clearfix">
+                <textarea name="message-to-send" id="chat-message-input" placeholder="Type your message"
+                          rows="3"></textarea>
                 <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
                 <i class="fa fa-file-image-o"></i>
-
-                <button>Send</button>
+                <button id="chat-message-submit">Send</button>
 
             </div> <!-- end chat-message -->
 
         </div> <!-- end chat -->
 
     </div> <!-- end container -->
-
+     {{ room_name|json_script:"room-name" }}
     <script id="message-template" type="text/x-handlebars-template">
         <li class="clearfix">
             <div class="message-data align-right">

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
+    'channels.apps.ChannelsConfig',
 ]
 
 SITE_ID = 1
@@ -82,6 +83,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'config.asgi.application'
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
@@ -157,4 +159,14 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_FORMS = {'login': 'accounts.forms.CustomLoginForm'}
 
-LOGIN_REDIRECT_URL = reverse_lazy('chat:index')
+LOGIN_REDIRECT_URL = reverse_lazy('chat:chat')
+
+# Channels
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
+}
