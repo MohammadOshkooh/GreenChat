@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'channels.apps.ChannelsConfig',
+    'rest_framework.apps.RestFrameworkConfig',
 ]
 
 SITE_ID = 1

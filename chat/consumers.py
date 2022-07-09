@@ -3,8 +3,10 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from rest_framework.renderers import JSONRenderer
 
 from chat.models import Message, Chat
+from .serializers import ChatSerializers
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -24,15 +26,28 @@ class ChatConsumer(WebsocketConsumer):
             if user not in related_chat.members.all():
                 print('Not allowed')
             else:
-                Message.objects.create(owner=user, content=message, related_chat=related_chat)
+                message_model = Message.objects.create(owner=user, content=message, related_chat=related_chat)
+                message_model_json = self.message_serializers(message_model)
+                self.send_message_to_room_group(message_model_json)
 
     def fetch_message(self):
-        pass
+        print('--------in fetch---------')
 
     command = {
         'new_message': new_message,
         'fetch_message': fetch_message
     }
+
+    def message_serializers(self, data):
+        many = (lambda l: True if data.__class__.__name__ == 'QuerySet' else False)(data)
+        serialized = ChatSerializers(data, many=many)
+        content = JSONRenderer().render(data=serialized.data)
+        print(data.__class__.__name__)
+        print(type(serialized))
+        print(type(content))
+        print(type(eval(content)))
+        print(eval(content))
+        return eval(content)
 
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -56,7 +71,7 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        # message = text_data_json['message']
 
         command = text_data_json['command']
         if command == 'new_message':
@@ -64,7 +79,9 @@ class ChatConsumer(WebsocketConsumer):
         else:
             self.fetch_message()
 
-        # Send message to room group
+    # Send message to room group
+    def send_message_to_room_group(self, data):
+        message = data['content']
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
