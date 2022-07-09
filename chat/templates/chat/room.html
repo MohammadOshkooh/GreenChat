@@ -117,15 +117,23 @@
             + '/'
         );
 
-        chatSocket.onopen = function (e){
+        chatSocket.onopen = function (e) {
             chatSocket.send(JSON.stringify({
-                'command':'fetch_message',
+                'command': 'fetch_message',
             }))
         }
 
         chatSocket.onmessage = function (e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            const messages = JSON.parse(e.data);
+            if (messages.event.command === 'fetch_message') {
+                if (document.querySelector('#chat-log').value === '') {
+                    for (let i = 0; i < messages.event.data.length; i++) {
+                        document.querySelector('#chat-log').value += (messages.event.data[i].content + '\n');
+                    }
+                }
+            } else {
+                document.querySelector('#chat-log').value += (messages.event.message + '\n')
+            }
         };
 
         chatSocket.onclose = function (e) {

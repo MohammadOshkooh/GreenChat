@@ -28,10 +28,12 @@ class ChatConsumer(WebsocketConsumer):
             else:
                 message_model = Message.objects.create(owner=user, content=message, related_chat=related_chat)
                 message_model_json = self.message_serializers(message_model)
-                self.send_message_to_room_group(message_model_json)
+                self.send_to_room(message_model_json)
 
     def fetch_message(self):
-        print('--------in fetch---------')
+        messages_model = Message.objects.filter(related_chat__room_name=self.room_name)
+        messages_model_json = self.message_serializers(messages_model)
+        self.send_to_websocket(event={'data': messages_model_json, 'command': 'fetch_message'})
 
     command = {
         'new_message': new_message,
@@ -42,11 +44,6 @@ class ChatConsumer(WebsocketConsumer):
         many = (lambda l: True if data.__class__.__name__ == 'QuerySet' else False)(data)
         serialized = ChatSerializers(data, many=many)
         content = JSONRenderer().render(data=serialized.data)
-        print(data.__class__.__name__)
-        print(type(serialized))
-        print(type(content))
-        print(type(eval(content)))
-        print(eval(content))
         return eval(content)
 
     def connect(self):
@@ -80,22 +77,20 @@ class ChatConsumer(WebsocketConsumer):
             self.fetch_message()
 
     # Send message to room group
-    def send_message_to_room_group(self, data):
+    def send_to_room(self, data):
         message = data['content']
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
-                'type': 'chat_message',
+                'type': 'send_to_websocket',
                 'message': message,
                 'command': 'new_message'
             }
         )
 
     # Receive message from room group
-    def chat_message(self, event):
-        message = event['message']
-
+    def send_to_websocket(self, event):
         # Send message to WebSocket
         self.send(text_data=json.dumps({
-            'message': message
+            'event': event
         }))
