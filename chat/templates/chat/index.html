@@ -19,13 +19,18 @@
                     </div>
                     <hr>
                     <div class="card-body contacts_body">
-                        <textarea id="chat-message-input" name="" class="form-control type_msg" placeholder="Create New Group"
-                                  style="height: 12px;margin-left: 21px;width: 90%;"></textarea>
                         <ui class="contacts">
-                            <br>
-                            <div class="wrap">
-                                <button class="button">New Group</button>
-                            </div>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                {{ form }}
+{#                                    <textarea id="chat-message-input" name="" class="form-control type_msg"#}
+{#                                              placeholder="create new group (Enter group name)"#}
+{#                                              style="height: 12px;margin-left: 21px;width: 90%;"></textarea>#}
+                                <br>
+                                <div class="wrap">
+                                    <button class="button">create new group</button>
+                                </div>
+                            </form>
                             <hr>
                             <div class="wrap">
                                 <button class="button">Edit Profile</button>
