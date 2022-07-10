@@ -33,7 +33,8 @@ class ChatConsumer(WebsocketConsumer):
     def fetch_message(self):
         messages_model = Message.objects.filter(related_chat__room_name=self.room_name)
         messages_model_json = self.message_serializers(messages_model)
-        self.send_to_websocket(event={'data': messages_model_json, 'command': 'fetch_message'})
+        message_count = messages_model.count()
+        self.send_to_websocket(event={'data': messages_model_json, 'command': 'fetch_message', 'count': message_count})
 
     command = {
         'new_message': new_message,
@@ -84,7 +85,8 @@ class ChatConsumer(WebsocketConsumer):
             {
                 'type': 'send_to_websocket',
                 'data': data,
-                'command': 'new_message'
+                'command': 'new_message',
+                'count': Message.objects.filter(related_chat__room_name=self.room_name).count(),
             }
         )
 
