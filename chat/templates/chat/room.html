@@ -32,40 +32,12 @@
             </div> <!-- end chat-header -->
 
             <div class="chat-history">
-                <ul>
-                    <li class="clearfix">
-                        <div class="message-data align-right">
-                            <span class="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
-                            <span class="message-data-name">Olia</span> <i class="fa fa-circle me"></i>
-
-                        </div>
-                        <div class="message other-message float-right">
-                            Hi Vincent, how are you? How is the project coming along?
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="message-data">
-                            <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-                            <span class="message-data-time">10:12 AM, Today</span>
-                        </div>
-                        <div class="message my-message">
-                            Are we meeting today? Project has been already finished and I have results to show you.
-                        </div>
-                    </li>
-
-                    {#                    <li>#}
-                    {#                        <i class="fa fa-circle online"></i>#}
-                    {#                        <i class="fa fa-circle online" style="color: #AED2A6"></i>#}
-                    {#                        <i class="fa fa-circle online" style="color:#DAE9DA"></i>#}
-                    {#                    </li>#}
-
+                <ul id="message-box">
                 </ul>
 
             </div> <!-- end chat-history -->
 
 
-            <textarea id="chat-log" cols="100" rows="20"></textarea><br>
             <div class="chat-message clearfix">
                 <textarea name="message-to-send" id="chat-message-input" placeholder="Type your message"
                           rows="3"></textarea>
@@ -126,13 +98,43 @@
         chatSocket.onmessage = function (e) {
             const messages = JSON.parse(e.data);
             if (messages.event.command === 'fetch_message') {
-                if (document.querySelector('#chat-log').value === '') {
-                    for (let i = 0; i < messages.event.data.length; i++) {
-                        document.querySelector('#chat-log').value += (messages.event.data[i].content + '\n');
+                for (let i = 0; i < messages.event.data.length; i++) {
+                    var created = messages.event.data[i].created.slice(0,19).replace('T', '-');
+                    console.log(created)
+                    var content = messages.event.data[i].content;
+                    if (messages.event.data[i].__str__ === username) {
+                        document.getElementById('message-box').innerHTML += '<div id="your-message">' +
+                            '<li class="clearfix">' +
+                            '<div class="message-data align-right">' +
+                            '<span class="message-data-time">' + created + '</span> &nbsp; &nbsp;' +
+                            '<span class="message-data-name">You</span> <i class="fa fa-circle me"></i>' +
+                            '</div>' +
+                            '<div class="message other-message float-right">' + content + '</div>' +
+                            '</li>' +
+                            '</div>'
+                    } else {
+                        document.getElementById('message-box').innerHTML += '<div id="response-message">' +
+                            '<li>' +
+                            '<div class="message-data">' +
+                            '<span class="message-data-name">' + messages.event.data[i].__str__ + '<i' +
+                            'class="fa fa-circle online"></i></span>' +
+                            '<span class="message-data-time">' + created + '</span>' +
+                            '</div>' +
+                            '<div class="message my-message" id="message-2">' + content + '</div>' +
+                            '</li>' +
+                            '</div>'
                     }
                 }
             } else {
-                document.querySelector('#chat-log').value += (messages.event.message + '\n')
+                document.getElementById('message-box').innerHTML += '<div id="your-message">' +
+                    '<li class="clearfix">' +
+                    '<div class="message-data align-right">' +
+                    '<span class="message-data-time">' + messages.event.data.created + '</span> &nbsp; &nbsp;' +
+                    '<span class="message-data-name">You</span> <i class="fa fa-circle me"></i>' +
+                    '</div>' +
+                    '<div class="message other-message float-right">' + messages.event.data.content + '</div>' +
+                    '</li>' +
+                    '</div>'
             }
         };
 

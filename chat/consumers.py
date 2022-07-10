@@ -83,7 +83,7 @@ class ChatConsumer(WebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'send_to_websocket',
-                'message': message,
+                'data': data,
                 'command': 'new_message'
             }
         )
