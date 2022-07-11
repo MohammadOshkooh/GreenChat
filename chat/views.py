@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -11,12 +12,13 @@ class Index(LoginRequiredMixin, TemplateView, FormView):
     form_class = CreateNewGroupForm
 
     def form_valid(self, form):
+        room_name = form.cleaned_data.get('room_name')
         form = form.save(commit=False)
         user = self.request.user
         form.owner = user
         form.save()
         form.members.add(user)
-        # form.save()
+        return redirect(Chat.objects.get(room_name=room_name).get_absolute_url())
 
 
 class ChatView(LoginRequiredMixin, TemplateView):

@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 
 class Chat(models.Model):
@@ -9,6 +10,9 @@ class Chat(models.Model):
 
     def __str__(self):
         return self.room_name
+
+    def get_absolute_url(self):
+        return reverse('chat:chat', args=[self.room_name])
 
 
 class Message(models.Model):
