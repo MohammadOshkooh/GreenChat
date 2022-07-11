@@ -23,6 +23,7 @@ idna==3.3
 incremental==21.3.0
 msgpack==1.0.4
 oauthlib==3.2.0
+Pillow==9.2.0
 psycopg2-binary==2.9.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
@@ -41,4 +42,3 @@ txaio==22.2.1
 typing_extensions==4.3.0
 urllib3==1.26.9
 zope.interface==5.4.0
-

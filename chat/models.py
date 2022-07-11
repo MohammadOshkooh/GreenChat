@@ -7,12 +7,18 @@ class Chat(models.Model):
     room_name = models.CharField(max_length=50)
     members = models.ManyToManyField(get_user_model(), related_name='member_set')
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='owner_set', null=True)
+    image = models.ImageField(upload_to='profile/group/%y/%m/%d/', blank=True, null=True)
 
     def __str__(self):
         return self.room_name
 
     def get_absolute_url(self):
         return reverse('chat:chat', args=[self.room_name])
+
+    def is_join(self, user):
+        if user in self.members.all():
+            return True
+        return False
 
 
 class Message(models.Model):

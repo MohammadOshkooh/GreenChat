@@ -22,6 +22,8 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="malihu-custom-scrollbar-plugin" level="application" />
     <orderEntry type="library" name="all" level="application" />
+    <orderEntry type="library" name="jquery-1.11.1" level="application" />
+    <orderEntry type="library" name="@popperjs/core" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

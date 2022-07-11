@@ -8,6 +8,14 @@
         <div class="row justify-content-center h-100">
             <div class="col-md-4 col-xl-3 chat">
                 <div class="card mb-sm-3 mb-md-0 contacts_card" style="height: 930px;">
+                    {#                    <img class="img-circle" src="{{ profile.image.url }}" alt="" width="400">#}
+                    <div class="img_cont"
+                         style="width: 150px;height: 150px;margin: 20px auto 16px;">
+                        <img src="{{ profile.image.url }}" class="rounded-circle user_img" width="150px" height="150px"
+                             style="width: 150px; height: 150px;">
+{#                         <span class="online_icon offline"></span>#}
+{#                        <i class="fa fa-plus-circle"></i>#}
+                    </div>
                     <div class="card-header">
                         <div class="input-group">
                             <input type="text" placeholder="Search for new user or group..." name=""
@@ -30,9 +38,9 @@
                                 </div>
                             </form>
                             <hr>
-                            <div class="wrap">
-                                <button class="button">Edit Profile</button>
-                            </div>
+{#                            <div class="wrap">#}
+{#                                <button class="button">Edit Profile</button>#}
+{#                            </div>#}
                         </ui>
                     </div>
                     <div class="card-footer"></div>
@@ -51,36 +59,20 @@
                     <hr>
                     <div class="card-body contacts_body">
                         <ui class="contacts">
-
+                            {% for chat in chats %}
                             <li class="active">
                                 <div class="d-flex bd-highlight">
                                     <div class="img_cont">
-                                        <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+                                        <img src="{{ chat.image.url }}"
                                              class="rounded-circle user_img">
                                         <span class="online_icon"></span>
                                     </div>
                                     <div class="user_info">
-                                        <span>q</span>
-
+                                        <span><a href="{{ chat.get_absolute_url }}">{{ chat.room_name }}</a></span>
                                     </div>
                                 </div>
                             </li>
-
-                            <li class="active">
-                                <div class="d-flex bd-highlight">
-                                    <div class="img_cont">
-                                        <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                             class="rounded-circle user_img">
-                                        <span class="online_icon"></span>
-                                    </div>
-                                    <div class="user_info">
-                                        <span>mohammad</span>
-
-                                    </div>
-                                </div>
-                            </li>
-
-
+                            {% endfor %}
                         </ui>
                     </div>
                     <div class="card-footer"></div>

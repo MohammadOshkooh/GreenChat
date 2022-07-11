@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from accounts.models import Profile
 from chat.models import Message, Chat
 from .forms import CreateNewGroupForm
 
@@ -10,6 +11,21 @@ from .forms import CreateNewGroupForm
 class Index(LoginRequiredMixin, TemplateView, FormView):
     template_name = 'chat/index.html'
     form_class = CreateNewGroupForm
+
+    def get_context_data(self, **kwargs):
+        context = super(Index, self).get_context_data(**kwargs)
+        user = self.request.user
+        profile = Profile.objects.filter(user=user).first()
+        if profile is None:
+            profile = Profile.objects.create(user=user)
+        context['profile'] = profile
+
+        chats = []
+        for chat in Chat.objects.all():
+            if chat.is_join(user):
+                chats.append(chat)
+        context['chats'] = chats
+        return context
 
     def form_valid(self, form):
         room_name = form.cleaned_data.get('room_name')
