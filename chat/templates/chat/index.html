@@ -17,18 +17,16 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
                     <div class="card-body contacts_body">
                         <ui class="contacts">
-                            <form action="" method="POST">
+                            <form action="" method="POST" id="create-group">
                                 {% csrf_token %}
-                                {{ form }}
-{#                                    <textarea id="chat-message-input" name="" class="form-control type_msg"#}
-{#                                              placeholder="create new group (Enter group name)"#}
-{#                                              style="height: 12px;margin-left: 21px;width: 90%;"></textarea>#}
-                                <br>
-                                <div class="wrap">
-                                    <button class="button">create new group</button>
+                                <div class="input-group">
+                                    {{ form.room_name }}
+                                    <div class="input-group-append" id="chat-message-submit">
+                                        <span class="input-group-text send_btn"><i
+                                                class="fas fa-arrow-circle-up"></i></span>
+                                    </div>
                                 </div>
                             </form>
                             <hr>
@@ -90,4 +88,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function (e) {
+            document.getElementById('create-group').submit();
+        };
+    </script>
+
 {% endblock %}
