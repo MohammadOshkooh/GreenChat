@@ -1,13 +1,17 @@
 from allauth.account.forms import LoginForm
 from django import forms
 
+from .models import Profile
+
 
 class CustomLoginForm(LoginForm):
-    # password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input100', }), max_length=100)
-    # login_field = forms.CharField(widget=forms.TextInput(attrs={'class': 'input100'}), max_length=250)
-    #
-
     def __init__(self, *args, **kwargs):
         super(CustomLoginForm, self).__init__(*args, **kwargs)
         self.fields['login'].widget = forms.TextInput(attrs={'class': 'input100'})
         self.fields['password'].widget = forms.PasswordInput(attrs={'class': 'input100'})
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']

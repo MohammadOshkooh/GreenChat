@@ -85,7 +85,7 @@
         </div>
     </div>
     {{ room_name|json_script:"room-name" }}
-    {{ username|json_script:'username' }}
+    {{ request.user.username|json_script:'username' }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const username = JSON.parse(document.getElementById('username').textContent);

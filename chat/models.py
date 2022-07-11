@@ -11,9 +11,6 @@ class Chat(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='owner_set', null=True)
     image = models.ImageField(upload_to='profile/group/%y/%m/%d/', blank=True, null=True)
 
-    def get_profile(self, member):
-        return Profile.objects.filter(user=member).first()
-
     def __str__(self):
         return self.room_name
 

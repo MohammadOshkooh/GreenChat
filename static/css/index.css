@@ -276,16 +276,16 @@ body, html {
 }
 
 .button {
-    min-width: 250px;
-    min-height: 60px;
+    min-width: 50px;
+    min-height: 20px;
     font-family: 'Nunito', sans-serif;
-    font-size: 17px;
+    font-size: 14px;
     /*text-transform: uppercase;*/
     letter-spacing: 1.3px;
     font-weight: 505;
     color: #313133;
-    background: #4FD1C5;
-    background: linear-gradient(90deg, rgba(129, 230, 217, 1) 0%, rgba(79, 209, 197, 1) 100%);
+    background: #ff0000;
+    background: linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(255, 0, 0) 100%);
     border: none;
     border-radius: 1000px;
     box-shadow: 12px 12px 24px rgba(79, 209, 197, .64);
@@ -299,8 +299,8 @@ body, html {
 button::before {
     content: '';
     border-radius: 1000px;
-    min-width: calc(250px + 12px);
-    min-height: calc(60px + 12px);
+    min-width: calc(20px + 12px);
+    min-height: calc(10px + 12px);
     border: 6px solid #00FFCB;
     box-shadow: 0 0 60px rgba(0, 255, 203, .64);
     position: absolute;
