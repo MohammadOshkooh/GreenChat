@@ -13,8 +13,8 @@
                          style="width: 150px;height: 150px;margin: 20px auto 16px;">
                         <img src="{{ profile.image.url }}" class="rounded-circle user_img" width="150px" height="150px"
                              style="width: 150px; height: 150px;">
-{#                         <span class="online_icon offline"></span>#}
-{#                        <i class="fa fa-plus-circle"></i>#}
+                        {#                         <span class="online_icon offline"></span>#}
+                        {#                        <i class="fa fa-plus-circle"></i>#}
                     </div>
                     <div class="card-header">
                         <div class="input-group">
@@ -38,9 +38,9 @@
                                 </div>
                             </form>
                             <hr>
-{#                            <div class="wrap">#}
-{#                                <button class="button">Edit Profile</button>#}
-{#                            </div>#}
+                            {#                            <div class="wrap">#}
+                            {#                                <button class="button">Edit Profile</button>#}
+                            {#                            </div>#}
                         </ui>
                     </div>
                     <div class="card-footer"></div>
@@ -60,18 +60,18 @@
                     <div class="card-body contacts_body">
                         <ui class="contacts">
                             {% for chat in chats %}
-                            <li class="active">
-                                <div class="d-flex bd-highlight">
-                                    <div class="img_cont">
-                                        <img src="{{ chat.image.url }}"
-                                             class="rounded-circle user_img">
-                                        <span class="online_icon"></span>
+                                <li class="active">
+                                    <div class="d-flex bd-highlight">
+                                        <div class="img_cont">
+                                            <img src="{% if chat.image %}{{ chat.image.url }}{% endif %}"
+                                                 class="rounded-circle user_img">
+                                            <span class="online_icon"></span>
+                                        </div>
+                                        <div class="user_info">
+                                            <span><a href="{{ chat.get_absolute_url }}">{{ chat.room_name }}</a></span>
+                                        </div>
                                     </div>
-                                    <div class="user_info">
-                                        <span><a href="{{ chat.get_absolute_url }}">{{ chat.room_name }}</a></span>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
                             {% endfor %}
                         </ui>
                     </div>

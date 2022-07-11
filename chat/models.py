@@ -2,12 +2,17 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
+from accounts.models import Profile
+
 
 class Chat(models.Model):
     room_name = models.CharField(max_length=50)
     members = models.ManyToManyField(get_user_model(), related_name='member_set')
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='owner_set', null=True)
     image = models.ImageField(upload_to='profile/group/%y/%m/%d/', blank=True, null=True)
+
+    def get_profile(self, member):
+        return Profile.objects.filter(user=member).first()
 
     def __str__(self):
         return self.room_name

@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
@@ -25,11 +26,13 @@ class Index(LoginRequiredMixin, TemplateView, FormView):
             if chat.is_join(user):
                 chats.append(chat)
         context['chats'] = chats
+
         return context
 
     def form_valid(self, form):
-        room_name = form.cleaned_data.get('room_name')
+        room_name = form.cleaned_data.get('room_name').replace(' ', '_')
         form = form.save(commit=False)
+        form.room_name = room_name
         user = self.request.user
         form.owner = user
         form.save()

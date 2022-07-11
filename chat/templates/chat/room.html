@@ -18,35 +18,18 @@
                     <div class="card-body contacts_body">
                         <ui class="contacts">
                             {% for member in chat.members.all %}
-                            <li class="active">
-                                <div class="d-flex bd-highlight">
-                                    <div class="img_cont">
-                                        <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                             class="rounded-circle user_img">
-                                        <span class="online_icon"></span>
+                                <li class="active">
+                                    <div class="d-flex bd-highlight">
+                                        <div class="img_cont">
+                                            <img src="{{ member.profile.first.image.url }}"
+                                                 class="rounded-circle user_img">
+                                        </div>
+                                        <div class="user_info">
+                                            <span>{{ member }}</span>
+                                        </div>
                                     </div>
-                                    <div class="user_info">
-                                        <span>{{ member }}</span>
-{#                                        <p>Kalid is online</p>#}
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
                             {% endfor %}
-
-
-{#                            <li>#}
-{#                                <div class="d-flex bd-highlight">#}
-{#                                    <div class="img_cont">#}
-                                        {#                                        <img src="https://2.bp.blogspot.com/-8ytYF7cfPkQ/WkPe1-rtrcI/AAAAAAAAGqU/FGfTDVgkcIwmOTtjLka51vineFBExJuSACLcBGAs/s320/31.jpg"#}
-                                        {#                                             class="rounded-circle user_img">#}
-{#                                        <span class="online_icon offline"></span>#}
-{#                                    </div>#}
-{#                                    <div class="user_info">#}
-{#                                        <span>Taherah Big</span>#}
-{#                                        <p>Taherah left 7 mins ago</p>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </li>#}
                         </ui>
                     </div>
                     <div class="card-footer"></div>
@@ -57,9 +40,8 @@
                     <div class="card-header msg_head">
                         <div class="d-flex bd-highlight">
                             <div class="img_cont">
-                                {#                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"#}
-                                {#                                     class="rounded-circle user_img">#}
-                                <span class="online_icon"></span>
+                                <img src="{% if chat.image %}{{ chat.image.url }}{% endif %}"
+                                     class="rounded-circle user_img">
                             </div>
                             <div class="user_info">
                                 <span>{{ room_name }}</span>
@@ -136,14 +118,14 @@
                             '<span class="msg_time_send">' + created + '</span>' +
                             ' </div>' +
                             ' <div class="img_cont_msg">' +
-                            '<img class="rounded-circle user_img_msg" alt="">' +
+                            '<img src="{{ request.user.profile.first.image.url }}" class="rounded-circle user_img_msg" alt="">' +
                             ' </div>' +
                             ' </div>'
 
                     } else {
                         document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-start mb-4">' +
                             ' <div class="img_cont_msg">' +
-                            '<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">' +
+                            '<img src="{{ request.user.profile.first.image.url }}" class="rounded-circle user_img_msg">' +
                             ' </div>' +
                             '<div class="msg_cotainer">' + content +
                             ' <span class="msg_time">' + created + '</span>' +
@@ -161,14 +143,14 @@
                             '<span class="msg_time_send">' + created + '</span>' +
                             ' </div>' +
                             ' <div class="img_cont_msg">' +
-                            '<img class="rounded-circle user_img_msg" alt="">' +
+                            '<img src="{{ request.user.profile.first.image.url }}" class="rounded-circle user_img_msg" alt="">' +
                             ' </div>' +
                             ' </div>'
 
                     } else {
                         document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-start mb-4">' +
                             ' <div class="img_cont_msg">' +
-                            '<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">' +
+                            '<img src="{{ request.user.profile.first.image.url }}" class="rounded-circle user_img_msg">' +
                             ' </div>' +
                             '<div class="msg_cotainer">' + content +
                             ' <span class="msg_time">' + created + '</span>' +
