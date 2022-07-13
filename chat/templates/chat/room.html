@@ -7,21 +7,15 @@
         <div class="row justify-content-center h-100">
             <div class="col-md-4 col-xl-3 chat">
                 <div class="card mb-sm-3 mb-md-0 contacts_card" style="height: 930px;">
-                    <div class="card-header">
-                        <div class="input-group">
-                            <input type="text" placeholder="Search..." name="" class="form-control search">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="card-body contacts_body">
                         <ui class="contacts">
                             {% for member in chat.members.all %}
                                 <li class="active">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
-                                            <img src="{{ member.profile.first.image.url }}"
+                                            <img src="
+
+                                                    {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
                                                  class="rounded-circle user_img">
                                         </div>
                                         <div class="user_info">
@@ -50,10 +44,11 @@
                                     Messages
                                 </p>
                             </div>
-                            <div class="video_cam">
-                                <span><i class="fas fa-video"></i></span>
-                                <span><i class="fas fa-phone"></i></span>
-                            </div>
+{#                            <div class="video_cam">#}
+{#                                <span><i class="fas fa-video"></i></span>#}
+{#                                <span><i class="fas fa-phone"></i></span>#}
+{#                            </div>#}
+                        <div style="position: absolute;right: 61px;">Link : {{ chat.link }}</div>
                         </div>
                         <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
                         <div class="action_menu">
@@ -118,14 +113,14 @@
                             '<span class="msg_time_send">' + created + '</span>' +
                             ' </div>' +
                             ' <div class="img_cont_msg">' +
-                            '<img src="{{ request.user.profile.first.image.url }}" class="rounded-circle user_img_msg" alt="">' +
+                            '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg" alt="">' +
                             ' </div>' +
                             ' </div>'
 
                     } else {
                         document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-start mb-4">' +
                             ' <div class="img_cont_msg">' +
-                            '<img src="{{ request.user.profile.first.image.url }}" class="rounded-circle user_img_msg">' +
+                            '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg">' +
                             ' </div>' +
                             '<div class="msg_cotainer">' + content +
                             ' <span class="msg_time">' + created + '</span>' +
@@ -143,14 +138,14 @@
                             '<span class="msg_time_send">' + created + '</span>' +
                             ' </div>' +
                             ' <div class="img_cont_msg">' +
-                            '<img src="{{ request.user.profile.first.image.url }}" class="rounded-circle user_img_msg" alt="">' +
+                            '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg" alt="">' +
                             ' </div>' +
                             ' </div>'
 
                     } else {
                         document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-start mb-4">' +
                             ' <div class="img_cont_msg">' +
-                            '<img src="{{ request.user.profile.first.image.url }}" class="rounded-circle user_img_msg">' +
+                            '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg">' +
                             ' </div>' +
                             '<div class="msg_cotainer">' + content +
                             ' <span class="msg_time">' + created + '</span>' +

@@ -20,15 +20,12 @@ from django.conf.urls.static import static
 
 from django.urls import path, include
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('chat/', include('chat.urls', namespace='chat')),
-    # path('accounts/', include('accounts.urls', namespace='account')),
     path('accounts/', include('allauth.urls')),
+    path('', include('chat.urls', namespace='chat')),
 
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

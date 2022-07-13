@@ -11,7 +11,8 @@
                     {#                    <img class="img-circle" src="{{ profile.image.url }}" alt="" width="400">#}
                     <div class="img_cont"
                          style="width: 150px;height: 150px;margin: 20px auto 16px;">
-                        <img src="{{ profile.image.url }}" class="rounded-circle user_img" width="150px" height="150px"
+                        <img src="{% if profile.image %}{{ profile.image.url }}{% endif %}"
+                             class="rounded-circle user_img" width="150px" height="150px"
                              style="width: 150px; height: 150px;">
                         <label for="prof-update">
                             <i class="fa fa-camera" id="update"></i>
@@ -83,6 +84,8 @@
                                         </div>
                                     </div>
                                 </li>
+                                {% empty %}
+                                <p  style="text-align: center;font-size: 21px;font-weight: bolder;">No chat yet</p>
                             {% endfor %}
                         </ui>
                     </div>
