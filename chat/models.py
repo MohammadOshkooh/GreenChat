@@ -12,7 +12,7 @@ class Chat(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='owner_set', null=True)
     image = models.ImageField(upload_to='profile/group/%y/%m/%d/', blank=True, null=True,
                               default='http://127.0.0.1:8000/static/img/index.png')
-    link = models.CharField(default=get_random_string(20), max_length=50)
+    link = models.CharField(default=get_random_string(20), max_length=50, unique=True)
 
     def __str__(self):
         return self.room_name

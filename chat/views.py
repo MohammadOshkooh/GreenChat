@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.crypto import get_random_string
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -33,14 +34,9 @@ def index(request):
         create_new_group_form = CreateNewGroupForm(request.POST)
         if create_new_group_form.is_valid():
             room_name = create_new_group_form.cleaned_data.get('room_name').replace(' ', '_')
-            new_chat = Chat.objects.create(room_name=room_name, owner=request.user)
+            new_chat = Chat.objects.create(room_name=room_name, owner=request.user, link=get_random_string(22))
             new_chat.members.add(request.user)
-            # create_new_group_form = create_new_group_form.save(commit=False)
-            # create_new_group_form.room_name = room_name
-            # create_new_group_form.owner = user
-            # create_new_group_form.save()
-            # create_new_group_form.members.add(user)
-            return redirect(Chat.objects.filter(room_name=room_name).last().get_absolute_url())
+            return redirect(new_chat.get_absolute_url())
 
         # update profile
         profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
@@ -72,7 +68,8 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context = super(ChatView, self).get_context_data(**kwargs)
         room_name = self.kwargs.get('room_name')
         context['room_name'] = room_name
-        context['link'] = self.kwargs.get('link')
-        context['messages'] = Message.objects.filter(related_chat__room_name=room_name)
-        context['chat'] = Chat.objects.filter(room_name=room_name).first()
+        link = self.kwargs.get('link')
+        context['link'] = link
+        context['messages'] = Message.objects.filter(related_chat__room_name=room_name, related_chat__link=link)
+        context['chat'] = Chat.objects.filter(room_name=room_name, link=link).first()
         return context

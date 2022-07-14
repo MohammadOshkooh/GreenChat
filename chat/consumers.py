@@ -20,7 +20,7 @@ class ChatConsumer(WebsocketConsumer):
     def new_message(self, data):
         user = get_user_model().objects.get(username=data['username'])
         message = data['message']
-        related_chat = Chat.objects.filter(room_name=self.room_name).first()
+        related_chat = Chat.objects.filter(room_name=self.room_name, link=self.link).first()
         if related_chat is None:
             print('User not found')
             # messages.error(request, 'User not found')
@@ -33,7 +33,7 @@ class ChatConsumer(WebsocketConsumer):
                 self.send_to_room(message_model_json)
 
     def fetch_message(self):
-        messages_model = Message.objects.filter(related_chat__room_name=self.room_name)
+        messages_model = Message.objects.filter(related_chat__room_name=self.room_name, related_chat__link=self.link)
         messages_model_json = self.message_serializers(messages_model)
         message_count = messages_model.count()
         self.send_to_websocket(event={'data': messages_model_json, 'command': 'fetch_message', 'count': message_count})
@@ -88,7 +88,7 @@ class ChatConsumer(WebsocketConsumer):
                 'type': 'send_to_websocket',
                 'data': data,
                 'command': 'new_message',
-                'count': Message.objects.filter(related_chat__room_name=self.room_name).count(),
+                'count': Message.objects.filter(related_chat__room_name=self.room_name, related_chat__link=self.link).count(),
             }
         )
 
