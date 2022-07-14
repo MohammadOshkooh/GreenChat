@@ -13,6 +13,7 @@ from .serializers import ChatSerializers
 class ChatConsumer(WebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
+        self.link = None
         self.room_group_name = None
         self.room_name = None
 
@@ -50,14 +51,8 @@ class ChatConsumer(WebsocketConsumer):
 
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'chat_{self.room_name}'
-        print('name : -------------------------------- : ', self.channel_name)
-        print(get_random_string(15))
-        print(get_random_string(15))
-        print(get_random_string(15))
-        print(get_random_string(15))
-        print(get_random_string(15))
-        print(get_random_string(15))
+        self.link = self.scope['url_route']['kwargs']['link']
+        self.room_group_name = f'chat_{self.room_name}_{self.link}'
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,

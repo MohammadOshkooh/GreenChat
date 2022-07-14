@@ -33,12 +33,14 @@ def index(request):
         create_new_group_form = CreateNewGroupForm(request.POST)
         if create_new_group_form.is_valid():
             room_name = create_new_group_form.cleaned_data.get('room_name').replace(' ', '_')
-            create_new_group_form = create_new_group_form.save(commit=False)
-            create_new_group_form.room_name = room_name
-            create_new_group_form.owner = user
-            create_new_group_form.save()
-            create_new_group_form.members.add(user)
-            return redirect(Chat.objects.get(room_name=room_name).get_absolute_url())
+            new_chat = Chat.objects.create(room_name=room_name, owner=request.user)
+            new_chat.members.add(request.user)
+            # create_new_group_form = create_new_group_form.save(commit=False)
+            # create_new_group_form.room_name = room_name
+            # create_new_group_form.owner = user
+            # create_new_group_form.save()
+            # create_new_group_form.members.add(user)
+            return redirect(Chat.objects.filter(room_name=room_name).last().get_absolute_url())
 
         # update profile
         profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
@@ -48,6 +50,7 @@ def index(request):
             if os.path.exists(img_path):
                 os.remove(img_path)
             profile_form.save()
+
     else:
         create_new_group_form = CreateNewGroupForm()
         profile_form = ProfileForm()
@@ -69,6 +72,7 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context = super(ChatView, self).get_context_data(**kwargs)
         room_name = self.kwargs.get('room_name')
         context['room_name'] = room_name
+        context['link'] = self.kwargs.get('link')
         context['messages'] = Message.objects.filter(related_chat__room_name=room_name)
         context['chat'] = Chat.objects.filter(room_name=room_name).first()
         return context

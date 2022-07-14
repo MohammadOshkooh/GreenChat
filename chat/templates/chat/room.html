@@ -14,7 +14,6 @@
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
                                             <img src="
-
                                                     {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
                                                  class="rounded-circle user_img">
                                         </div>
@@ -44,11 +43,11 @@
                                     Messages
                                 </p>
                             </div>
-{#                            <div class="video_cam">#}
-{#                                <span><i class="fas fa-video"></i></span>#}
-{#                                <span><i class="fas fa-phone"></i></span>#}
-{#                            </div>#}
-                        <div style="position: absolute;right: 61px;">Link : {{ chat.link }}</div>
+                            {#                            <div class="video_cam">#}
+                            {#                                <span><i class="fas fa-video"></i></span>#}
+                            {#                                <span><i class="fas fa-phone"></i></span>#}
+                            {#                            </div>#}
+                            <div style="position: absolute;right: 61px;">Link : {{ chat.link }}</div>
                         </div>
                         <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
                         <div class="action_menu">
@@ -68,7 +67,7 @@
                             <div class="input-group-append">
                                 <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                             </div>
-                            <textarea id="chat-message-input" name="" class="form-control type_msg"
+                            <textarea id="chat-message-input" name="" class="form-control type_msg" 1
                                       placeholder="Type your message..."></textarea>
                             <div class="input-group-append" id="chat-message-submit">
                                 <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
@@ -81,15 +80,19 @@
     </div>
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:'username' }}
+    {{ link|json_script:'link' }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const username = JSON.parse(document.getElementById('username').textContent);
+        const link = JSON.parse(document.getElementById('link').textContent);
 
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
             + '/ws/chat/'
             + roomName
+            + '/'
+            + link
             + '/'
         );
 
