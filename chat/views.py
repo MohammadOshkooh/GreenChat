@@ -61,15 +61,17 @@ def index(request):
     return render(request, 'chat/index.html', context)
 
 
-class ChatView(LoginRequiredMixin, TemplateView):
-    template_name = 'chat/room.html'
+@login_required
+def chat_view(request, room_name, link):
+    messages = Message.objects.filter(related_chat__room_name=room_name, related_chat__link=link)
+    chat = Chat.objects.filter(room_name=room_name, link=link).first()
 
-    def get_context_data(self, **kwargs):
-        context = super(ChatView, self).get_context_data(**kwargs)
-        room_name = self.kwargs.get('room_name')
-        context['room_name'] = room_name
-        link = self.kwargs.get('link')
-        context['link'] = link
-        context['messages'] = Message.objects.filter(related_chat__room_name=room_name, related_chat__link=link)
-        context['chat'] = Chat.objects.filter(room_name=room_name, link=link).first()
-        return context
+    # if chat not exist
+    if chat is None:
+        return render(request, 'chat/404.html', {})
+
+    context = {
+        'messages': messages,
+        'chat': chat,
+    }
+    return render(request, 'chat/room.html', context)

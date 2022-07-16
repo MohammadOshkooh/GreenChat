@@ -3,7 +3,7 @@ version: '3.9'
 services:
   web:
     build: .
-    container_name: chat_web
+    container_name: web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
@@ -17,7 +17,7 @@ services:
 
   db:
     image: postgres
-    container_name: db
+    container_name: chat_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
