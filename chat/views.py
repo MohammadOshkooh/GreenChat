@@ -82,5 +82,7 @@ def chat_view(request, room_name, link):
         'messages': messages,
         'chat': chat,
         'chat_profile_form': chat_profile_form,
+        'room_name': room_name,
+        'link': link,
     }
     return render(request, 'chat/room.html', context)
