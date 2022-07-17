@@ -28,10 +28,16 @@ def index(request):
     group_link = request.GET.get('link')
     if group_link is not None:
         chat = Chat.objects.filter(link=group_link).first()
-        # if chat is exist
+        # ّّif chat is exist
         if chat is not None:
+            # If the user was not a member of the group
+            if user not in chat.members.all():
+                # user join
+                chat.members.add(user)
+            # go to chat room
             return redirect(chat.get_absolute_url())
         else:
+            # chat not found
             return render(request, 'chat/404.html', {})
 
     if request.method == 'POST':
@@ -39,7 +45,9 @@ def index(request):
         create_new_group_form = CreateNewGroupForm(request.POST)
         if create_new_group_form.is_valid():
             room_name = create_new_group_form.cleaned_data.get('room_name').replace(' ', '_')
+            # create
             new_chat = Chat.objects.create(room_name=room_name, owner=request.user, link=get_random_string(22))
+            # user join
             new_chat.members.add(request.user)
             return redirect(new_chat.get_absolute_url())
 
