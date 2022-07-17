@@ -19,21 +19,26 @@
                     </div>
                     <form action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-
                         <input type="file" id="prof-update" name="image" style="display: none;">
                         <div class="wrap" style="margin-top: 34px;margin-bottom: -20px;display: none" id="update-btn">
                             <button class="button">save</button>
                         </div>
                     </form>
-                    <div class="card-header">
-                        <div class="input-group">
-                            <input type="text" placeholder="Search for new user or group..." name=""
-                                   class="form-control search">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                    <form action="" method="get">
+                        <div class="card-header">
+                            <div class="input-group">
+                                <input type="text" placeholder="Search for new user or group..." name="link"
+                                       class="form-control search" id="chat-search">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text search_btn">
+                                        <label for="chat-search">
+                                        <i class="fas fa-search"></i>
+                                        </label>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <div class="card-body contacts_body">
                         <ui class="contacts">
                             <form action="" method="POST" id="create-group">
@@ -71,8 +76,8 @@
                                         </div>
                                     </div>
                                 </li>
-                                {% empty %}
-                                <p  style="text-align: center;font-size: 21px;font-weight: bolder;">No chat yet</p>
+                            {% empty %}
+                                <p style="text-align: center;font-size: 21px;font-weight: bolder;">No chat yet</p>
                             {% endfor %}
                         </ui>
                     </div>
@@ -96,8 +101,8 @@
         };
 
         document.querySelector('#update').onclick = function (e) {
-            document.getElementById('update-btn').style.display = ''
-        }
+            document.getElementById('update-btn').style.display = '';
+        };
 
     </script>
 

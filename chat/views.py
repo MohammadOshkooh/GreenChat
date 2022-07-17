@@ -24,6 +24,16 @@ def index(request):
         if chat.is_join(user):
             chats.append(chat)
 
+    # search for group in search bar by chat room link
+    group_link = request.GET.get('link')
+    if group_link is not None:
+        chat = Chat.objects.filter(link=group_link).first()
+        # if chat is exist
+        if chat is not None:
+            return redirect(chat.get_absolute_url())
+        else:
+            return render(request, 'chat/404.html', {})
+
     if request.method == 'POST':
         # create new group
         create_new_group_form = CreateNewGroupForm(request.POST)
