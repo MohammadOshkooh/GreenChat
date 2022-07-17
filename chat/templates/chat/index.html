@@ -8,7 +8,6 @@
         <div class="row justify-content-center h-100">
             <div class="col-md-4 col-xl-3 chat">
                 <div class="card mb-sm-3 mb-md-0 contacts_card" style="height: 930px;">
-                    {#                    <img class="img-circle" src="{{ profile.image.url }}" alt="" width="400">#}
                     <div class="img_cont"
                          style="width: 150px;height: 150px;margin: 20px auto 16px;">
                         <img src="{% if profile.image %}{{ profile.image.url }}{% endif %}"
@@ -22,7 +21,6 @@
                         {% csrf_token %}
 
                         <input type="file" id="prof-update" name="image" style="display: none;">
-                        {#                                <input type="submit" value="change profile image">#}
                         <div class="wrap" style="margin-top: 34px;margin-bottom: -20px;display: none" id="update-btn">
                             <button class="button">save</button>
                         </div>
@@ -49,9 +47,6 @@
                                 </div>
                             </form>
                             <hr>
-                            {#                            <div class="wrap">#}
-                            {#                                <button class="button">Edit Profile</button>#}
-                            {#                            </div>#}
                         </ui>
                     </div>
                     <div class="card-footer"></div>
@@ -59,14 +54,6 @@
             </div>
             <div class="col-md-4 col-xl-3 chat">
                 <div class="card mb-sm-3 mb-md-0 contacts_card" style="height: 930px;">
-                    {#                    <div class="card-header">#}
-                    {#                        <div class="input-group">#}
-                    {#                            <input type="text" placeholder="Search..." name="" class="form-control search">#}
-                    {#                            <div class="input-group-prepend">#}
-                    {#                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>#}
-                    {#                            </div>#}
-                    {#                        </div>#}
-                    {#                    </div>#}
                     <hr>
                     <div class="card-body contacts_body">
                         <ui class="contacts">

@@ -14,6 +14,7 @@
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
                                             <img src="
+
                                                     {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
                                                  class="rounded-circle user_img">
                                         </div>
@@ -35,7 +36,18 @@
                             <div class="img_cont">
                                 <img src="{% if chat.image %}{{ chat.image.url }}{% endif %}"
                                      class="rounded-circle user_img">
+                                <label for="prof-update">
+                                    <i class="fa fa-camera" id="chat-profile"></i>
+                                </label>
                             </div>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="file" id="prof-update" name="image" style="display: none;">
+                                <div class="wrap" style="margin-top: 34px;margin-bottom: -20px;display: none"
+                                     id="update-btn">
+                                    <button class="button">save</button>
+                                </div>
+                            </form>
                             <div class="user_info">
                                 <span>{{ room_name }}</span>
                                 <p>
@@ -43,10 +55,6 @@
                                     Messages
                                 </p>
                             </div>
-                            {#                            <div class="video_cam">#}
-                            {#                                <span><i class="fas fa-video"></i></span>#}
-                            {#                                <span><i class="fas fa-phone"></i></span>#}
-                            {#                            </div>#}
                             <div style="position: absolute;right: 61px;">Link : {{ chat.link }}</div>
                         </div>
                         <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
@@ -179,6 +187,11 @@
                 'username': username
             }));
             messageInputDom.value = '';
+        };
+
+
+        document.querySelector('#chat-profile').onclick = function (e) {
+            document.getElementById('update-btn').style.display = ''
         };
     </script>
 {% endblock %}

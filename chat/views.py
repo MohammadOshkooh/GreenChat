@@ -1,17 +1,12 @@
 import os
 
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django.utils.crypto import get_random_string
-from django.views.generic import TemplateView, FormView
-from django.contrib.auth.mixins import LoginRequiredMixin
-
 from accounts.forms import ProfileForm
 from accounts.models import Profile
 from chat.models import Message, Chat
-from .forms import CreateNewGroupForm
+from .forms import CreateNewGroupForm, UpdateChatProfileForm
 
 
 @login_required
@@ -70,8 +65,22 @@ def chat_view(request, room_name, link):
     if chat is None:
         return render(request, 'chat/404.html', {})
 
+    if request.method == 'POST':
+        # update chat-profile
+        chat_profile_form = UpdateChatProfileForm(request.POST, request.FILES, instance=chat)
+        if chat_profile_form.is_valid():
+            # deleting old update image
+            img_path = chat.image.url
+            if os.path.exists(img_path):
+                os.remove(img_path)
+            # save new image
+            chat_profile_form.save()
+    else:
+        chat_profile_form = UpdateChatProfileForm()
+
     context = {
         'messages': messages,
         'chat': chat,
+        'chat_profile_form': chat_profile_form,
     }
     return render(request, 'chat/room.html', context)
