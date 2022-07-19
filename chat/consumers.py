@@ -57,7 +57,8 @@ class ChatConsumer(WebsocketConsumer):
         image_file = ContentFile(base64.b64decode(imgstr), name=get_random_string(6) + '.' + ext)
 
         # save image on db
-        message_model = Message.objects.create(owner=user, image=image_file, related_chat=self.related_chat)
+        message_model = Message.objects.create(owner=user, image=image_file, related_chat=self.related_chat,
+                                               contain_image=True)
 
         # convert object to json
         message_model_json = self.message_serializers(message_model)
