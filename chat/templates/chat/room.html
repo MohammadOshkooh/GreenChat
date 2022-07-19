@@ -13,15 +13,7 @@
                                 <li class="active">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
-                                            <img src="
-
-
-
-
-
-
-
-                                                    {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
+                                            <img src=" {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
                                                  class="rounded-circle user_img">
                                         </div>
                                         <div class="user_info">
@@ -150,7 +142,7 @@
                             ' <div class="img_cont_msg">' +
                             '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg">' +
                             ' </div>' +
-                            '<div class="msg_cotainer">' + content +
+                            '<div class="msg_cotainer">' + field +
                             ' <span class="msg_time">' + created + '</span>' +
                             ' </div>' +
                             '</div>';
@@ -230,8 +222,6 @@
                 FR.readAsDataURL(this.files[0]);
             }
         }
-
-        {#document.getElementsByName('send-image').addEventListener('change', readFile);#}
 
     </script>
 {% endblock %}
