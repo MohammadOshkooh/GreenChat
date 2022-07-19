@@ -20,12 +20,6 @@
 
 
 
-
-
-
-
-
-
                                                     {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
                                                  class="rounded-circle user_img">
                                         </div>
@@ -133,15 +127,21 @@
                 for (let i = 0; i < messages.event.data.length; i++) {
                     var created = messages.event.data[i].created.slice(0, 19).replace('T', '|');
                     var content = messages.event.data[i].content;
+                    var contain_image = messages.event.data[i].contain_image;
+                    if (contain_image) {
+                        var field = '<img src=" ' + messages.event.data[i].image + ' " alt="image" style="width: 180px;height: 180px;"> '
+                    } else {
+                        var field = content
+                    }
                     if (messages.event.data[i].__str__ === username) {
                         document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-end mb-4">' +
-                            '<div class="msg_cotainer_send">' + content +
+                            '<div class="msg_cotainer_send">' + field +
                             '<span class="msg_time_send">' + created + '</span>' +
                             ' </div>' +
                             ' <div class="img_cont_msg">' +
                             '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg" alt="">' +
                             ' </div>' +
-                            ' </div>'
+                            ' </div>';
 
                     } else {
                         document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-start mb-4">' +
@@ -151,38 +151,40 @@
                             '<div class="msg_cotainer">' + content +
                             ' <span class="msg_time">' + created + '</span>' +
                             ' </div>' +
-                            '</div>'
+                            '</div>';
                     }
                 }
             } else if (messages.event.command === 'new_message') {
                 var created = messages.event.data.created.slice(0, 19).replace('T', '|');
                 var content = messages.event.data.content;
-                if (content !== " ") {
-                    if (messages.event.data.__str__ === username) {
-                        document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-end mb-4">' +
-                            '<div class="msg_cotainer_send">' + content +
-                            '<span class="msg_time_send">' + created + '</span>' +
-                            ' </div>' +
-                            ' <div class="img_cont_msg">' +
-                            '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg" alt="">' +
-                            ' </div>' +
-                            ' </div>'
-
-                    } else {
-                        document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-start mb-4">' +
-                            ' <div class="img_cont_msg">' +
-                            '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg">' +
-                            ' </div>' +
-                            '<div class="msg_cotainer">' + content +
-                            ' <span class="msg_time">' + created + '</span>' +
-                            ' </div>' +
-                            '</div>'
-                    }
+                var contain_image = messages.event.data.contain_image;
+                if (contain_image) {
+                    var field = '<img src="' + messages.event.data.image + ' " alt="image" style="width: 180px;height: 180px;"> ';
+                } else {
+                    var field = content;
                 }
-            } else if (messages.event.command === 'img') {
-                var imgSrc = messages.event.data.message ;
+                if (messages.event.data.__str__ === username) {
+                    document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-end mb-4">' +
+                        '<div class="msg_cotainer_send">' + field +
+                        '<span class="msg_time_send">' + created + '</span>' +
+                        ' </div>' +
+                        ' <div class="img_cont_msg">' +
+                        '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg" alt="">' +
+                        ' </div>' +
+                        ' </div>'
 
+                } else {
+                    document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-start mb-4">' +
+                        ' <div class="img_cont_msg">' +
+                        '<img src="{% if request.user.profile.first.image %}{{ request.user.profile.first.image.url }}{% endif %}" class="rounded-circle user_img_msg">' +
+                        ' </div>' +
+                        '<div class="msg_cotainer">' + field +
+                        ' <span class="msg_time">' + created + '</span>' +
+                        ' </div>' +
+                        '</div>'
+                }
             }
+
 
         };
 

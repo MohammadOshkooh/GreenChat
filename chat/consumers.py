@@ -28,25 +28,31 @@ class ChatConsumer(WebsocketConsumer):
 
         # convert object to json
         message_model_json = self.message_serializers(message_model)
+
         self.send_to_room({'data': message_model_json, 'command': 'new_message'})
 
     def fetch_message(self):
-        # get message model
+        # get message model (with or without image)
         messages_model_with_image = Message.objects.filter(related_chat__room_name=self.room_name,
                                                            related_chat__link=self.link, contain_image=True)
         messages_model_without_image = Message.objects.filter(related_chat__room_name=self.room_name,
                                                               related_chat__link=self.link, contain_image=False)
 
-        # convert object to json
-        messages_model_json_without_image = self.message_serializers(messages_model_without_image)
-        messages_model_json_with_image = self.message_serializers(messages_model_with_image)
-        messages_model_json = messages_model_json_without_image + messages_model_json_with_image
-
         count = messages_model_without_image.count() + messages_model_with_image.count()
+
+        messages_model_json = None
+
+        if count != 0:
+            # convert object to json
+            messages_model_json_without_image = self.message_serializers(messages_model_without_image)
+            messages_model_json_with_image = self.message_serializers(messages_model_with_image)
+            messages_model_json = messages_model_json_without_image + messages_model_json_with_image
+
+            # sort content_list by created date
+            messages_model_json.sort(key=lambda x: x['created'])
 
         self.send_to_websocket(
             event={'data': messages_model_json, 'command': 'fetch_message', 'count': count})
-
 
     def image(self, data):
         user = get_user_model().objects.get(username=data['username'])
@@ -63,6 +69,7 @@ class ChatConsumer(WebsocketConsumer):
 
         # convert object to json
         message_model_json = self.message_serializers(message_model)
+
         self.send_to_room({'data': message_model_json, 'command': 'new_message'})
 
     command = {
@@ -79,9 +86,17 @@ class ChatConsumer(WebsocketConsumer):
             serialized = ChatSerializersWithoutImage(data, many=many)
         else:
             serialized = ChatSerializersWithImage(data, many=many)
+
         content = JSONRenderer().render(data=serialized.data)
-        print(content)
-        return eval(content)
+
+        # Fix  NameError: name 'true' is not defined
+        false = False
+        true = True
+
+        # convert bytes to list
+        content_list = eval(content)
+
+        return content_list
 
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']

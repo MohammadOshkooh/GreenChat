@@ -5,10 +5,10 @@ from .models import Message
 class ChatSerializersWithoutImage(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['__str__', 'content', 'created']
+        fields = ['__str__', 'content', 'created', 'contain_image']
 
 
 class ChatSerializersWithImage(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['__str__', 'image', 'created']
+        fields = ['__str__', 'image', 'created', 'contain_image']
