@@ -15,6 +15,17 @@
                                         <div class="img_cont">
                                             <img src="
 
+
+
+
+
+
+
+
+
+
+
+
                                                     {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
                                                  class="rounded-circle user_img">
                                         </div>
@@ -73,8 +84,13 @@
                     <div class="card-footer">
                         <div class="input-group">
                             <div class="input-group-append">
-                                <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                                <label for="send-image">
+                                    <span class="input-group-text attach_btn">
+                                        <i class="fas fa-paperclip"></i>
+                                    </span>
+                                </label>
                             </div>
+                            <input type="file" id="send-image" name="" style="display: none;">
                             <textarea id="chat-message-input" name="" class="form-control type_msg" 1
                                       placeholder="Type your message..."></textarea>
                             <div class="input-group-append" id="chat-message-submit">
@@ -117,7 +133,6 @@
                 for (let i = 0; i < messages.event.data.length; i++) {
                     var created = messages.event.data[i].created.slice(0, 19).replace('T', '|');
                     var content = messages.event.data[i].content;
-                    console.log(messages.event.data[i].__str__)
                     if (messages.event.data[i].__str__ === username) {
                         document.getElementById('message-box').innerHTML += '<div class="d-flex justify-content-end mb-4">' +
                             '<div class="msg_cotainer_send">' + content +
@@ -139,7 +154,7 @@
                             '</div>'
                     }
                 }
-            } else {
+            } else if (messages.event.command === 'new_message') {
                 var created = messages.event.data.created.slice(0, 19).replace('T', '|');
                 var content = messages.event.data.content;
                 if (content !== " ") {
@@ -164,7 +179,11 @@
                             '</div>'
                     }
                 }
+            } else if (messages.event.command === 'img') {
+                var imgSrc = messages.event.data.message ;
+
             }
+
         };
 
         chatSocket.onclose = function (e) {
@@ -193,5 +212,22 @@
         document.querySelector('#chat-profile').onclick = function (e) {
             document.getElementById('update-btn').style.display = ''
         };
+
+        document.querySelector('#send-image').onchange = function (e) {
+            if (this.file || this.files[0]) {
+                var FR = new FileReader();
+                FR.addEventListener('load', function (e) {
+                    chatSocket.send(JSON.stringify({
+                        'message': e.target.result,
+                        'command': 'img',
+                        'username': username
+                    }));
+                });
+                FR.readAsDataURL(this.files[0]);
+            }
+        }
+
+        {#document.getElementsByName('send-image').addEventListener('change', readFile);#}
+
     </script>
 {% endblock %}

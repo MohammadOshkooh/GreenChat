@@ -28,9 +28,11 @@ class Chat(models.Model):
 
 class Message(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     related_chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True)
+    contain_image = models.BooleanField(default=False)
 
     def __str__(self):
         return self.owner.username
