@@ -20,6 +20,7 @@
 
 
 
+
                                                     {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
                                                  class="rounded-circle user_img">
                                         </div>
@@ -96,6 +97,7 @@
             </div>
         </div>
     </div>
+
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:'username' }}
     {{ link|json_script:'link' }}
@@ -129,7 +131,7 @@
                     var content = messages.event.data[i].content;
                     var contain_image = messages.event.data[i].contain_image;
                     if (contain_image) {
-                        var field = '<img src=" ' + messages.event.data[i].image + ' " alt="image" style="width: 180px;height: 180px;"> '
+                        var field = '<a href="' + messages.event.data[i].image + '  "> <img src="' + messages.event.data[i].image + ' " alt="image" style="width: 180px;height: 180px;"></a> ';
                     } else {
                         var field = content
                     }
@@ -159,7 +161,7 @@
                 var content = messages.event.data.content;
                 var contain_image = messages.event.data.contain_image;
                 if (contain_image) {
-                    var field = '<img src="' + messages.event.data.image + ' " alt="image" style="width: 180px;height: 180px;"> ';
+                    var field = '<a href="' + messages.event.data.image + '  "> <img src="' + messages.event.data.image + ' " alt="image" style="width: 180px;height: 180px;"></a> ';
                 } else {
                     var field = content;
                 }
