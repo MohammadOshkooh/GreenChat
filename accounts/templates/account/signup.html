@@ -4,12 +4,14 @@
 {% get_providers as socialaccount_providers %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title %}  Login{% endblock %}
+{% block title %}  Signup{% endblock %}
 {% block content %}
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
-                <form class="login100-form validate-form" action="{% url 'account_login' %}" method="POST">
+                <form class="login100-form validate-form" id="signup_form" method="post"
+                      action="{% url 'account_signup' %}"
+                      method="POST">
                     {% csrf_token %}
 
                     <span class="login100-form-title p-b-26">
@@ -17,14 +19,21 @@
 					</span>
 
                     <span class="login100-form-title p-b-48"><i class="zmdi zmdi-font"></i></span>
+
                     <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
-                        {{ form.login }}
+                        {{ form.username }}
                         <span class="focus-input100" data-placeholder="Username"></span>
                     </div>
 
+
                     <div class="wrap-input100 validate-input" data-validate="Enter password">
                         <span class="btn-show-pass"><i class="zmdi zmdi-eye"></i></span>
-                        {{ form.password }}
+                        {{ form.password1 }}
+                        <span class="focus-input100" data-placeholder="Password"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Enter confirm password">
+                        <span class="btn-show-pass"><i class="zmdi zmdi-eye"></i></span>
+                        {{ form.password2 }}
                         <span class="focus-input100" data-placeholder="Password"></span>
                     </div>
 
@@ -39,17 +48,17 @@
                         <div class="wrap-login100-form-btn">
                             <div class="login100-form-bgbtn"></div>
                             <button class="login100-form-btn" type="submit">
-                                Login
+                                Signup
                             </button>
                         </div>
                     </div>
 
                     <div class="text-center p-t-115">
 						<span class="txt1">
-							Don’t have an account?
+							Do you have an account?
 						</span>
 
-                        <a class="txt2" href="{% url 'account_signup' %}">
+                        <a class="txt2" href="{% url 'account_login' %}">
                             Sign Up
                         </a>
                     </div>

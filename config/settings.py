@@ -159,9 +159,15 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_FORMS = {'login': 'accounts.forms.CustomLoginForm'}
+ACCOUNT_FORMS = {
+    'login': 'accounts.forms.CustomLoginForm',
+    'signup': 'accounts.forms.CustomSignupForm',
+}
+
+ACCOUNT_EMAIL_REQUIRED = False
 
 LOGIN_REDIRECT_URL = reverse_lazy('chat:index')
+SIGNIN_REDIRECT_URL = reverse_lazy('chat:index')
 
 # Channels
 CHANNEL_LAYERS = {
