@@ -47,6 +47,7 @@ class ChatConsumer(WebsocketConsumer):
         self.send_to_websocket(
             event={'data': messages_model_json, 'command': 'fetch_message', 'count': count})
 
+
     def image(self, data):
         user = get_user_model().objects.get(username=data['username'])
 
@@ -72,7 +73,9 @@ class ChatConsumer(WebsocketConsumer):
 
     def message_serializers(self, data):
         many = (lambda l: True if data.__class__.__name__ == 'QuerySet' else False)(data)
-        if data.first().contain_image is False:
+        obj = (lambda l: data.first() if data.__class__.__name__ == 'QuerySet' else data)(data)
+
+        if obj.contain_image is False:
             serialized = ChatSerializersWithoutImage(data, many=many)
         else:
             serialized = ChatSerializersWithImage(data, many=many)
