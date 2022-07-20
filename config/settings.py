@@ -97,13 +97,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'USER': 'postgres',
+#         'HOST': 'db',
+#         'PORT': 5432
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'PASSWORD': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
+        'NAME': 'd5fh1cis824h1c',
+        'PASSWORD': '224c979470d9f91bf4f8d690b5a37490fc30f2240f789cab5e6768b93307ee9e',
+        'USER': 'bvnyvcjvbvxcbz',
+        'HOST': 'ec2-100-26-39-41.compute-1.amazonaws.com',
         'PORT': 5432
     }
 }
