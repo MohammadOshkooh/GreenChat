@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-k2*+9a)tl0&koj(oq&s4b53^=)euv0^nztb1vzk__!)y(@f(ph
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'green-chat-x.herokuapp.com', 'localhost']
 
 # Application definition
 
@@ -107,6 +107,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'PORT': 5432
 #     }
 # }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -117,7 +119,6 @@ DATABASES = {
         'PORT': 5432
     }
 }
-
 
 # DATABASES = {
 #     'default': {
