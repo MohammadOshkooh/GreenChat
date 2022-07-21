@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'channels.apps.ChannelsConfig',
     'rest_framework.apps.RestFrameworkConfig',
+    'whitenoise.runserver_nostatic'
 ]
 
 SITE_ID = 1
@@ -165,8 +166,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
