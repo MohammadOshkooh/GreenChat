@@ -1,3 +1,4 @@
+aiopg==1.3.4
 aioredis==1.3.1
 asgiref==3.5.2
 async-timeout==4.0.2
@@ -7,6 +8,7 @@ Automat==20.2.0
 certifi==2022.6.15
 cffi==1.15.1
 channels==3.0.5
+channels-postgres==0.0.4
 channels-redis==3.4.0
 charset-normalizer==2.1.0
 constantly==15.1.0

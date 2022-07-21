@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'channels.apps.ChannelsConfig',
     'rest_framework.apps.RestFrameworkConfig',
-    'whitenoise.runserver_nostatic'
+    # 'whitenoise.runserver_nostatic'
+    'channels_postgres',
 ]
 
 SITE_ID = 1
@@ -114,6 +115,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'djv9n3623sref',
+        'PASSWORD': '15e55c9d1060b40c4209ba0144cb17e20eadc931bd9750e2a4cdf3bec3de2c19',
+        'USER': 'cjhrxxpzzlzjwa',
+        'HOST': 'ec2-100-26-39-41.compute-1.amazonaws.com',
+        'PORT': 5432
+    },
+    'channels_postgres': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'djv9n3623sref',
         'PASSWORD': '15e55c9d1060b40c4209ba0144cb17e20eadc931bd9750e2a4cdf3bec3de2c19',
         'USER': 'cjhrxxpzzlzjwa',
@@ -197,11 +206,29 @@ LOGIN_REDIRECT_URL = reverse_lazy('chat:index')
 SIGNIN_REDIRECT_URL = reverse_lazy('chat:index')
 
 # Channels
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('redis', 6379)],
+#         },
+#     },
+# }
+
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'BACKEND': 'channels_postgres.core.PostgresChannelLayer',
         'CONFIG': {
-            "hosts": [('redis', 6379)],
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'djv9n3623sref',
+            'PASSWORD': '15e55c9d1060b40c4209ba0144cb17e20eadc931bd9750e2a4cdf3bec3de2c19',
+            'USER': 'cjhrxxpzzlzjwa',
+            'HOST': 'ec2-100-26-39-41.compute-1.amazonaws.com',
+            'PORT': '5432'
+
+            #     'config: {
+            #     ...
+            # }
         },
     },
 }
