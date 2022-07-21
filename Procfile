@@ -1,3 +1,3 @@
-web: python manage.py runserver 8000
+web: gunicorn config.wsgi
 
 release: python manage.py migrate
