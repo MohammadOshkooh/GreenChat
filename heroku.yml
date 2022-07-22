@@ -9,4 +9,4 @@ setup:
     command :
       - python manage.py collectstatic --noinput
     run :
-      daphne -b 0.0.0.0 -p 8001 configgit.asgi:application
+      daphne -b 0.0.0.0 -p 8001 config.asgi:application
