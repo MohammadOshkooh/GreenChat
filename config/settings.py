@@ -13,6 +13,7 @@ import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import dj_database_url
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-k2*+9a)tl0&koj(oq&s4b53^=)euv0^nztb1vzk__!)y(@f(ph
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'green-chat-x.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['green-chat.iran.liara.run', '127.0.0.1', 'green-chat-x.herokuapp.com', 'localhost']
 
 # Application definition
 
@@ -51,7 +52,18 @@ INSTALLED_APPS = [
     'rest_framework.apps.RestFrameworkConfig',
     # 'whitenoise.runserver_nostatic'
     'channels_postgres',
+    'storages',
 ]
+
+AWS_ACCESS_KEY_ID = 'ES9P8SL4561SZ4YKKS84P'
+AWS_SECRET_ACCESS_KEY = '1noN6IQ2ZKl2KTCGRRnIS6rJt0ayj4FJKfGstMKfG'
+AWS_STORAGE_BUCKET_NAME = 'thisisabucket'
+AWS_S3_ENDPOINT_URL = 'https://62da66420ea8a0c3a618602d.iran.liara.space'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 SITE_ID = 1
 
@@ -111,24 +123,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djv9n3623sref',
-        'PASSWORD': '15e55c9d1060b40c4209ba0144cb17e20eadc931bd9750e2a4cdf3bec3de2c19',
-        'USER': 'cjhrxxpzzlzjwa',
-        'HOST': 'ec2-100-26-39-41.compute-1.amazonaws.com',
-        'PORT': 5432
-    },
-    'channels_postgres': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'djv9n3623sref',
-        'PASSWORD': '15e55c9d1060b40c4209ba0144cb17e20eadc931bd9750e2a4cdf3bec3de2c19',
-        'USER': 'cjhrxxpzzlzjwa',
-        'HOST': 'ec2-100-26-39-41.compute-1.amazonaws.com',
-        'PORT': 5432
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'dbname',
+    #     'PASSWORD': 'bGw30H4udQoMGihyDCDidt0j',
+    #     'USER': 'root',
+    #     'HOST': 'dbname',
+    #     'PORT': '5432'
+    # },
+    'default': dj_database_url.config(),
+    'channels_postgres': dj_database_url.config(),
+    # 'channels_postgres': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'dbname',
+    #     'PASSWORD': 'bGw30H4udQoMGihyDCDidt0j',
+    #     'USER': 'root',
+    #     'HOST': 'dbname',
+    #     'PORT': '5432'
+    # }
 }
 
 # DATABASES = {
@@ -176,7 +189,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 
@@ -216,20 +229,16 @@ SIGNIN_REDIRECT_URL = reverse_lazy('chat:index')
 # }
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_postgres.core.PostgresChannelLayer',
-        'CONFIG': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'djv9n3623sref',
-            'PASSWORD': '15e55c9d1060b40c4209ba0144cb17e20eadc931bd9750e2a4cdf3bec3de2c19',
-            'USER': 'cjhrxxpzzlzjwa',
-            'HOST': 'ec2-100-26-39-41.compute-1.amazonaws.com',
-            'PORT': '5432'
-
-            #     'config: {
-            #     ...
-            # }
-        },
-    },
+    #     'default': {
+    #         'BACKEND': 'channels_postgres.core.PostgresChannelLayer',
+    #         'CONFIG': {
+    #             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #             'NAME': 'dbname',
+    #             'PASSWORD': 'bGw30H4udQoMGihyDCDidt0j',
+    #             'USER': 'root',
+    #             'HOST': 'dbname',
+    #             'PORT': '5432'
+    #         },
+    #     },
+    'default': dj_database_url.config(),
 }
-
