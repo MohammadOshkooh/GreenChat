@@ -40,76 +40,30 @@ Online chat application <br>
 <hr>
 
 <h3>
-⚙️ Config the project
+⚙️ Config and run the project
 </h3>
 
 <p>
-First you should make venv for this project.
-So in the main root of project you should type this command in your Terminal or Console: 
+build and run with docker-compose file:
 </p>
 <pre>
-python -m venv venv
+docker-compose up --build
 </pre>
 <p>
-Now you should activate your venv.
-So in the main root of project you should type this command in your Terminal or Console: 
-</p>
-<b>
-In Linux/macOS:
-</b>
-<pre>
-source venv/bin/activate
-</pre>
-<b>
-In Windows:
-</b>
-<pre>
-venv/Scripts/activate.ps1
-</pre>
 
-<p>
-After activating venv you should install the <b>requirements.txt</b> packages. So type this command in your Terminal or Console: 
-</p>
-<pre>
-pip install -r requirements.txt
-</pre>
 <h5>
 Configuration of project almost done.
 </h5>
 
 <hr>
 
-<h3>
-🏁 Run the project
+✅ Use the project
 </h3>
 
 <pre>
 python manage.py migrate
 </pre>
 
-<p>
-After creating the project database, you should run project. So type this command in Terminal or Console:
-</p>
-<pre>
-python manage.py runserver 8000
-</pre>
-
-<h4>
-Congratulations, you ran the project correctly ✅
-</h4>
-
-<p>
-Now copy/paste this address in your browser URL bar:
-</p>
-<pre>
-http://127.0.0.1:8000/
-</pre>
-
-<hr>
-
-<h3>
-✅ Use the project
-</h3>
 
 <p>
 For use the project first you should create a superuser. So type this command in Terminal or Console:
