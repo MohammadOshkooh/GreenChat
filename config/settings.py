@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-k2*+9a)tl0&koj(oq&s4b53^=)euv0^nztb1vzk__!)y(@f(ph
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['green-chat.iran.liara.run', '127.0.0.1', 'green-chat-x.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['green-chat.iran.liara.run', '127.0.0.1', 'green-chat-x.herokuapp.com', 'localhost',
+                 'green-chat2-green-chat.fandogh.cloud']
 
 # Application definition
 
@@ -105,52 +106,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'USER': 'postgres',
-#         'HOST': 'db',
-#         'PORT': 5432
-#     }
-# }
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'dbname',
-    #     'PASSWORD': 'bGw30H4udQoMGihyDCDidt0j',
-    #     'USER': 'root',
-    #     'HOST': 'dbname',
-    #     'PORT': '5432'
-    # },
-    'default': dj_database_url.config(),
-    'channels_postgres': dj_database_url.config(),
-    # 'channels_postgres': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'dbname',
-    #     'PASSWORD': 'bGw30H4udQoMGihyDCDidt0j',
-    #     'USER': 'root',
-    #     'HOST': 'dbname',
-    #     'PORT': '5432'
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'MohammadOshkooh$MySQL',
-#         'PASSWORD': 'qwert069',
-#         'USER': 'MohammadOshkooh',
-#         'HOST': 'MohammadOshkooh.mysql.pythonanywhere-services.com',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('POSTGRES_NAME'),
+#         'USER': os.environ.get('POSTGRES_USER'),
+#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#         'HOST': 'db',
+#         'PORT': 5432,
 #     }
 # }
 
@@ -225,20 +196,18 @@ SIGNIN_REDIRECT_URL = reverse_lazy('chat:index')
 #         'CONFIG': {
 #             "hosts": [('redis', 6379)],
 #         },
+#         'OPTIONS': {
+#             'PASSWORD': '0690891601',
+#         }
 #     },
 # }
 
 CHANNEL_LAYERS = {
-    #     'default': {
-    #         'BACKEND': 'channels_postgres.core.PostgresChannelLayer',
-    #         'CONFIG': {
-    #             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #             'NAME': 'dbname',
-    #             'PASSWORD': 'bGw30H4udQoMGihyDCDidt0j',
-    #             'USER': 'root',
-    #             'HOST': 'dbname',
-    #             'PORT': '5432'
-    #         },
-    #     },
-    'default': dj_database_url.config(),
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "ROUTING": "widget.routing.channel_routing",
+        "CONFIG": {
+            "hosts": [("redis://:redis@127.0.0.1:6379/0")],
+        },
+    },
 }
