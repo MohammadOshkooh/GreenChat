@@ -33,14 +33,11 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <script src="{% static 'js/index.js' %}"></script>
 
-{#    {% load compress %}#}
-{##}
-{#    {% compress css %}#}
-{#        <link type="text/x-scss" href="{% static 'css/style.scss' %}" rel="stylesheet" media="screen">#}
-{#    {% endcompress %}#}
+    {% load compress %}
+    {% compress css %}
+        <link type=”text/x-scss” href=”{% static 'css/style.scss' %}” rel=”stylesheet” media=”screen”>
+    {% endcompress %}
 
-    {% load scss %}
-<link rel="stylesheet" href="{{ STATIC_URL}}{% scss "css/style.scss" %}" />
 </head>
 <body>
 {% block content %}
