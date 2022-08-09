@@ -185,4 +185,4 @@ CHANNEL_LAYERS = {
     }
 }
 
-CSRF_TRUSTED_ORIGINS = ['green-chat-x.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://green-chat-x.herokuapp.com']
