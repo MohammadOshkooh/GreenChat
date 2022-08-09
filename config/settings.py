@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'green-chat-x.herokuapp.com']
 
 # Application definition
 
-INSTALLED_APPS = {
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,7 +55,7 @@ INSTALLED_APPS = {
     'storages',
     'compressor',
 
-}
+]
 
 SITE_ID = 1
 
