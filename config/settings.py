@@ -22,14 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-k2*+9a)tl0&koj(oq&s4b53^=)euv0^nztb1vzk__!)y(@f(ph'
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY'),
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'green-chat2-green-chat.fandogh.cloud', 'green-chat-x.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'green-chat-x.herokuapp.com']
 
 # Application definition
 
@@ -45,6 +43,7 @@ INSTALLED_APPS = [
     'chat.apps.ChatConfig',
     'accounts.apps.AccountConfig',
 
+    # Third party packages
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -83,7 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # `allauth` needs this from django
+                # allauth needs this from django
                 'django.template.context_processors.request',
             ],
         },
@@ -96,29 +95,6 @@ ASGI_APPLICATION = 'config.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-#
-# DATABASE_URL = os.environ.get('DATABASE_URL')
-# db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-# DATABASES['default'].update(db_from_env)
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'postgre',
-#         'PORT': '5432',
-#     }
-# }
 
 DATABASES = {
     'default': {
@@ -164,10 +140,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 MEDIA_URL = '/media/'
 
@@ -177,12 +151,11 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django allauth
-
 AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
+    # Needed to login by username in Django admin, regardless of allauth
     'django.contrib.auth.backends.ModelBackend',
 
-    # `allauth` specific authentication methods, such as login by e-mail
+    # allauth specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
@@ -197,28 +170,6 @@ LOGIN_REDIRECT_URL = reverse_lazy('chat:index')
 SIGNIN_REDIRECT_URL = reverse_lazy('chat:index')
 
 # Channels
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('redis', 6379)],
-#         },
-#         'OPTIONS': {
-#             'PASSWORD': '0690891601',
-#         }
-#     },
-# }
-
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "asgi_redis.RedisChannelLayer",
-#         "ROUTING": "widget.routing.channel_routing",
-#         "CONFIG": {
-#             "hosts": [("redis://:redis@127.0.0.1:6379/0")],
-#         },
-#     },
-# }
-
 
 CHANNEL_LAYERS = {
     'default': {
@@ -233,3 +184,5 @@ CHANNEL_LAYERS = {
         }
     }
 }
+
+CSRF_TRUSTED_ORIGINS = ['green-chat-x.herokuapp.com']

@@ -23,18 +23,3 @@ RUN python manage.py collectstatic --noinput
 
 # run
 CMD daphne config.asgi:application --port $PORT --bind 0.0.0.0 -v2
-
-
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
-#ENTRYPOINT ["python", "manage.py", "migrate"]
-#
-#ENTRYPOINT ["python", "manage.py", "makemigrations"]
-#
-#ENTRYPOINT ["python", "manage.py", "migrate"]
-#
-#ENTRYPOINT ["python", "manage.py", "collectstatic", "--noinput"]
-
-#CMD ["./entrypoint.sh"]
-
-#CMD ["daphne", "-b", "127.0.0.1", "-p", "8000" ,"config.asgi:application"]
