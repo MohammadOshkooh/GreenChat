@@ -31,8 +31,13 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" href="{% static 'js/index.js' %}">
-    <link rel="stylesheet" href="{% static 'css/style.scss' %}">
+    <script src="{% static 'js/index.js' %}"></script>
+
+    {% load compress %}
+
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'css/style.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress %}
 
 </head>
 <body>
