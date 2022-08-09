@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'rest_framework.apps.RestFrameworkConfig',
     'channels_postgres',
     'storages',
-    'compressor'
+    'compressor',
+    'django_scss'
 ]
 
 SITE_ID = 1
@@ -146,12 +147,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder'
+    'compressor.finders.CompressorFinder',
+    'django_scss.finders.SCSSFinder',
 ]
 
 COMPRESS_OFFLINE = True
 LIBSASS_OUTPUT_STYLE = 'compressed'
-
+COMPRESS_ENABLED = True
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
