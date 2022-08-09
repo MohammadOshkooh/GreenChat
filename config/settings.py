@@ -22,13 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k2*+9a)tl0&koj(oq&s4b53^=)euv0^nztb1vzk__!)y(@f(ph'
+# SECRET_KEY = 'django-insecure-k2*+9a)tl0&koj(oq&s4b53^=)euv0^nztb1vzk__!)y(@f(ph'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG')
 
-ALLOWED_HOSTS = ['green-chat.iran.liara.run', '127.0.0.1', 'green-chat-x.herokuapp.com', 'localhost',
-                 'green-chat2-green-chat.fandogh.cloud']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'green-chat2-green-chat.fandogh.cloud', 'green-chat-x.herokuapp.com']
 
 # Application definition
 
@@ -51,20 +52,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'channels.apps.ChannelsConfig',
     'rest_framework.apps.RestFrameworkConfig',
-    # 'whitenoise.runserver_nostatic'
     'channels_postgres',
     'storages',
 ]
-
-AWS_ACCESS_KEY_ID = 'ES9P8SL4561SZ4YKKS84P'
-AWS_SECRET_ACCESS_KEY = '1noN6IQ2ZKl2KTCGRRnIS6rJt0ayj4FJKfGstMKfG'
-AWS_STORAGE_BUCKET_NAME = 'thisisabucket'
-AWS_S3_ENDPOINT_URL = 'https://62da66420ea8a0c3a618602d.iran.liara.space'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_LOCATION = 'static'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 SITE_ID = 1
 
@@ -101,7 +91,7 @@ TEMPLATES = [
 ]
 
 ASGI_APPLICATION = 'config.asgi.application'
-WSGI_APPLICATION = 'config.wsgi.application'
+# WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -114,13 +104,29 @@ DATABASES = {
     }
 }
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'postgre',
+#         'PORT': '5432',
+#     }
+# }
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': os.environ.get('POSTGRES_NAME'),
 #         'USER': os.environ.get('POSTGRES_USER'),
 #         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-#         'HOST': 'db',
+#         'HOST': os.environ.get('POSTGRES_HOST'),
 #         'PORT': 5432,
 #     }
 # }
@@ -157,10 +163,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_URL = '/media/'
 
@@ -202,12 +209,27 @@ SIGNIN_REDIRECT_URL = reverse_lazy('chat:index')
 #     },
 # }
 
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "asgi_redis.RedisChannelLayer",
+#         "ROUTING": "widget.routing.channel_routing",
+#         "CONFIG": {
+#             "hosts": [("redis://:redis@127.0.0.1:6379/0")],
+#         },
+#     },
+# }
+
+
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "asgi_redis.RedisChannelLayer",
-        "ROUTING": "widget.routing.channel_routing",
-        "CONFIG": {
-            "hosts": [("redis://:redis@127.0.0.1:6379/0")],
-        },
-    },
+    'default': {
+        'BACKEND': 'channels_postgres.core.PostgresChannelLayer',
+        'CONFIG': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('POSTGRES_NAME'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('POSTGRES_HOST'),
+            'PORT': 5432,
+        }
+    }
 }
