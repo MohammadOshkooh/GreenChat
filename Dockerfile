@@ -15,11 +15,3 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 COPY . /code/
-
-EXPOSE 8000
-
-# collect static files
-RUN python manage.py collectstatic --noinput
-
-# run
-CMD daphne config.asgi:application --port $PORT --bind 0.0.0.0 -v2

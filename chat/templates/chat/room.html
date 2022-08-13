@@ -99,9 +99,9 @@
         const link = JSON.parse(document.getElementById('link').textContent);
 
         const chatSocket = new WebSocket(
-            'ws://'
+            'wss://'
             + window.location.host
-            + '/ws/chat/'
+            + '/wss/chat/'
             + roomName
             + '/'
             + link

@@ -27,6 +27,7 @@ class ChatConsumer(WebsocketConsumer):
         message_model = Message.objects.create(owner=user, content=data['message'], related_chat=self.related_chat)
 
         # convert object to json
+
         message_model_json = self.message_serializers(message_model)
 
         self.send_to_room({'data': message_model_json, 'command': 'new_message'})
@@ -40,14 +41,16 @@ class ChatConsumer(WebsocketConsumer):
 
         count = messages_model_without_image.count() + messages_model_with_image.count()
 
-        messages_model_json = None
+        messages_model_json = []
 
-        if count != 0:
+        if messages_model_without_image.count() != 0:
             # convert object to json
             messages_model_json_without_image = self.message_serializers(messages_model_without_image)
+            messages_model_json += messages_model_json_without_image
+        if messages_model_with_image.count() != 0:
             messages_model_json_with_image = self.message_serializers(messages_model_with_image)
-            messages_model_json = messages_model_json_without_image + messages_model_json_with_image
-
+            messages_model_json += messages_model_json_with_image
+        if count != 0:
             # sort content_list by created date
             messages_model_json.sort(key=lambda x: x['created'])
 
@@ -68,6 +71,7 @@ class ChatConsumer(WebsocketConsumer):
                                                contain_image=True)
 
         # convert object to json
+
         message_model_json = self.message_serializers(message_model)
 
         self.send_to_room({'data': message_model_json, 'command': 'new_message'})
