@@ -13,7 +13,8 @@
                                 <li class="active">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
-                                            <img src=" {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
+                                            <img src="
+                                                    {% if member.profile.first.image %}{{ member.profile.first.image.url }}{% endif %}"
                                                  class="rounded-circle user_img">
                                         </div>
                                         <div class="user_info">
@@ -53,7 +54,9 @@
                                     Messages
                                 </p>
                             </div>
-                            <div style="position: absolute;right: 61px;">Link : {{ chat.link }}</div>
+                            <div style="position: absolute;right: 61px;">Link : <a
+                                    href="https://green-chat-x.herokuapp.com/{{ room_name }}/{{ chat.link }}">https://green-chat-x.herokuapp.com/{{ room_name }}/{{ chat.link }}</a>
+                            </div>
                         </div>
                         <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
                         <div class="action_menu">
