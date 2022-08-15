@@ -1,0 +1,192 @@
+{% extends 'new/base.html' %}
+{% block content %}
+    <div class="container-fluid" id="main-container">
+        <div class="row h-100">
+            <div class="col-12 col-sm-5 col-md-4 d-flex flex-column" id="chat-list-area" style="position:relative;">
+
+                <!-- Navbar -->
+                <div class="row d-flex flex-row align-items-center p-2" id="navbar">
+                    <img alt="Profile Photo" class="img-fluid rounded-circle mr-2" style="height:50px; cursor:pointer;"
+                         onclick="showProfileSettings()" id="display-pic">
+                    <div class="text-white font-weight-bold" id="username"></div>
+                    <div class="nav-item dropdown ml-auto">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v text-white"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">New Group</a>
+                            <a class="dropdown-item" href="#">Archived</a>
+                            <a class="dropdown-item" href="#">Starred</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="#">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat List -->
+                <div class="row" id="chat-list" style="overflow:auto;"></div>
+
+                <!-- Profile Settings -->
+                <div class="d-flex flex-column w-100 h-100" id="profile-settings">
+                    <div class="row d-flex flex-row align-items-center p-2 m-0"
+                         style="background:#009688; min-height:65px;">
+                        <i class="fas fa-arrow-left p-2 mx-3 my-1 text-white"
+                           style="font-size: 1.5rem; cursor: pointer;"
+                           onclick="hideProfileSettings()"></i>
+                        <div class="text-white font-weight-bold">Profile</div>
+                    </div>
+                    <div class="d-flex flex-column" style="overflow:auto;">
+                        <img alt="Profile Photo" class="img-fluid rounded-circle my-5 justify-self-center mx-auto"
+                             id="profile-pic">
+                        <input type="file" id="profile-pic-input" class="d-none">
+                        <div class="bg-white px-3 py-2">
+                            <div class="text-muted mb-2"><label for="input-name">Your Name</label></div>
+                            <input type="text" name="name" id="input-name" class="w-100 border-0 py-2 profile-input">
+                        </div>
+                        <div class="text-muted p-3 small">
+                            This is not your username or pin. This name will be visible to your WhatsApp contacts.
+                        </div>
+                        <div class="bg-white px-3 py-2">
+                            <div class="text-muted mb-2"><label for="input-about">About</label></div>
+                            <input type="text" name="name" id="input-about" value=""
+                                   class="w-100 border-0 py-2 profile-input">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Message Area -->
+            <div class="d-none d-sm-flex flex-column col-12 col-sm-7 col-md-8 p-0 h-100" id="message-area">
+                <div class="w-100 h-100 overlay"></div>
+
+                <!-- Navbar -->
+                <div class="row d-flex flex-row align-items-center p-2 m-0 w-100" id="navbar">
+                    <div class="d-block d-sm-none">
+                        <i class="fas fa-arrow-left p-2 mr-2 text-white" style="font-size: 1.5rem; cursor: pointer;"
+                           onclick="showChatList()"></i>
+                    </div>
+                    <a href="#"><img src="https://via.placeholder.com/400x400" alt="Profile Photo"
+                                     class="img-fluid rounded-circle mr-2" style="height:50px;" id="pic"></a>
+                    <div class="d-flex flex-column">
+                        <div class="text-white font-weight-bold" id="name"></div>
+                        <div class="text-white small" id="details"></div>
+                    </div>
+                    <div class="d-flex flex-row align-items-center ml-auto">
+                        <a href="#"><i class="fas fa-search mx-3 text-white d-none d-md-block"></i></a>
+                        <a href="#"><i class="fas fa-paperclip mx-3 text-white d-none d-md-block"></i></a>
+                        <a href="#"><i class="fas fa-ellipsis-v mr-2 mx-sm-3 text-white"></i></a>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div class="d-flex flex-column" id="messages"></div>
+
+                <!-- Input -->
+                <div class="d-none justify-self-end align-items-center flex-row" id="input-area">
+                    <a href="#"><i class="far fa-smile text-muted px-3" style="font-size:1.5rem;"></i></a>
+                    <input type="text" name="message" id="msg-input" placeholder="Type a message"
+                           class="flex-grow-1 border-0 px-3 py-2 my-3 rounded shadow-sm">
+                    <i id="chat-message-submit" class="fas fa-paper-plane text-muted px-3" style="cursor:pointer;"
+                       onclick="sendMessage()"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {{ room_name|json_script:"room-name" }}
+    {{ request.user.username|json_script:'user-name' }}
+    {{ link|json_script:'link' }}
+
+
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const link = JSON.parse(document.getElementById('link').textContent);
+        const username = JSON.parse(document.getElementById('user-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+            + link
+            + '/'
+        );
+
+        chatSocket.onopen = function (e) {
+            chatSocket.send(JSON.stringify({
+                'command': 'fetch_message',
+            }))
+        }
+
+        chatSocket.onmessage = function (e) {
+            const messages = JSON.parse(e.data);
+            document.getElementById('count').innerText = messages.event['count'];
+            if (messages.event.command === 'fetch_message') {
+
+            } else if (messages.event.command === 'new_message') {
+
+            }
+
+        };
+
+        chatSocket.onerror = function (e) {
+            console.log('WebSocket Error : ', e);
+        }
+
+        chatSocket.onclose = function (e) {
+            console.error('WebSocket closed unexpectedly');
+        };
+        document.querySelector('#msg-input').focus();
+        document.querySelector('#msg-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                sendMessage();
+            }
+        };
+
+        function sendMessageToConsumers(msg) {
+            console.log(msg);
+            console.log(chatSocket.readyState);
+            chatSocket.send(JSON.stringify({
+                'message': msg.body,
+                'command': 'new_message',
+                'username': username
+            }));
+
+            {% comment %}
+                  chatSocket.addEventListener("add", (ev) => {
+                      chatSocket.send(JSON.stringify({
+                          'message': msg.body,
+                          'command': 'new_message',
+                          'username': username
+                      }));
+                  });
+                  {% endcomment %}
+        }
+
+        {% comment %}
+                document.querySelector('#chat-profile').onclick = function (e) {
+                    document.getElementById('update-btn').style.display = ''
+                };
+
+                document.querySelector('#send-image').onchange = function (e) {
+                    if (this.file || this.files[0]) {
+                        var FR = new FileReader();
+                        FR.addEventListener('load', function (e) {
+                            chatSocket.send(JSON.stringify({
+                                'message': e.target.result,
+                                'command': 'img',
+                                'username': username
+                            }));
+                        });
+                        FR.readAsDataURL(this.files[0]);
+                    }
+                }
+          {% endcomment %}
+
+    </script>
+
+
+{% endblock %}

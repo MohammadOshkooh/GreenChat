@@ -126,7 +126,9 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-
+        print('---------------------------------------------')
+        print(text_data_json)
+        print('---------------------------------------------')
         command = text_data_json['command']
 
         # check command

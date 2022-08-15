@@ -107,3 +107,13 @@ def chat_view(request, room_name, link):
         'link': link,
     }
     return render(request, 'chat/room.html', context)
+
+
+@login_required
+def new(request, room_name, link):
+    context = {
+        'room_name': room_name,
+        'link': link,
+        'username': request.user.username
+    }
+    return render(request, 'new/index.html', context)
