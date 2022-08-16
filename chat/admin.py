@@ -4,7 +4,7 @@ from .models import Chat, Message
 
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ['content', 'created', 'owner', 'related_chat']
+    list_display = ['sender', 'body', 'time', 'related_chat', 'status']
 
 
 admin.site.register(Message, MessageAdmin)

@@ -226,9 +226,6 @@ let showChatList = () => {
 
 
 let sendMessage = () => {
-    console.log('ok');
-    getData();
-    console.log('too');
     let value = DOM.messageInput.value;
     DOM.messageInput.value = "";
     if (value === "") return;

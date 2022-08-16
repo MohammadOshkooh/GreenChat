@@ -27,15 +27,18 @@ class Chat(models.Model):
 
 
 class Message(models.Model):
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    content = models.TextField(null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
+    sender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    body = models.TextField(null=True, blank=True)
+    time = models.DateTimeField(auto_now_add=True)
+    # message status = 0:sent, 1:delivered, 2:read
+    status = models.IntegerField(default=0)
     related_chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True)
-    contain_image = models.BooleanField(default=False)
+    # image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True)
+    # contain_image = models.BooleanField(default=False)
+    Received_from_the_group = models.BooleanField()
 
     def __str__(self):
-        return self.owner.username
+        return self.sender.username
 
     def get_message(self, room_name):
         return Message.objects.filter(related_chat__room_name=room_name).order_by('-created')
