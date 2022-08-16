@@ -1,4 +1,5 @@
 {% extends 'new/base.html' %}
+{% load static %}
 {% block content %}
     <div class="container-fluid" id="main-container">
         <div class="row h-100">
@@ -123,7 +124,7 @@
 
         chatSocket.onmessage = function (e) {
             const messages = JSON.parse(e.data);
-            document.getElementById('count').innerText = messages.event['count'];
+            {#document.getElementById('count').innerText = messages.event['count'];#}
             if (messages.event.command === 'fetch_message') {
 
             } else if (messages.event.command === 'new_message') {
@@ -154,6 +155,7 @@
                 'command': 'new_message',
                 'username': username
             }));
+
 
             {% comment %}
                   chatSocket.addEventListener("add", (ev) => {
@@ -187,6 +189,7 @@
           {% endcomment %}
 
     </script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="{% static 'new/fetch.js' %}"></script>
 
 {% endblock %}

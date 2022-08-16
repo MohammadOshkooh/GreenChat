@@ -226,6 +226,9 @@ let showChatList = () => {
 
 
 let sendMessage = () => {
+    console.log('ok');
+    getData();
+    console.log('too');
     let value = DOM.messageInput.value;
     DOM.messageInput.value = "";
     if (value === "") return;
@@ -238,11 +241,11 @@ let sendMessage = () => {
         recvId: chat.isGroup ? chat.group.id : chat.contact.id,
         recvIsGroup: chat.isGroup
     };
-
+    sendMessageToConsumers(msg);
     addMessageToMessageArea(msg);
     MessageUtils.addMessage(msg);
     generateChatList();
-    sendMessageToConsumers(msg);
+
 };
 
 let showProfileSettings = () => {
