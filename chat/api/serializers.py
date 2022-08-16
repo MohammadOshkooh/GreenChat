@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from chat.models import Message
+from chat.models import Message, Chat
 
 
 class MessageSerializers(serializers.ModelSerializer):
@@ -10,3 +10,12 @@ class MessageSerializers(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['id', '__str__', 'sender', 'body', 'time', 'status', 'recvId', 'recvIsGroup']
+
+
+class ChatSerializers(serializers.ModelSerializer):
+    name = serializers.CharField(source='room_name')
+    pic = serializers.ImageField(source='image')
+
+    class Meta:
+        model = Chat
+        fields = ['id', 'name', 'members', 'pic', 'owner', 'link']
