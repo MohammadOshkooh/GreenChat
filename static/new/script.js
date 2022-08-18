@@ -133,7 +133,7 @@ let addDateToMessageArea = (date) => {
 
 let addMessageToMessageArea = (msg) => {
     let msgDate = mDate(msg.time).getDate();
-    if (lastDate != msgDate) {
+    if (lastDate !== msgDate) {
         addDateToMessageArea(msgDate);
         lastDate = msgDate;
     }
@@ -242,7 +242,6 @@ let sendMessage = () => {
     addMessageToMessageArea(msg);
     MessageUtils.addMessage(msg);
     generateChatList();
-
 };
 
 let showProfileSettings = () => {
@@ -271,5 +270,3 @@ let init = () => {
 
     console.log("Click the Image at top-left to open settings.");
 };
-
-init();

@@ -117,22 +117,29 @@
         );
 
         chatSocket.onopen = function (e) {
-            {#messages = fetchMessages();#}
-            {#console.log(messages);#}
-            {#console.log('---------------------');#}
-            {#groupList = fetchChat();#}
-            {#console.log(groupList);#}
             chatSocket.send(JSON.stringify({
                 'command': 'fetch_message',
             }))
         }
 
         chatSocket.onmessage = function (e) {
-            const messages = JSON.parse(e.data);
-            {#document.getElementById('count').innerText = messages.event['count'];#}
-            if (messages.event.command === 'fetch_message') {
+            const data = JSON.parse(e.data);
 
-            } else if (messages.event.command === 'new_message') {
+            let d = data.event.data;
+
+            for (let i = 0; i < d.length; i++) {
+                messages.push(d[i]);
+            }
+            console.log(messages)
+            console.log(messages.length)
+            console.log(data.event.data);
+            init();
+
+
+            {#document.getElementById('count').innerText = messages.event['count'];#}
+            if (data.event.command === 'fetch_message') {
+
+            } else if (data.event.command === 'new_message') {
 
             }
 
@@ -195,6 +202,6 @@
 
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-    <script src="{% static 'new/fetch.js' %}"></script>
+    <script src="{% static 'new/fetchh.js' %}"></script>
 
 {% endblock %}

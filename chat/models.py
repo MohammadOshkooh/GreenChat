@@ -33,8 +33,8 @@ class Message(models.Model):
     # message status = 0:sent, 1:delivered, 2:read
     status = models.IntegerField(default=0)
     related_chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-    # image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True)
-    # contain_image = models.BooleanField(default=False)
+    image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True)
+    contain_image = models.BooleanField(default=False)
     Received_from_the_group = models.BooleanField()
 
     def __str__(self):
