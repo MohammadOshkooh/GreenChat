@@ -119,6 +119,7 @@
         chatSocket.onopen = function (e) {
             chatSocket.send(JSON.stringify({
                 'command': 'fetch_message',
+                'username' : username
             }))
         }
 

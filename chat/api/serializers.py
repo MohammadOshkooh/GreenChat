@@ -9,7 +9,8 @@ class MessageSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ['id', '__str__', 'sender', 'body', 'time', 'status', 'recvId', 'recvIsGroup']
+        fields = ['id', '__str__', 'sender', 'body', 'time', 'status', 'recvId', 'recvIsGroup', 'contain_image',
+                  'image']
 
 
 class ChatSerializers(serializers.ModelSerializer):

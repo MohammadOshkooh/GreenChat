@@ -11,7 +11,7 @@ class Chat(models.Model):
     members = models.ManyToManyField(get_user_model(), related_name='member_set')
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='owner_set', null=True)
     image = models.ImageField(upload_to='profile/group/%y/%m/%d/', blank=True, null=True,
-                              default='http://127.0.0.1:8000/static/img/index.png')
+                              default='../static/img/index.png')
     link = models.CharField(default=get_random_string(20), max_length=50, unique=True)
 
     def __str__(self):
@@ -28,12 +28,12 @@ class Chat(models.Model):
 
 class Message(models.Model):
     sender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    body = models.TextField(null=True, blank=True)
+    body = models.TextField(null=True, blank=True, default='body')
     time = models.DateTimeField(auto_now_add=True)
     # message status = 0:sent, 1:delivered, 2:read
     status = models.IntegerField(default=0)
     related_chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True)
+    image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True, default='../static/img/index.png')
     contain_image = models.BooleanField(default=False)
     Received_from_the_group = models.BooleanField()
 
