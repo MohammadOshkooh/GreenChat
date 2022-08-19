@@ -1,8 +1,8 @@
 from django.contrib.admindocs.views import ModelDetailView
 from rest_framework.viewsets import ModelViewSet
 
-from chat.models import Message, Chat
-from chat.api.serializers import MessageSerializers, ChatSerializers
+from chat.models import Message, Chat, ContactList
+from chat.api.serializers import MessageSerializers, ChatSerializers, ContactListSerializers
 
 
 class MessageViewSet(ModelViewSet):
@@ -13,3 +13,8 @@ class MessageViewSet(ModelViewSet):
 class ChatViewSet(ModelViewSet):
     queryset = Chat.objects.all()
     serializer_class = ChatSerializers
+
+
+class ContactListViewSet(ModelViewSet):
+    queryset = ContactList.objects.all()
+    serializer_class = ContactListSerializers

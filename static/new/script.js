@@ -238,10 +238,10 @@ let sendMessage = () => {
         recvId: chat.isGroup ? chat.group.id : chat.contact.id,
         recvIsGroup: chat.isGroup
     };
-    sendMessageToConsumers(msg);
     addMessageToMessageArea(msg);
     MessageUtils.addMessage(msg);
     generateChatList();
+    sendMessageToConsumers(msg);
 };
 
 let showProfileSettings = () => {

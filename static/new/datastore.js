@@ -1,6 +1,6 @@
 let user = {
     id: 0,
-    name: "Anish",
+    name: username,
     number: "+91 91231 40293",
     pic: "images/asdsd12f34ASd231.png"
 };
@@ -34,6 +34,10 @@ let contactList = [
     },
 
 ];*/
+
+groupList = []
+
+/*
 let groupList = [
     {
         "id": 1,
@@ -66,6 +70,7 @@ let groupList = [
         "link": "hyYP6Y1VAiRBx9AMaj6gNc"
     }
 ];
+*/
 
 
 // message status - 0:sent, 1:delivered, 2:read

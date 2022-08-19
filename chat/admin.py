@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Chat, Message
+from .models import Chat, Message, ContactList
 
 
 class MessageAdmin(admin.ModelAdmin):
@@ -8,4 +8,7 @@ class MessageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Message, MessageAdmin)
+
 admin.site.register(Chat)
+
+admin.site.register(ContactList)

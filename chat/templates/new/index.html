@@ -99,12 +99,14 @@
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:'user-name' }}
     {{ link|json_script:'link' }}
+    {{ contact_list|json_script:'contact-list' }}
 
 
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const link = JSON.parse(document.getElementById('link').textContent);
         const username = JSON.parse(document.getElementById('user-name').textContent);
+        const contactListData = JSON.parse(document.getElementById('contact-list').textContent);
 
         const chatSocket = new WebSocket(
             'ws://'
@@ -119,21 +121,31 @@
         chatSocket.onopen = function (e) {
             chatSocket.send(JSON.stringify({
                 'command': 'fetch',
-                'username' : username
+                'username': username
             }))
         }
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
+            let msgData = data.event.messages;
+            let groupData = data.event.group_list;
 
-            let d = data.event.data;
-
-            for (let i = 0; i < d.length; i++) {
-                messages.push(d[i]);
+            for (let i = 0; i < msgData.length; i++) {
+                messages.push(msgData[i]);
             }
-            console.log(messages)
-            console.log(messages.length)
-            console.log(data.event.data);
+
+            for (let i = 0; i < groupData; i++) {
+                groupList.push(groupData[i]);
+            }
+            console.log('clist : ', contactListData);
+          {% comment %}  for (let i = 0; i < contactListData.length; i++) {
+                contactList.push({'id':contactListData[i].contact})
+            }{% endcomment %}
+            console.log('messages  : ', messages)
+            console.log('messages.len : ', messages.length)
+            console.log('------------------');
+            console.log('gp : ', groupList);
+            console.log('gp.l : ', groupList.length);
             init();
 
 
@@ -161,12 +173,12 @@
         };
 
         function sendMessageToConsumers(msg) {
-            console.log(msg);
-            console.log(chatSocket.readyState);
+            console.log('send message to consumers.py : ', msg);
             chatSocket.send(JSON.stringify({
                 'message': msg.body,
                 'command': 'new_message',
-                'username': username
+                'username': username,
+                'contain_image': false
             }));
 
 

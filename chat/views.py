@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
 from accounts.forms import ProfileForm
 from accounts.models import Profile
-from chat.models import Message, Chat
+from chat.models import Message, Chat, ContactList
 from .forms import CreateNewGroupForm, UpdateChatProfileForm
 
 
@@ -52,6 +52,7 @@ def index(request):
 
             # user join
             new_chat.members.add(request.user)
+
             return redirect(new_chat.get_absolute_url())
 
         # update profile
@@ -111,9 +112,11 @@ def chat_view(request, room_name, link):
 
 @login_required
 def new(request, room_name, link):
+    contact_list = ContactList.objects.filter(owner=request.user)
     context = {
         'room_name': room_name,
         'link': link,
-        'username': request.user.username
+        'contact_list': contact_list,
+        'user': request.user  # used in js
     }
     return render(request, 'new/index.html', context)

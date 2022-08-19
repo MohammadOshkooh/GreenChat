@@ -11,6 +11,7 @@ from rest_framework.renderers import JSONRenderer
 from chat.models import Message, Chat
 from .serializers import ChatSerializersWithImage, ChatSerializersWithoutImage
 from chat.api.serializers import ChatSerializers, MessageSerializers
+# from
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -65,11 +66,11 @@ class ChatConsumer(WebsocketConsumer):
         group_list = self.get_group_list()
 
         self.send_to_websocket(
-            event={'messaages': messages, 'group_list': group_list, 'command': 'fetch'})
+            event={'messages': messages, 'group_list': group_list, 'command': 'fetch'})
 
     def get_messages(self):
         """
-        fetch messages from db
+        fetch messages from db and serialized and then convert to json
         :return: messages json
         """
         # get message model (with or without image)
@@ -96,7 +97,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def get_group_list(self):
         """
-        fetch group list from db
+        fetch group list from db and serialized and then convert to json
         :return: group list json
         """
         group_list = []
@@ -107,6 +108,13 @@ class ChatConsumer(WebsocketConsumer):
 
         group_list_json = self.serializers(data=group_list, serializers_class=ChatSerializers)
         return group_list_json
+
+    def get_contact_list(self):
+        """
+        fetch contact list from db and serialized and then convert to json
+        :return: contact list json
+        """
+        # contact_list =
 
     def serializers(self, data, serializers_class):
         """
@@ -123,7 +131,7 @@ class ChatConsumer(WebsocketConsumer):
             many_value = True
 
         serialized = serializers_class(data, many=many_value)
-        
+
         content = JSONRenderer().render(data=serialized.data)
 
         # Fix  NameError: name 'true' is not defined
