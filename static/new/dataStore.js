@@ -5,23 +5,7 @@ let user = {
     pic: "images/asdsd12f34ASd231.png"
 };
 
-let contactList = [
-    {
-        id: 1,
-        name: "mphammad069",
-        pic: "http://127.0.0.1:8001/media/http%3A/127.0.0.1%3A8000/static/img/index.png"
-    },
-    {
-        id: 2,
-        name: "q",
-        pic: "http://127.0.0.1:8001/media/http%3A/127.0.0.1%3A8000/static/img/index.png"
-    },
-    {
-        id: 3,
-        name: "mohammad",
-        pic: "http://127.0.0.1:8001/media/http%3A/127.0.0.1%3A8000/static/img/index.png"
-    }
-];
+let contactList = [];
 
 /*
 let contactList = [

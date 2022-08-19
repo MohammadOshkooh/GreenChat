@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
 from accounts.forms import ProfileForm
-from accounts.models import Profile
+from accounts.models import CustomUser
 from chat.models import Message, Chat, ContactList
 from .forms import CreateNewGroupForm, UpdateChatProfileForm
 
@@ -14,9 +14,9 @@ def index(request):
     user = request.user
 
     # user profile
-    profile = Profile.objects.filter(user=user).first()
-    if profile is None:
-        profile = Profile.objects.create(user=user)
+    profile = CustomUser.objects.filter(username=user.username).first()
+    # if profile is None:
+    #     profile = CustomUser.objects.create(user=user)
 
     # user chats
     chats = []

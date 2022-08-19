@@ -23,9 +23,6 @@ class ChatSerializers(serializers.ModelSerializer):
 
 
 class ContactListSerializers(serializers.ModelSerializer):
-    # id = serializers.IntegerField(source='contact')
-    # name = serializers.IntegerField(source='contact')
-    # pic = serializers.ImageField(source='contact.image')
 
     class Meta:
         model = ContactList

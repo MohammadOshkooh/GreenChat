@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('chat', '0001_initial'),
+        ('chat', '0002_alter_chat_link'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='chat',
             name='link',
-            field=models.CharField(default='RVKqVUnGXNEsJgKjxs5t', max_length=50, unique=True),
+            field=models.CharField(default='vKmitYbf7VTgNnEQMnwO', max_length=50, unique=True),
         ),
     ]

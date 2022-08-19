@@ -99,14 +99,14 @@
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:'user-name' }}
     {{ link|json_script:'link' }}
-    {{ contact_list|json_script:'contact-list' }}
+    {#    {{ contact_list|json_script:'contact-list' }}#}
 
 
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const link = JSON.parse(document.getElementById('link').textContent);
         const username = JSON.parse(document.getElementById('user-name').textContent);
-        const contactListData = JSON.parse(document.getElementById('contact-list').textContent);
+        {#const contactListData = JSON.parse(document.getElementById('contact-list').textContent);#}
 
         const chatSocket = new WebSocket(
             'ws://'
@@ -129,6 +129,8 @@
             const data = JSON.parse(e.data);
             let msgData = data.event.messages;
             let groupData = data.event.group_list;
+            let contactListData = data.event.contact_list;
+
 
             for (let i = 0; i < msgData.length; i++) {
                 messages.push(msgData[i]);
@@ -137,15 +139,19 @@
             for (let i = 0; i < groupData; i++) {
                 groupList.push(groupData[i]);
             }
-            console.log('clist : ', contactListData);
-          {% comment %}  for (let i = 0; i < contactListData.length; i++) {
-                contactList.push({'id':contactListData[i].contact})
-            }{% endcomment %}
+
+            for (let i = 0; i < contactListData.length; i++) {
+                contactList.push(contactListData[i])
+            }
+
+            console.log('in ::::::; ', contactListData)
+
             console.log('messages  : ', messages)
             console.log('messages.len : ', messages.length)
             console.log('------------------');
             console.log('gp : ', groupList);
             console.log('gp.l : ', groupList.length);
+            console.log('contactList : ', contactList);
             init();
 
 

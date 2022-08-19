@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 from .models import Chat, Message, ContactList
+from django.contrib.auth.admin import UserAdmin
 
 
 class MessageAdmin(admin.ModelAdmin):

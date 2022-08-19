@@ -221,3 +221,5 @@ CHANNEL_LAYERS = {
 }
 
 CSRF_TRUSTED_ORIGINS = ['https://green-chat-x.herokuapp.com']
+
+AUTH_USER_MODEL = 'accounts.CustomUser'

@@ -8,10 +8,9 @@ from django.contrib.auth import get_user_model
 from django.utils.crypto import get_random_string
 from rest_framework.renderers import JSONRenderer
 
-from chat.models import Message, Chat
-from .serializers import ChatSerializersWithImage, ChatSerializersWithoutImage
-from chat.api.serializers import ChatSerializers, MessageSerializers
-# from
+from accounts.api.serializers import UserSerializers
+from chat.models import Message, Chat, ContactList
+from chat.api.serializers import ChatSerializers, MessageSerializers, ContactListSerializers
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -64,9 +63,10 @@ class ChatConsumer(WebsocketConsumer):
         """
         messages = self.get_messages()
         group_list = self.get_group_list()
+        contact_list = self.get_contact_list()
 
         self.send_to_websocket(
-            event={'messages': messages, 'group_list': group_list, 'command': 'fetch'})
+            event={'messages': messages, 'group_list': group_list, 'contact_list': contact_list, 'command': 'fetch'})
 
     def get_messages(self):
         """
@@ -114,7 +114,19 @@ class ChatConsumer(WebsocketConsumer):
         fetch contact list from db and serialized and then convert to json
         :return: contact list json
         """
-        # contact_list =
+        all_users = get_user_model().objects.all()
+
+        contact_list_model = ContactList.objects.filter(owner=self.user).first()
+
+        contact_list = []
+
+        for user in all_users:
+            if user in contact_list_model.contact.all():
+                contact_list.append(user)
+
+        contact_list_json = self.serializers(data=contact_list, serializers_class=UserSerializers)
+
+        return contact_list_json
 
     def serializers(self, data, serializers_class):
         """
@@ -124,10 +136,8 @@ class ChatConsumer(WebsocketConsumer):
         :return: Serializing and then to jsan and finally convert to eval and return theme
         """
         many_value = (lambda l: True if data.__class__.__name__ == 'QuerySet' else False)(data)
-        obj = (lambda l: data.first() if data.__class__.__name__ == 'QuerySet' else data)(data)
 
-
-        if serializers_class == ChatSerializers:
+        if serializers_class in [ChatSerializers, UserSerializers]:
             many_value = True
 
         serialized = serializers_class(data, many=many_value)

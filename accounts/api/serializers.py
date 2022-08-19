@@ -1,15 +1,14 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from accounts.models import Profile
+from accounts.models import CustomUser
 
 
-class ProfileSerializers(serializers.ModelSerializer):
-    name = serializers.CharField(source='user')
-    id = serializers.IntegerField(source='user.id')
+class UserSerializers(serializers.ModelSerializer):
+    name = serializers.CharField(source='username')
     pic = serializers.ImageField(source='image')
 
     class Meta:
-        model = Profile
+        model = CustomUser
         fields = ['id', 'name', 'pic']
 

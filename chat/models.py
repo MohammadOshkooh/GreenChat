@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 
-from accounts.models import Profile
+from accounts.models import CustomUser
 
 
 class Chat(models.Model):
@@ -46,8 +46,8 @@ class Message(models.Model):
 
 
 class ContactList(models.Model):
-    owner = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    contact = models.ManyToManyField(get_user_model())
+    owner = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    contact = models.ManyToManyField(get_user_model(), related_name='contact_list')
 
     def __str__(self):
-        return self.owner
+        return self.owner.username
