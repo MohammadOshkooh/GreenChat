@@ -1,3 +1,4 @@
+/*
 // GET request
 
 const fetchMessages = () => {
@@ -11,10 +12,11 @@ const fetchMessages = () => {
                 df.push(dJson[i]);
             }
             console.log(df)
-         /*   console.log('in fetch msg')
+         /!*   console.log('in fetch msg')
             console.log(messages.length, " <<<< ");
-            console.log(messages)*/
+            console.log(messages)*!/
         })
         .catch((error) => console.log(error));
     return df;
 };
+*/

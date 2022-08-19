@@ -118,7 +118,7 @@
 
         chatSocket.onopen = function (e) {
             chatSocket.send(JSON.stringify({
-                'command': 'fetch_message',
+                'command': 'fetch',
                 'username' : username
             }))
         }
@@ -138,7 +138,7 @@
 
 
             {#document.getElementById('count').innerText = messages.event['count'];#}
-            if (data.event.command === 'fetch_message') {
+            if (data.event.command === 'fetch') {
 
             } else if (data.event.command === 'new_message') {
 

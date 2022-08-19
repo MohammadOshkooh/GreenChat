@@ -22,11 +22,6 @@ class ChatConsumer(WebsocketConsumer):
         self.room_name = None
         self.user = None
 
-    command = {
-        'new_message': new_message,
-        'fetch': fetch,
-    }
-
     def new_message(self, data, contain_image):
         """
         Receive new message from websocket and save on the db
@@ -104,7 +99,12 @@ class ChatConsumer(WebsocketConsumer):
         fetch group list from db
         :return: group list json
         """
-        group_list = Chat.objects.filter(members__in=self.user)
+        group_list = []
+
+        for chat in Chat.objects.all():
+            if self.user in chat.members.all():
+                group_list.append(chat)
+
         group_list_json = self.serializers(data=group_list, serializers_class=ChatSerializers)
         return group_list_json
 
@@ -118,8 +118,12 @@ class ChatConsumer(WebsocketConsumer):
         many_value = (lambda l: True if data.__class__.__name__ == 'QuerySet' else False)(data)
         obj = (lambda l: data.first() if data.__class__.__name__ == 'QuerySet' else data)(data)
 
-        serialized = serializers_class(data, many=many_value)
 
+        if serializers_class == ChatSerializers:
+            many_value = True
+
+        serialized = serializers_class(data, many=many_value)
+        
         content = JSONRenderer().render(data=serialized.data)
 
         # Fix  NameError: name 'true' is not defined
@@ -130,6 +134,11 @@ class ChatConsumer(WebsocketConsumer):
         content_list = eval(content)
 
         return content_list
+
+    command = {
+        'new_message': new_message,
+        'fetch': fetch,
+    }
 
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -157,7 +166,7 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
 
         # assign user
-        self.user = get_user_model().objects.get(text_data_json['username'])
+        self.user = get_user_model().objects.get(username=text_data_json['username'])
 
         command = text_data_json['command']
 
