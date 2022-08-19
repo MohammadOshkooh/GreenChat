@@ -22,7 +22,18 @@ class ChatConsumer(WebsocketConsumer):
         self.room_name = None
         self.user = None
 
-    def new_message_without_image(self, data, contain_image):
+    command = {
+        'new_message': new_message,
+        'fetch': fetch,
+    }
+
+    def new_message(self, data, contain_image):
+        """
+        Receive new message from websocket and save on the db
+        :param data:
+        :param contain_image:
+        :return:
+        """
         user = self.user
 
         if contain_image is True:
@@ -37,7 +48,7 @@ class ChatConsumer(WebsocketConsumer):
                                                    contain_image=True)
 
             # convert object to json
-            message_model_json = self.serializers(message_model, MessageSerializers, contain_image=True)
+            message_model_json = self.serializers(message_model, MessageSerializers)
 
             self.send_to_room({'data': message_model_json, 'command': 'new_message', 'contain_image': True})
 
@@ -46,17 +57,20 @@ class ChatConsumer(WebsocketConsumer):
             message_model = Message.objects.create(sender=user, body=data['message'], related_chat=self.related_chat)
 
             # convert object to json
-            message_model_json = self.serializers(message_model, MessageSerializers, contain_body=True)
+            message_model_json = self.serializers(message_model, MessageSerializers)
 
             self.send_to_room({'data': message_model_json, 'command': 'new_message', 'contain_image': False})
 
-
-    def fetch_message(self):
+    def fetch(self):
+        """
+        Fetch data from db
+        :return:  send fetched data to websocket
+        """
         messages = self.get_messages()
         group_list = self.get_group_list()
 
         self.send_to_websocket(
-            event={'messaages': messages, 'group_list': group_list, 'command': 'fetch_message'})
+            event={'messaages': messages, 'group_list': group_list, 'command': 'fetch'})
 
     def get_messages(self):
         """
@@ -94,21 +108,17 @@ class ChatConsumer(WebsocketConsumer):
         group_list_json = self.serializers(data=group_list, serializers_class=ChatSerializers)
         return group_list_json
 
-    command = {
-        'new_message': new_message,
-        'fetch_message': fetch_message,
-        'img': image,
-    }
-
-    def serializers(self, data, serializers_class, contain_image=False, contain_body=False):
-        many = (lambda l: True if data.__class__.__name__ == 'QuerySet' else False)(data)
+    def serializers(self, data, serializers_class):
+        """
+        Serializing the data passed to it
+        :param data:
+        :param serializers_class:
+        :return: Serializing and then to jsan and finally convert to eval and return theme
+        """
+        many_value = (lambda l: True if data.__class__.__name__ == 'QuerySet' else False)(data)
         obj = (lambda l: data.first() if data.__class__.__name__ == 'QuerySet' else data)(data)
 
-        if serializers_class == 'MessageSerializers':
-            if obj.contain_image is False:
-                serialized = serializers_class(data, many=many)
-            else:
-                serialized = serializers_class(data, many=many)
+        serialized = serializers_class(data, many=many_value)
 
         content = JSONRenderer().render(data=serialized.data)
 
@@ -149,13 +159,13 @@ class ChatConsumer(WebsocketConsumer):
         # assign user
         self.user = get_user_model().objects.get(text_data_json['username'])
 
+        command = text_data_json['command']
+
         # check command
         if command == 'new_message':
             self.new_message(data=text_data_json)
-        elif command == 'img':
-            self.image(data=text_data_json)
-        else:
-            self.fetch_message()
+        elif command == 'fetch':
+            self.fetch()
 
     # Send message to room group
     def send_to_room(self, data):
