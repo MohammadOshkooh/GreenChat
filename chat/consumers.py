@@ -66,7 +66,8 @@ class ChatConsumer(WebsocketConsumer):
         contact_list = self.get_contact_list()
 
         self.send_to_websocket(
-            event={'messages': messages, 'group_list': group_list, 'contact_list': contact_list, 'command': 'fetch'})
+            event={'messages': messages, 'group_list': group_list, 'contact_list': contact_list,
+                   'user_info': self.get_user_info(), 'all_users': self.get_all_users_list(), 'command': 'fetch'})
 
     def get_messages(self):
         """
@@ -127,6 +128,24 @@ class ChatConsumer(WebsocketConsumer):
         contact_list_json = self.serializers(data=contact_list, serializers_class=UserSerializers)
 
         return contact_list_json
+
+    def get_user_info(self):
+        """
+        get user current info
+        :return: user info json
+        """
+        user_model = [get_user_model().objects.get(username=self.user.username)]
+        user_model_json = self.serializers(data=user_model, serializers_class=UserSerializers)
+        return user_model_json
+
+    def get_all_users_list(self):
+        """
+        get all users  list
+        :return: all users list json
+        """
+        users_list = get_user_model().objects.all()
+        users_list_json = self.serializers(users_list, UserSerializers)
+        return users_list_json
 
     def serializers(self, data, serializers_class):
         """

@@ -130,6 +130,10 @@
             let msgData = data.event.messages;
             let groupData = data.event.group_list;
             let contactListData = data.event.contact_list;
+            let userInfo = data.event.user_info;
+            let allUsers = data.event.all_users;
+
+            console.log('u : ', userInfo)
 
 
             for (let i = 0; i < msgData.length; i++) {
@@ -140,22 +144,16 @@
                 groupList.push(groupData[i]);
             }
 
-            for (let i = 0; i < contactListData.length; i++) {
-                contactList.push(contactListData[i])
+            for (let i = 0; i < allUsers.length; i++) {
+                contactList.push(allUsers[i])
             }
 
-            console.log('in ::::::; ', contactListData)
+            user = userInfo[0];
 
-            console.log('messages  : ', messages)
-            console.log('messages.len : ', messages.length)
-            console.log('------------------');
-            console.log('gp : ', groupList);
-            console.log('gp.l : ', groupList.length);
-            console.log('contactList : ', contactList);
+            console.log('user  ; ', user)
+
             init();
 
-
-            {#document.getElementById('count').innerText = messages.event['count'];#}
             if (data.event.command === 'fetch') {
 
             } else if (data.event.command === 'new_message') {

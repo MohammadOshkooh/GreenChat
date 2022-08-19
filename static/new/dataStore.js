@@ -1,8 +1,8 @@
 let user = {
-    id: 0,
+  /*  id: 0,
     name: username,
     number: "+91 91231 40293",
-    pic: "images/asdsd12f34ASd231.png"
+    pic: "images/asdsd12f34ASd231.png"*/
 };
 
 let contactList = [];
