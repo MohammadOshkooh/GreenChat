@@ -107,7 +107,7 @@ let viewChatList = () => {
 			<img src="${elem.isGroup ? elem.group.pic : elem.contact.pic}" alt="Profile Photo" class="img-fluid rounded-circle mr-2" style="height:50px;">
 			<div class="w-50">
 				<div class="name">${elem.name}</div>
-				<div class="small last-message">${elem.isGroup ? contactList.find(contact => contact.id === elem.msg.sender).number + ": " : ""}${elem.msg.sender === user.id ? "<i class=\"" + statusClass + " fa-check-circle mr-1\"></i>" : ""} ${elem.msg.body}</div>
+				<div class="small last-message">${elem.isGroup ? contactList.find(contact => contact.id === elem.msg.sender).name + ": " : ""}${elem.msg.sender === user.id ? "<i class=\"" + statusClass + " fa-check-circle mr-1\"></i>" : ""} ${elem.msg.body}</div>
 			</div>
 			<div class="flex-grow-1 text-right">
 				<div class="small time">${mDate(elem.msg.time).chatListFormat()}</div>
@@ -140,7 +140,7 @@ let addMessageToMessageArea = (msg) => {
 
     let htmlForGroup = `
 	<div class="small font-weight-bold text-primary">
-		${contactList.find(contact => contact.id === msg.sender).number}
+		${contactList.find(contact => contact.id === msg.sender).name}
 	</div>
 	`;
 
