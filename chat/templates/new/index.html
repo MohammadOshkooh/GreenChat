@@ -125,32 +125,39 @@
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            let msgData = data.event.messages;
-            let groupData = data.event.group_list;
-            let contactListData = data.event.contact_list;
-            let userInfo = data.event.user_info;
-            let allUsers = data.event.all_users;
-
-            for (let i = 0; i < msgData.length; i++) {
-                messages.push(msgData[i]);
-            }
-
-            for (let i = 0; i < groupData.length; i++) {
-                groupList.push(groupData[i]);
-            }
-
-            for (let i = 0; i < allUsers.length; i++) {
-                contactList.push(allUsers[i])
-            }
-
-            user = userInfo[0];
-
-            init();
 
             if (data.event.command === 'fetch') {
+                const msgData = data.event.messages;
+                const groupData = data.event.group_list;
+                const contactListData = data.event.contact_list;
+                const userInfo = data.event.user_info;
+                const allUsers = data.event.all_users;
+
+                for (let i = 0; i < msgData.length; i++) {
+                    messages.push(msgData[i]);
+                }
+
+                for (let i = 0; i < groupData.length; i++) {
+                    groupList.push(groupData[i]);
+                }
+
+                for (let i = 0; i < allUsers.length; i++) {
+                    contactList.push(allUsers[i])
+                }
+
+                user = userInfo[0];
+
+                console.log('messages : ', msgData);
+
+                init();
 
             } else if (data.event.command === 'new_message') {
-
+                addMessageToMessageArea(data.event.data);
+                {#messages.push(data.event.data);#}
+                console.log(data.event.data)
+                console.log('message in new_message : ', messages);
+                generateChatList();
+                console.log('chat list generated')
             }
 
         };

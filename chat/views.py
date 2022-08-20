@@ -112,7 +112,9 @@ def chat_view(request, room_name, link):
 
 @login_required
 def new(request, room_name, link):
-    contact_list = ContactList.objects.filter(owner=request.user)
+    contact_list = ContactList.objects.filter(owner=request.user).first()
+    if contact_list is None:
+        contact_list = ContactList.objects.create(owner=request.user)
     context = {
         'room_name': room_name,
         'link': link,

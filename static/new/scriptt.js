@@ -240,7 +240,7 @@ let sendMessage = () => {
         recvId: chat.isGroup ? chat.group.id : chat.contact.id,
         recvIsGroup: chat.isGroup
     };
-    addMessageToMessageArea(msg);
+    // addMessageToMessageArea(msg);
     MessageUtils.addMessage(msg);
     generateChatList();
     sendMessageToConsumers(msg);
