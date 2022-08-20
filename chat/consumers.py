@@ -22,7 +22,7 @@ class ChatConsumer(WebsocketConsumer):
         self.room_name = None
         self.user = None
 
-    def new_message(self, data, contain_image):
+    def new_message(self, data, contain_image=False):
         """
         Receive new message from websocket and save on the db
         :param data:
@@ -48,8 +48,11 @@ class ChatConsumer(WebsocketConsumer):
             self.send_to_room({'data': message_model_json, 'command': 'new_message', 'contain_image': True})
 
         else:
+            message = data['message']
             # save on db
-            message_model = Message.objects.create(sender=user, body=data['message'], related_chat=self.related_chat)
+            message_model = Message.objects.create(sender=user, body=message['body'], related_chat=self.related_chat,
+                                                   time=message['time'], status=message['status'],
+                                                   Received_from_the_group=message['recvIsGroup'])
 
             # convert object to json
             message_model_json = self.serializers(message_model, MessageSerializers)
@@ -201,7 +204,9 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-
+        print('\n\n\n\n\n\n\n\n\n\n')
+        print(text_data_json)
+        print('\n\n\n\n\n\n\n\n\n\n')
         # assign user
         self.user = get_user_model().objects.get(username=text_data_json['username'])
 

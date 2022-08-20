@@ -235,6 +235,8 @@ let sendMessage = () => {
         body: value,
         time: mDate().toString(),
         status: 1,
+        // recvId: 1,
+        // recvIsGroup: true
         recvId: chat.isGroup ? chat.group.id : chat.contact.id,
         recvIsGroup: chat.isGroup
     };

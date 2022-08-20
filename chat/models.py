@@ -27,10 +27,15 @@ class Chat(models.Model):
 
 
 class Message(models.Model):
+    """
+    Message model
+
+    message status = 0:sent, 1:delivered, 2:read
+
+    """
     sender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     body = models.TextField(null=True, blank=True, default='body')
     time = models.DateTimeField(auto_now_add=True)
-    # message status = 0:sent, 1:delivered, 2:read
     status = models.IntegerField(default=0)
     related_chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True,

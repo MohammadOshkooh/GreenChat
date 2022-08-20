@@ -99,14 +99,12 @@
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:'user-name' }}
     {{ link|json_script:'link' }}
-    {#    {{ contact_list|json_script:'contact-list' }}#}
 
 
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const link = JSON.parse(document.getElementById('link').textContent);
         const username = JSON.parse(document.getElementById('user-name').textContent);
-        {#const contactListData = JSON.parse(document.getElementById('contact-list').textContent);#}
 
         const chatSocket = new WebSocket(
             'ws://'
@@ -133,14 +131,11 @@
             let userInfo = data.event.user_info;
             let allUsers = data.event.all_users;
 
-            console.log('u : ', userInfo)
-
-
             for (let i = 0; i < msgData.length; i++) {
                 messages.push(msgData[i]);
             }
 
-            for (let i = 0; i < groupData; i++) {
+            for (let i = 0; i < groupData.length; i++) {
                 groupList.push(groupData[i]);
             }
 
@@ -149,8 +144,6 @@
             }
 
             user = userInfo[0];
-
-            console.log('user  ; ', user)
 
             init();
 
@@ -179,7 +172,7 @@
         function sendMessageToConsumers(msg) {
             console.log('send message to consumers.py : ', msg);
             chatSocket.send(JSON.stringify({
-                'message': msg.body,
+                'message': msg,
                 'command': 'new_message',
                 'username': username,
                 'contain_image': false
