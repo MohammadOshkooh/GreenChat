@@ -235,12 +235,9 @@ let sendMessage = () => {
         body: value,
         time: mDate().toString(),
         status: 1,
-        // recvId: 1,
-        // recvIsGroup: true
         recvId: chat.isGroup ? chat.group.id : chat.contact.id,
         recvIsGroup: chat.isGroup
     };
-    // addMessageToMessageArea(msg);
     MessageUtils.addMessage(msg);
     generateChatList();
     sendMessageToConsumers(msg);
@@ -260,6 +257,14 @@ let hideProfileSettings = () => {
 window.addEventListener("resize", e => {
     if (window.innerWidth > 575) showChatList();
 });
+
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
 
 let init = () => {
     DOM.username.innerHTML = user.name;

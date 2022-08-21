@@ -19,7 +19,7 @@ let contactList = [
 
 ];*/
 
-groupList = []
+groupList = [];
 
 /*
 let groupList = [
