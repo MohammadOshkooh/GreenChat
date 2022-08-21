@@ -88,6 +88,7 @@ let populateChatList = () => {
                 chatList[present[chat.name]].msg = msg;
                 chatList[present[chat.name]].unread += chat.unread;
             } else {
+                console.log('c : ',chatList);
                 present[chat.name] = chatList.length;
                 chatList.push(chat);
             }
@@ -140,7 +141,7 @@ let addMessageToMessageArea = (msg) => {
 
     let htmlForGroup = `
 	<div class="small font-weight-bold text-primary">
-		${contactList.find(contact => contact.id === msg.sender).name}
+		${msg.__str__}
 	</div>
 	`;
 

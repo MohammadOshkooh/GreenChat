@@ -109,46 +109,44 @@
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-            + link
+            {% comment %}       + '/ws/chat/'
+                   + roomName
+                   + '/'
+                   + link{% endcomment %}
             + '/'
         );
 
         chatSocket.onopen = function (e) {
             chatSocket.send(JSON.stringify({
                 'command': 'fetch',
-                'username': username
+                'username': username,
             }))
         }
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
 
-            if (data.event.command === 'fetch') {
-                messages = fetchFromApi('http://127.0.0.1:8001/api/message/');
-                groupList = fetchFromApi('http://127.0.0.1:8001/api/chat/');
-                contactList = fetchFromApi('http://127.0.0.1:8001/accounts/api/');
 
-                setTimeout(() => {
-                    for (let i = 0; i < contactList.length; i++) {
-                        console.log(contactList[i].id)
-                        if (contactList[i].id === {{ user.id }}) {
-                            user = contactList[i];
-                        }
+            messages = fetchFromApi('http://127.0.0.1:8001/api/message/');
+            groupList = fetchFromApi('http://127.0.0.1:8001/api/chat/');
+            contactList = fetchFromApi('http://127.0.0.1:8001/accounts/api/');
+
+            setTimeout(() => {
+                for (let i = 0; i < contactList.length; i++) {
+                    if (contactList[i].id === {{ user.id }}) {
+                        user = contactList[i];
                     }
-                    init();
-                }, 300);
+                }
+                init();
+            }, 500);
+
+
+            if (data.event.command === 'fetch') {
 
 
             } else if (data.event.command === 'new_message') {
                 addMessageToMessageArea(data.event.data);
-                {#messages.push(data.event.data);#}
-                console.log(data.event.data)
-                console.log('message in new_message : ', messages);
                 generateChatList();
-                console.log('chat list generated')
             }
 
         };
@@ -168,7 +166,6 @@
         };
 
         function sendMessageToConsumers(msg) {
-            console.log('send message to consumers.py : ', msg);
             chatSocket.send(JSON.stringify({
                 'message': msg,
                 'command': 'new_message',
