@@ -5,12 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Whatsapp</title>
+    <title>Green Chat</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
           integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
           integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'new/style.css' %}">
+    <link rel="stylesheet" href="{% static 'new/alertify/themes/alertify.core.css' %}"/>
+    <link rel="stylesheet" href="{% static 'new/alertify/themes/alertify.default.css' %}" id="toggleCSS"/>
 </head>
 
 <body>
@@ -29,7 +31,11 @@
         crossorigin="anonymous"></script>
 <script src="{% static 'new/dataStore.js' %}"></script>
 <script src="{% static  'new/date-utils.js' %}"></script>
-<script src="{% static 'new/scriptttt.js' %}"></script>
+<script src="{% static 'new/script.js' %}"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="{% static 'new/alertify/lib/alertify.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="{% static 'new/fetch.js' %}"></script>
 </body>
 
 </html>

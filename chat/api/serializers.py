@@ -5,7 +5,7 @@ from chat.models import Message, Chat, ContactList
 
 class MessageSerializers(serializers.ModelSerializer):
     recvId = serializers.IntegerField(source='related_chat.id')
-    recvIsGroup = serializers.BooleanField(source='Received_from_the_group')
+    recvIsGroup = serializers.BooleanField(source='received_from_the_group')
 
     class Meta:
         model = Message

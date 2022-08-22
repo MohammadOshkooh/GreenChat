@@ -1,0 +1,9 @@
+.divclass {
+  background: #415665;
+  height: 50px;
+  width:200px;
+  border-radius: 15px;
+  padding:20px;
+  font-size:22px;
+  color:#fff;
+}

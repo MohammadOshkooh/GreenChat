@@ -55,7 +55,7 @@ class ChatConsumer(WebsocketConsumer):
             # save on db
             message_model = Message.objects.create(sender=user, body=message['body'], related_chat=chat_room,
                                                    time=message['time'], status=message['status'],
-                                                   Received_from_the_group=message['recvIsGroup'])
+                                                   received_from_the_group=message['recvIsGroup'])
 
             # convert object to json
             message_model_json = self.serializers(message_model, MessageSerializers)

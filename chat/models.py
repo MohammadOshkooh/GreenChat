@@ -18,7 +18,7 @@ class Chat(models.Model):
         return self.room_name
 
     def get_absolute_url(self):
-        return reverse('chat:chat', args=[self.room_name, self.link])
+        return reverse('chat:chat')
 
     def is_join(self, user):
         if user in self.members.all():
@@ -41,7 +41,7 @@ class Message(models.Model):
     image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True,
                               default='../static/img/index.png')
     contain_image = models.BooleanField(default=False)
-    Received_from_the_group = models.BooleanField()
+    received_from_the_group = models.BooleanField()
 
     def __str__(self):
         return self.sender.username

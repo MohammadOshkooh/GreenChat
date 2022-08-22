@@ -27,6 +27,14 @@
     <orderEntry type="library" name="jquery-3.3.1.slim" level="application" />
     <orderEntry type="library" name="popper.js" level="application" />
     <orderEntry type="library" name="axios" level="application" />
+    <orderEntry type="library" name="alertify" level="application" />
+    <orderEntry type="library" name="default" level="application" />
+    <orderEntry type="library" name="semantic" level="application" />
+    <orderEntry type="library" name="alertify.rtl" level="application" />
+    <orderEntry type="library" name="default.rtl" level="application" />
+    <orderEntry type="library" name="bootstrap.rtl" level="application" />
+    <orderEntry type="library" name="semantic.rtl" level="application" />
+    <orderEntry type="library" name="jquery-1.9.1" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

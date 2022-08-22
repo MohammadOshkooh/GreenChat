@@ -8,6 +8,4 @@ urlpatterns = [
     path('api/', include('chat.api.urls')),
     # path('<str:room_name>/<str:link>', new, name='chat'),
     path('', new, name='chat'),
-
-    # path('<str:room_name>/<str:link>', chat_view, name='chat'),
 ]

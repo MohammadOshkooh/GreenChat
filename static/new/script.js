@@ -67,10 +67,11 @@ let populateChatList = () => {
     let present = {};
 
     MessageUtils.getMessages()
+
         .sort((a, b) => mDate(a.time).subtract(b.time))
         .forEach((msg) => {
             let chat = {};
-
+            console.log('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 : ', chatList);
             chat.isGroup = msg.recvIsGroup;
             chat.msg = msg;
 
@@ -88,7 +89,6 @@ let populateChatList = () => {
                 chatList[present[chat.name]].msg = msg;
                 chatList[present[chat.name]].unread += chat.unread;
             } else {
-                console.log('c : ',chatList);
                 present[chat.name] = chatList.length;
                 chatList.push(chat);
             }

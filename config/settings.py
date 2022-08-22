@@ -187,8 +187,8 @@ ACCOUNT_FORMS = {
 
 ACCOUNT_EMAIL_REQUIRED = False
 
-LOGIN_REDIRECT_URL = reverse_lazy('chat:index')
-SIGNIN_REDIRECT_URL = reverse_lazy('chat:index')
+LOGIN_REDIRECT_URL = reverse_lazy('chat:chat')
+SIGNIN_REDIRECT_URL = reverse_lazy('chat:chat')
 
 # Channels
 

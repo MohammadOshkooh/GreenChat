@@ -14,7 +14,7 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                            aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v text-white"></i></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">New Group</a>
+                            <a class="dropdown-item" href="#" onclick="createNewGroup()">New Group</a>
                             <a class="dropdown-item" href="#">Archived</a>
                             <a class="dropdown-item" href="#">Starred</a>
                             <a class="dropdown-item" href="#">Settings</a>
@@ -100,8 +100,27 @@
     {{ request.user.username|json_script:'user-name' }}
     {{ link|json_script:'link' }}
 
+    <form action="" id="new-group-form" style="display: none" method="post">
+    {% csrf_token %}
+        <input type="hidden" name="new-group-name" id="new-group-name" value="">
+    </form>
 
     <script>
+
+
+        function createNewGroup() {
+            alertify.prompt("Enter group name", function (e, str) {
+                if (e) {
+                    alertify.success("You've clicked OK and typed: " + str);
+                    document.getElementById('new-group-name').value = str;
+                    document.getElementById("new-group-form").submit();
+                } else {
+                    alertify.error("You've clicked Cancel");
+                }
+            }, "");
+            return false;
+        }
+
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const link = JSON.parse(document.getElementById('link').textContent);
         const username = JSON.parse(document.getElementById('user-name').textContent);
@@ -110,9 +129,9 @@
             'ws://'
             + window.location.host
             {% comment %}       + '/ws/chat/'
-                   + roomName
-                   + '/'
-                   + link{% endcomment %}
+                           + roomName
+                           + '/'
+                           + link{% endcomment %}
             + '/'
         );
 
@@ -138,6 +157,7 @@
                     }
                 }
                 init();
+                console.log('CL: ', chatList);
             }, 500);
 
 
@@ -173,40 +193,37 @@
                 'contain_image': false
             }));
 
-
             {% comment %}
-                  chatSocket.addEventListener("add", (ev) => {
-                      chatSocket.send(JSON.stringify({
-                          'message': msg.body,
-                          'command': 'new_message',
-                          'username': username
-                      }));
-                  });
-                  {% endcomment %}
+                          chatSocket.addEventListener("add", (ev) => {
+                              chatSocket.send(JSON.stringify({
+                                  'message': msg.body,
+                                  'command': 'new_message',
+                                  'username': username
+                              }));
+                          });
+                          {% endcomment %}
         }
 
         {% comment %}
-                document.querySelector('#chat-profile').onclick = function (e) {
-                    document.getElementById('update-btn').style.display = ''
-                };
+                    document.querySelector('#chat-profile').onclick = function (e) {
+                        document.getElementById('update-btn').style.display = ''
+                    };
 
-                document.querySelector('#send-image').onchange = function (e) {
-                    if (this.file || this.files[0]) {
-                        var FR = new FileReader();
-                        FR.addEventListener('load', function (e) {
-                            chatSocket.send(JSON.stringify({
-                                'message': e.target.result,
-                                'command': 'img',
-                                'username': username
-                            }));
-                        });
-                        FR.readAsDataURL(this.files[0]);
+                    document.querySelector('#send-image').onchange = function (e) {
+                        if (this.file || this.files[0]) {
+                            var FR = new FileReader();
+                            FR.addEventListener('load', function (e) {
+                                chatSocket.send(JSON.stringify({
+                                    'message': e.target.result,
+                                    'command': 'img',
+                                    'username': username
+                                }));
+                            });
+                            FR.readAsDataURL(this.files[0]);
+                        }
                     }
-                }
-          {% endcomment %}
+              {% endcomment %}
 
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-    <script src="{% static 'new/fetchhh.js' %}"></script>
 
 {% endblock %}

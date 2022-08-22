@@ -3,6 +3,8 @@ import os
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
+from django.views.generic import TemplateView
+
 from accounts.forms import ProfileForm
 from accounts.models import CustomUser
 from chat.models import Message, Chat, ContactList
@@ -115,9 +117,25 @@ def new(request):
     contact_list = ContactList.objects.filter(owner=request.user).first()
     if contact_list is None:
         contact_list = ContactList.objects.create(owner=request.user)
+
+    if request.method == 'POST':
+        # create new group
+        group_name = request.POST.get('new-group-name')
+
+        # create
+        new_chat = Chat.objects.create(room_name=group_name, owner=request.user,
+                                       link=request.path + '/' + get_random_string(22))
+
+        # user join
+        new_chat.members.add(request.user)
+
+        # create first message
+        Message.objects.create(sender=request.user, body='Hello... \nI am the owner of the group', status=1,
+                               related_chat=new_chat, received_from_the_group=True)
+
+        return redirect(new_chat.get_absolute_url())
+
     context = {
-        # 'room_name': room_name,
-        # 'link': link,
         'contact_list': contact_list,
         'user': request.user  # used in js
     }
