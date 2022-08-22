@@ -18,7 +18,8 @@
                             <a class="dropdown-item" href="#">Archived</a>
                             <a class="dropdown-item" href="#">Starred</a>
                             <a class="dropdown-item" href="#">Settings</a>
-                            <a class="dropdown-item" href="#">Log Out</a>
+                            <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
+
                         </div>
                     </div>
                 </div>
@@ -101,7 +102,7 @@
     {{ link|json_script:'link' }}
 
     <form action="" id="new-group-form" style="display: none" method="post">
-    {% csrf_token %}
+        {% csrf_token %}
         <input type="hidden" name="new-group-name" id="new-group-name" value="">
     </form>
 
