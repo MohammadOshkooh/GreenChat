@@ -23,7 +23,14 @@ class CustomSignupForm(SignupForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['image']
+        fields = ['image', 'first_name', 'last_name', 'username', 'bio']
+        widgets = {
+            'image': forms.FileInput(attrs={'id': "profile-pic-input", 'class': "d-none", 'name': "prof-pic"}),
+            'bio': forms.TextInput(attrs={'class': "w-100 border-0 py-2 profile-input"}),
+            'username': forms.TextInput(attrs={'class': "w-100 border-0 py-2 profile-input"}),
+            'first_name': forms.TextInput(attrs={'class': "w-100 border-0 py-2 profile-input"}),
+            'last_name': forms.TextInput(attrs={'class': "w-100 border-0 py-2 profile-input"}),
+        }
 
 
 class CustomUserCreateForm(UserCreationForm):

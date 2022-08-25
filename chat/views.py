@@ -1,5 +1,6 @@
 import os
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
@@ -118,24 +119,36 @@ def new(request):
     if contact_list is None:
         contact_list = ContactList.objects.create(owner=request.user)
 
+    # user instance
+    user_model = get_user_model().objects.get(username=request.user)
+    print('>>>>> : ', user_model)
+
     if request.method == 'POST':
-        # create new group
+        # Update profile
+        profile_form = ProfileForm(instance=user_model, data=request.POST, files=request.FILES)
+        if profile_form.is_valid():
+            profile_form = profile_form.save()
+
         group_name = request.POST.get('new-group-name')
 
-        # create
-        new_chat = Chat.objects.create(room_name=group_name, owner=request.user,
-                                       link=request.path + '/' + get_random_string(22))
+        if group_name is not None:
+            # create new group
+            new_chat = Chat.objects.create(room_name=group_name, owner=request.user,
+                                           link=request.path + '/' + get_random_string(22))
 
-        # user join
-        new_chat.members.add(request.user)
+            # user join
+            new_chat.members.add(request.user)
 
-        # create first message
-        Message.objects.create(sender=request.user, body='Hello... \nI am the owner of the group', status=1,
-                               related_chat=new_chat, received_from_the_group=True)
+            # create first message
+            Message.objects.create(sender=request.user, body='Hello... I am the owner of this group', status=1,
+                                   related_chat=new_chat, received_from_the_group=True)
 
-        return redirect(new_chat.get_absolute_url())
+            return redirect(new_chat.get_absolute_url())
+    else:
+        profile_form = ProfileForm(instance=user_model,)
 
     context = {
+        'profile_form': profile_form,
         'contact_list': contact_list,
         'user': request.user  # used in js
     }

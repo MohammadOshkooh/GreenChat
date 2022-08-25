@@ -9,15 +9,7 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
 
-## install node js
-#RUN apt-get update && apt-get install -y \
-#    software-properties-common \
-#    npm
-#RUN npm install npm@latest -g && \
-#    npm install n -g && \
-#    n latest \
-#npm install alertifyjs --save
-
+v
 # install dependencies
 COPY ./requirements.txt /code/
 RUN pip install --upgrade pip

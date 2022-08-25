@@ -1,5 +1,6 @@
 {% extends 'new/base.html' %}
 {% load static %}
+{% load crispy_forms_filters %}
 {% block content %}
     <div class="container-fluid" id="main-container">
         <div class="row h-100">
@@ -19,7 +20,6 @@
                             <a class="dropdown-item" href="#">Starred</a>
                             <a class="dropdown-item" href="#">Settings</a>
                             <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
-
                         </div>
                     </div>
                 </div>
@@ -36,24 +36,41 @@
                            onclick="hideProfileSettings()"></i>
                         <div class="text-white font-weight-bold">Profile</div>
                     </div>
-                    <div class="d-flex flex-column" style="overflow:auto;">
-                        <img alt="Profile Photo" class="img-fluid rounded-circle my-5 justify-self-center mx-auto"
-                             id="profile-pic">
-                        <input type="file" id="profile-pic-input" class="d-none">
-                        <div class="bg-white px-3 py-2">
-                            <div class="text-muted mb-2"><label for="input-name">Your Name</label></div>
-                            <input type="text" name="name" id="input-name" class="w-100 border-0 py-2 profile-input">
-                        </div>
-                        <div class="text-muted p-3 small">
-                            This is not your username or pin. This name will be visible to your WhatsApp contacts.
-                        </div>
-                        <div class="bg-white px-3 py-2">
-                            <div class="text-muted mb-2"><label for="input-about">About</label></div>
-                            <input type="text" name="name" id="input-about" value=""
-                                   class="w-100 border-0 py-2 profile-input">
-                        </div>
-                    </div>
+                    <form action="" id="profile-update-form" method="post">
+                        <div class="d-flex flex-column" style="overflow:auto;">
+                            <img alt="Profile Photo" class="img-fluid rounded-circle my-5 justify-self-center mx-auto"
+                                 id="profile-pic">
 
+                            {% csrf_token %}
+                            {#                             <input type="file" id="profile-pic-input" class="d-none" name="prof-pic">#}
+                            {{ profile_form.image }}
+                            <div class="bg-white px-3 py-2">
+                                <div class="text-muted mb-2"><label for="input-name">First Name</label></div>
+                                {#                            <input type="text" name="name" id="input-name" class="w-100 border-0 py-2 profile-input">#}
+                                {{ profile_form.first_name }}
+                            </div>
+                            <div class="bg-white px-3 py-2">
+                                <div class="text-muted mb-2"><label for="input-name">Last Name</label></div>
+                                {#                            <input type="text" name="name" id="input-name" class="w-100 border-0 py-2 profile-input">#}
+                                {{ profile_form.last_name }}
+                            </div>
+                            <div class="bg-white px-3 py-2">
+                                <div class="text-muted mb-2"><label for="input-name">User Name</label></div>
+                                {#                            <input type="text" name="name" id="input-name" class="w-100 border-0 py-2 profile-input">#}
+                                {{ profile_form.username }}
+                            </div>
+                            <div class="text-muted p-3 small">
+                                This is not your username or pin. This name will be visible to your GreenChat contacts.
+                            </div>
+                            <div class="bg-white px-3 py-2">
+                                <div class="text-muted mb-2"><label for="input-about">About</label></div>
+                                {#                            <input type="text" name="name" id="input-about" value=""#}
+                                {#                                   class="w-100 border-0 py-2 profile-input">#}
+                                {{ profile_form.bio }}
+                            </div>
+                        </div>
+                        <input type="submit" value="save">
+                    </form>
                 </div>
             </div>
 

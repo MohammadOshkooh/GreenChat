@@ -33,6 +33,7 @@ class Message(models.Model):
     message status = 0:sent, 1:delivered, 2:read
 
     """
+
     sender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     body = models.TextField(null=True, blank=True, default='body')
     time = models.DateTimeField(auto_now_add=True)
