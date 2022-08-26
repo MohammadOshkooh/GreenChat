@@ -13,15 +13,15 @@ Online chat application <br>
 ⭐️ Green Chat features 
 </h3>
 
-<ul>
-  <li>Send message to chat room</li>
-  <li>Send image to chat room</li>
-  <li>Join user to chat room with group link</li>
-  <li>Create new group</li>
-  <li>Change chat room profile</li>
-  <li>Change user profile</li>
-  <li>Authentication with customized django-allauth</li>
-</ul>
+
+- [X] Send message to chat room
+- [ ] Send image to chat room
+- [X] Create new group
+- [X] Search and join
+- [X] Update user profile
+- [X] User authentication
+- [ ] Update chat room profile
+
 
 <h3> 
 ⭐  Technologies used in GreenChat
