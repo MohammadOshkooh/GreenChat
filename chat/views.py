@@ -3,6 +3,7 @@ import os
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views.generic import TemplateView
 
@@ -121,13 +122,15 @@ def new(request):
 
     # user instance
     user_model = get_user_model().objects.get(username=request.user)
-    print('>>>>> : ', user_model)
 
     if request.method == 'POST':
         # Update profile
-        profile_form = ProfileForm(instance=user_model, data=request.POST, files=request.FILES)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=user_model)
         if profile_form.is_valid():
-            profile_form = profile_form.save()
+            profile_form = profile_form.save(commit=False)
+            profile_form.image = request.FILES['image']
+            profile_form.save()
+            return redirect(reverse('chat:chat'))
 
         group_name = request.POST.get('new-group-name')
 
@@ -145,7 +148,7 @@ def new(request):
 
             return redirect(new_chat.get_absolute_url())
     else:
-        profile_form = ProfileForm(instance=user_model,)
+        profile_form = ProfileForm(instance=user_model, )
 
     context = {
         'profile_form': profile_form,

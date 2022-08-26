@@ -36,7 +36,7 @@
                            onclick="hideProfileSettings()"></i>
                         <div class="text-white font-weight-bold">Profile</div>
                     </div>
-                    <form action="" id="profile-update-form" method="post">
+                    <form action="" id="profile-update-form" method="post"  enctype="multipart/form-data">
                         <div class="d-flex flex-column" style="overflow:auto;">
                             <img alt="Profile Photo" class="img-fluid rounded-circle my-5 justify-self-center mx-auto"
                                  id="profile-pic">
@@ -172,7 +172,7 @@
 
             setTimeout(() => {
                 messages = [];
-                
+
                 for (let i = 0; i < contactList.length; i++) {
                     if (contactList[i].id === {{ user.id }}) {
                         user = contactList[i];
