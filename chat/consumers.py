@@ -209,9 +209,7 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-        print('\n\n\n\n\n\n\n\n\n\n')
-        print(text_data_json)
-        print('\n\n\n\n\n\n\n\n\n\n')
+        
         # assign user
         self.user = get_user_model().objects.get(username=text_data_json['username'])
 

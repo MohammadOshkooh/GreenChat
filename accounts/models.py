@@ -5,6 +5,6 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     image = models.ImageField(upload_to='profile/user/%y/%m/%d/', blank=True, null=True,
-                              default='http://127.0.0.1:8000/static/img/index.png')
+                              default='../static/img/index.png')
 
     bio = models.CharField(max_length=200, blank=True, null=True)

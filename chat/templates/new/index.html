@@ -162,20 +162,41 @@
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
+            console.log('fetch')
 
+            let allMessages = fetchFromApi('http://127.0.0.1:8001/api/message/');
 
-            messages = fetchFromApi('http://127.0.0.1:8001/api/message/');
-            groupList = fetchFromApi('http://127.0.0.1:8001/api/chat/');
+            let allGroups = fetchFromApi('http://127.0.0.1:8001/api/chat/');
+
             contactList = fetchFromApi('http://127.0.0.1:8001/accounts/api/');
 
             setTimeout(() => {
+                messages = [];
+                
                 for (let i = 0; i < contactList.length; i++) {
                     if (contactList[i].id === {{ user.id }}) {
                         user = contactList[i];
                     }
                 }
+
+                for (let i = 0; i < allGroups.length; i++) {
+                    for (let j = 0; j < allGroups[i].members.length; j++) {
+                        if (user.id === allGroups[i].members[j] && !isContain(groupList, allGroups[i])) {
+                            groupList.push(allGroups[i]);
+                        }
+                    }
+                }
+
+                for (let i = 0; i < allMessages.length; i++) {
+                    for (let j = 0; j < groupList.length; j++) {
+                        if (allMessages[i].recvId === groupList[j].id && !isContain(messages, allMessages[i])) {
+                            messages.push(allMessages[i])
+                        }
+                    }
+                }
                 init();
-                console.log('CL: ', chatList);
+                console.log('g l: ', groupList);
+                console.log('m l: ', messages);
             }, 500);
 
 

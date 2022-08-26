@@ -17,10 +17,18 @@ const DOM = {
     profileSettings: getById("profile-settings"),
     profilePic: getById("profile-pic"),
     profilePicInput: getById("profile-pic-input"),
-    inputName: getById("input-name"),
+    // inputName: getById("input-name"),
     username: getById("username"),
     displayPic: getById("display-pic"),
 };
+
+function isContain(array, element) {
+    for (let i = 0; i < array.length; i++)
+        if (element === array[i])
+            return true
+
+    return false
+}
 
 let mClassList = (element) => {
     return {
@@ -247,7 +255,7 @@ let sendMessage = () => {
 let showProfileSettings = () => {
     DOM.profileSettings.style.left = 0;
     DOM.profilePic.src = user.pic;
-    DOM.inputName.value = user.name;
+    // DOM.inputName.value = user.name;
 };
 
 let hideProfileSettings = () => {
@@ -274,11 +282,9 @@ let init = () => {
     DOM.profilePic.addEventListener("click", () => DOM.profilePicInput.click());
     DOM.profilePicInput.addEventListener("change", () => {
         console.log(DOM.profilePicInput.files[0]);
-        // document.getElementById('profile-update-form').submit();
-        // console.log('done!');
     });
     // DOM.profilePicInput.addEventListener("change", () => console.log(DOM.profilePicInput.files[0]));
-    DOM.inputName.addEventListener("blur", (e) => user.name = e.target.value);
+    // DOM.inputName.addEventListener("blur", (e) => user.name = e.target.value);
     generateChatList();
 
     console.log("Click the Image at top-left to open settings.");
