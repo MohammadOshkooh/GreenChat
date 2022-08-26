@@ -132,12 +132,11 @@ def new(request):
                 profile_form = profile_form.save(commit=False)
                 profile_form.image = request.FILES['image']
             profile_form.save()
-            return redirect(reverse('chat:chat'))
 
+        # Create new group
         group_name = request.POST.get('new-group-name')
 
         if group_name is not None:
-            # create new group
             new_chat = Chat.objects.create(room_name=group_name, owner=request.user,
                                            link=request.path + '/' + get_random_string(22))
 
@@ -148,7 +147,14 @@ def new(request):
             Message.objects.create(sender=request.user, body='Hello... I am the owner of this group', status=1,
                                    related_chat=new_chat, received_from_the_group=True)
 
-            return redirect(new_chat.get_absolute_url())
+        # Join (after search in search bar)
+        print(')))', request.POST)
+        join_input = request.POST.get('join-input')
+        if join_input is not None:
+            search_chat = Chat.objects.get(id=join_input)
+            search_chat.members.add(request.user)
+
+        return redirect(reverse('chat:chat'))
     else:
         profile_form = ProfileForm(instance=user_model, )
 

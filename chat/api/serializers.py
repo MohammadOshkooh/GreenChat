@@ -19,11 +19,10 @@ class ChatSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Chat
-        fields = ['id', 'name', 'members', 'pic', 'owner', 'link']
+        fields = ['id', 'name', 'members', 'pic', 'owner', 'link', '__str__']
 
 
 class ContactListSerializers(serializers.ModelSerializer):
-
     class Meta:
         model = ContactList
         fields = ['contact']

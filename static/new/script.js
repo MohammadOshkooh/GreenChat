@@ -22,6 +22,16 @@ const DOM = {
     displayPic: getById("display-pic"),
 };
 
+function assignMessages() {
+    for (let i = 0; i < allMessages.length; i++) {
+        for (let j = 0; j < groupList.length; j++) {
+            if (allMessages[i].recvId === groupList[j].id && !isContain(messages, allMessages[i])) {
+                messages.push(allMessages[i])
+            }
+        }
+    }
+}
+
 function isContain(array, element) {
     for (let i = 0; i < array.length; i++)
         if (element === array[i])
@@ -79,7 +89,6 @@ let populateChatList = () => {
         .sort((a, b) => mDate(a.time).subtract(b.time))
         .forEach((msg) => {
             let chat = {};
-            console.log('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 : ', chatList);
             chat.isGroup = msg.recvIsGroup;
             chat.msg = msg;
 
@@ -175,6 +184,26 @@ let addMessageToMessageArea = (msg) => {
 };
 
 let generateMessageArea = (elem, chatIndex) => {
+    let contain = 0;
+    for (let i = 0; i < chatList[chatIndex].group.members.length; i++) {
+        if (chatList[chatIndex].group.members[i] === user.id) {
+            contain = 1;
+        }
+    }
+    if (contain === 0) {
+        alertify.confirm("join?", function (e) {
+            if (e) {
+                alertify.success("You've clicked OK");
+                document.getElementById('join-input').value = groupList[chatIndex].id;
+                console.log(groupList[chatIndex]);
+                document.getElementById('join-form').submit();
+            } else {
+                alertify.error("You've clicked Cancel");
+            }
+        });
+        return false;
+    }
+
     chat = chatList[chatIndex];
 
     mClassList(DOM.inputArea).contains("d-none", (elem) => elem.remove("d-none").add("d-flex"));

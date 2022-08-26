@@ -16,13 +16,28 @@
                            aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v text-white"></i></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#" onclick="createNewGroup()">New Group</a>
-                            <a class="dropdown-item" href="#">Archived</a>
-                            <a class="dropdown-item" href="#">Starred</a>
-                            <a class="dropdown-item" href="#">Settings</a>
+                            {#                            <a class="dropdown-item" href="#">Archived</a>#}
+                            {#                            <a class="dropdown-item" href="#">Starred</a>#}
+                            {#                            <a class="dropdown-item" href="#">Settings</a>#}
+                            <a class="dropdown-item" href="#" onclick="searchForChat()">Search</a>
+                            <a class="dropdown-item" href="#" onclick="showProfileSettings()">Profile Update</a>
                             <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
                         </div>
                     </div>
                 </div>
+
+                <!-- Search Bar -->
+                {#                <form action="" method="get">#}
+                <div class="wrap" style="display: none;" id="searchbar">
+                    <div class="search">
+                        <input type="text" class="searchTerm" placeholder="Enter group link or username"
+                               style="height: 50px;" name="search" id="search-in">
+                        <button type="submit" class="searchButton" onclick="searchInputSubmit()">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                {#                </form>#}
 
                 <!-- Chat List -->
                 <div class="row" id="chat-list" style="overflow:auto;"></div>
@@ -67,7 +82,8 @@
                             </div>
                         </div>
                         <input type="submit" value="save"
-                               style="margin-left: 40%;width: 20%;margin-top: 12%;height: 40px;" class="btn btn-success">
+                               style="margin-left: 40%;width: 20%;margin-top: 12%;height: 40px;"
+                               class="btn btn-success">
                     </form>
                 </div>
             </div>
@@ -99,6 +115,7 @@
                 <div class="d-flex flex-column" id="messages"></div>
 
                 <!-- Input -->
+
                 <div class="d-none justify-self-end align-items-center flex-row" id="input-area">
                     <a href="#"><i class="far fa-smile text-muted px-3" style="font-size:1.5rem;"></i></a>
                     <input type="text" name="message" id="msg-input" placeholder="Type a message"
@@ -106,6 +123,7 @@
                     <i id="chat-message-submit" class="fas fa-paper-plane text-muted px-3" style="cursor:pointer;"
                        onclick="sendMessage()"></i>
                 </div>
+
             </div>
         </div>
     </div>
@@ -121,7 +139,39 @@
         <input type="hidden" name="new-group-name" id="new-group-name" value="">
     </form>
 
+    <form action="" id="join-form" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="join-input" id="join-input" value="">
+    </form>
+
     <script>
+        function searchInputSubmit() {
+            groupList = [];
+            messages = [];
+            generateChatList();
+
+            let str = document.getElementById('search-in').value;
+            console.log(str)
+            for (let i = 0; i < allGroups.length; i++)
+                if (allGroups[i].__str__.includes(str))
+                    groupList.push(allGroups[i]);
+
+            for (let i = 0; i < contactList.length; i++)
+                if (contactList[i].name.includes(str))
+                    groupList.push(contactList[i]);
+
+            assignMessages();
+            console.log(chatList)
+            console.log(messages)
+            generateChatList();
+        }
+
+        function searchForChat() {
+            document.getElementById('searchbar').style.display = "";
+            groupList = [];
+            messages = [];
+            generateChatList();
+        }
 
 
         function createNewGroup() {
@@ -160,11 +210,10 @@
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            console.log('fetch')
 
-            let allMessages = fetchFromApi('http://127.0.0.1:8001/api/message/');
+            allMessages = fetchFromApi('http://127.0.0.1:8001/api/message/');
 
-            let allGroups = fetchFromApi('http://127.0.0.1:8001/api/chat/');
+            allGroups = fetchFromApi('http://127.0.0.1:8001/api/chat/');
 
             contactList = fetchFromApi('http://127.0.0.1:8001/accounts/api/');
 
@@ -185,16 +234,9 @@
                     }
                 }
 
-                for (let i = 0; i < allMessages.length; i++) {
-                    for (let j = 0; j < groupList.length; j++) {
-                        if (allMessages[i].recvId === groupList[j].id && !isContain(messages, allMessages[i])) {
-                            messages.push(allMessages[i])
-                        }
-                    }
-                }
+                assignMessages();
                 init();
-                console.log('g l: ', groupList);
-                console.log('m l: ', messages);
+
             }, 500);
 
 
