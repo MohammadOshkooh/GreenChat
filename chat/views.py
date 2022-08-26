@@ -127,8 +127,10 @@ def new(request):
         # Update profile
         profile_form = ProfileForm(request.POST, request.FILES, instance=user_model)
         if profile_form.is_valid():
-            profile_form = profile_form.save(commit=False)
-            profile_form.image = request.FILES['image']
+            if request.FILES:
+                # update profile photo
+                profile_form = profile_form.save(commit=False)
+                profile_form.image = request.FILES['image']
             profile_form.save()
             return redirect(reverse('chat:chat'))
 
