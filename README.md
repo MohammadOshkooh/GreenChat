@@ -18,8 +18,8 @@ Online chat application <br>
 - [X] Send image to chat room
 - [X] Create new group
 - [X] Search for group
-- [X] Join
-- [ ] Leave group
+- [X] Join the group
+- [X] Leave the group
 - [X] Update user profile
 - [X] User authentication
 - [ ] Update group information

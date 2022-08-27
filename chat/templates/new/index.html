@@ -99,8 +99,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#" onclick="UpdateGroupInfo('name')">Change group name</a>
                             <a class="dropdown-item" href="#" onclick="UpdateGroupInfo()">Change group id</a>
-                            <a class="dropdown-item" href="#" onclick="UpdateGroupInfo()">Update group information</a>
-                            <a class="dropdown-item" href="">Leave group</a>
+                            <a class="dropdown-item" href="#" onclick="leaveGroup()">Leave group</a>
                         </div>
                     </div>
 
@@ -113,10 +112,8 @@
                 <input type="file" id="file-input" style="display: none">
                 <div class="d-none justify-self-end align-items-center flex-row" id="input-area">
                     <a href="#"><i class="far fa-smile text-muted px-3" style="font-size:1.5rem;"></i></a>
-                    {#                    <label for="file-input">#}
                     <a href="#" onclick="fileSelect()">
                         <i class="fas fa-paperclip mx-3 text-white d-none d-md-block"></i></a>
-                    {#                    </label>#}
                     <input type="text" name="message" id="msg-input" placeholder="Type a message"
                            class="flex-grow-1 border-0 px-3 py-2 my-3 rounded shadow-sm">
                     <i id="chat-message-submit" class="fas fa-paper-plane text-muted px-3" style="cursor:pointer;"
@@ -149,10 +146,29 @@
         <input type="text" hidden name="update-group-name-id" id="update-group-name-id">
     </form>
 
+    <form action="" id="leave-form" method="post">
+        {% csrf_token %}
+        <input type="text" name="group-id" id="group-id">
+    </form>
+
     <script>
+        function leaveGroup() {
+            alertify.confirm("Leave group?", function (e) {
+                if (e) {
+                    alertify.success("You've clicked OK");
+                    document.getElementById('group-id').value = chat.group.id;
+                    document.getElementById('leave-form').submit();
+                } else {
+                    alertify.error("You've clicked Cancel");
+                }
+            });
+            return false;
+        }
+
+
         function UpdateGroupInfo(arg) {
             if (arg === 'name') {
-                alertify.prompt("Enter new name",function (e, str) {
+                alertify.prompt("Enter new name", function (e, str) {
                     if (e) {
                         alertify.success("You've clicked OK and typed: " + str);
                         document.getElementById('update-group-name').value = str;
