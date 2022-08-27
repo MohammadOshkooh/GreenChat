@@ -22,8 +22,8 @@ Online chat application <br>
 - [X] Leave the group
 - [X] Update user profile
 - [X] User authentication
-- [ ] Update group information
-- [ ] Use emoji
+- [X] Update group information
+- [X] Use emoji
 
 
 <h3> 
@@ -37,6 +37,7 @@ Online chat application <br>
   <li>Django allauth</li>
   <li>Python</li>
   <li>PostgreSQL</li>
+  <li>jQuery</li>
 
 </ul>
 

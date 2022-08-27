@@ -1,0 +1,203 @@
+
+.emojikb-hidden {
+    display: none !important;
+}
+
+@media only screen and (min-width: 570px) {
+    #emojikb-maindiv {
+        display: flex;
+        flex-direction: column;
+        height: 444px;
+        position: absolute;
+        z-index: 2;
+        left: 0px;
+        bottom: 20px;
+        user-select: none;
+        font-family: 'Whitney', 'Catamaran', 'Helvetica Neue', sans-serif;
+    }
+}
+
+@media only screen and (max-width: 570px) {
+    #emojikb-maindiv {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 444px;
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        user-select: none;
+        font-family: 'Whitney', 'Catamaran', 'Helvetica Neue', sans-serif;
+        bottom: 83px;
+    }
+}
+
+#emojikb-maindiv.resizable:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    cursor: ew-resize;
+}
+
+#emojikb-searchdiv {
+    border-radius: 20px 20px 0 0;
+    border-bottom: solid black 1px;
+    background-color: rgb(47, 49, 54);
+    padding: 12px 5px 12px 3%;
+    display: flex;
+}
+
+#emojikb-searchdiv svg {
+    fill: rgb(114, 118, 125);
+    width: 24px;
+    height: 24px;
+    margin: 0 12px;
+    align-self: center;
+}
+
+#emojikb-searchdiv input {
+    flex-grow: 1;
+    line-height: 32px;
+    height: 30px;
+    padding: 0 8px;
+    margin: 1px;
+    background-color: rgb(32, 34, 37);
+    border: none;
+    color: rgb(220, 221, 222);
+    border-radius: 4px;
+}
+
+#emojikb-searchdiv input:focus {
+    outline: none;
+}
+
+#emojikb-div2 {
+    display: flex;
+    height: 90%;
+}
+
+#emojikb-div3 {
+    border-radius: 0 0 20px;
+    background-color: rgb(47, 49, 54);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+#emojikb-leftlist {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(32, 34, 37);
+    float: left;
+    border-radius: 0 0 0 20px;
+    padding: 8px;
+    /* width: 32px; */
+}
+
+#emojikb-leftlist > svg {
+    width: 24px;
+    height: 24px;
+    fill: rgb(185, 187, 190);
+    /* align-self: center; */
+    padding: 4px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    transition: all .1s ease-in-out;
+    cursor: pointer;
+}
+
+#emojikb-leftlist > svg:hover {
+    background-color: #2b2e33;
+    fill: lightgray
+}
+
+#emojikb-leftlist > svg.selected {
+    background-color: #3b4045;
+    fill: white;
+}
+
+#emojikb-show {
+    overflow-y: scroll;
+    scrollbar-color: #222427 transparent;
+    scrollbar-width: thin;
+    margin: 8px 8px 0 8px;
+    position: relative;
+    flex-grow: 1;
+}
+
+#emojikb-show svg {
+    width: 16px;
+    height: 16px;
+    fill: rgb(185, 187, 190);
+}
+
+.emojikb-categ {
+    margin-bottom: 12px;
+}
+
+.emojikb-categname {
+    position: -webkit-sticky;
+    position: sticky;
+    top: -1px;
+    padding: 1px 4px;
+    align-items: center;
+    display: flex;
+    background-color: rgb(47, 49, 54);
+    height: 32px;
+}
+
+.emojikb-categname span {
+    font-size: 12px;
+    color: rgb(185, 187, 190);
+    margin: 0 8px;
+    text-transform: uppercase;
+    transition: color .3s ease-in-out;
+}
+
+.emojikb-categ:hover > .emojikb-categname > span {
+    color: white;
+}
+
+.emojikb-categ:hover > .emojikb-categname > svg {
+    fill: white !important;
+}
+
+.emojikb-categ .emojikb-emoji {
+    height: 32px;
+    width: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.emojikb-categ .emojikb-emoji.selected, .emojikb-categ .emojikb-emoji.lazy {
+    background-color: rgb(79, 84, 92);
+}
+
+#emojikb-info {
+    flex-basis: 48px;
+    flex-shrink: 0;
+    background-color: rgb(41, 43, 47);
+    display: flex;
+    align-items: center;
+    padding: 0 3%;
+    border-radius: 0 0 20px;
+}
+
+#emojikb-info-icon {
+    height: 28px;
+    width: 28px;
+}
+
+#emojikb-info-name {
+    margin-left: 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: 600;
+    line-height: 20px;
+    color: white;
+}
+

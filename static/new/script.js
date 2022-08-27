@@ -202,7 +202,6 @@ let generateMessageArea = (elem, chatIndex) => {
             if (e) {
                 alertify.success("You've clicked OK");
                 document.getElementById('join-input').value = groupList[chatIndex].id;
-                console.log(groupList[chatIndex]);
                 document.getElementById('join-form').submit();
             } else {
                 alertify.error("You've clicked Cancel");

@@ -35,6 +35,13 @@
     <orderEntry type="library" name="bootstrap.rtl" level="application" />
     <orderEntry type="library" name="semantic.rtl" level="application" />
     <orderEntry type="library" name="jquery-1.9.1" level="application" />
+    <orderEntry type="library" name="tinymce" level="application" />
+    <orderEntry type="library" name="font-awesome" level="application" />
+    <orderEntry type="library" name="jquery-1.11.3" level="application" />
+    <orderEntry type="library" name="jquerysctipttop" level="application" />
+    <orderEntry type="library" name="bootswatch" level="application" />
+    <orderEntry type="library" name="fuse.js" level="application" />
+    <orderEntry type="library" name="show_ads" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

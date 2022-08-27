@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{@popperjs/core, alertify, alertify.rtl, all, axios, bootstrap, bootstrap.rtl, default, default.rtl, jquery, jquery-1.11.1, jquery-1.9.1, jquery-3.3.1.slim, malihu-custom-scrollbar-plugin, popper.js, semantic, semantic.rtl}" />
+    <file url="file://$PROJECT_DIR$" libraries="{@popperjs/core, alertify, alertify.rtl, all, axios, bootstrap, bootstrap.rtl, bootswatch, default, default.rtl, font-awesome, fuse.js, jquery, jquery-1.11.1, jquery-1.11.3, jquery-1.9.1, jquery-3.3.1.slim, jquerysctipttop, malihu-custom-scrollbar-plugin, popper.js, semantic, semantic.rtl, show_ads, tinymce}" />
   </component>
 </project>

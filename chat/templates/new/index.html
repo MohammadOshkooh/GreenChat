@@ -111,7 +111,8 @@
                 <!-- Input -->
                 <input type="file" id="file-input" style="display: none">
                 <div class="d-none justify-self-end align-items-center flex-row" id="input-area">
-                    <a href="#"><i class="far fa-smile text-muted px-3" style="font-size:1.5rem;"></i></a>
+                    <a href="#" onclick="showEmoji()"><i class="far fa-smile text-muted px-3 emoji-picker-container"
+                                                         style="font-size:1.5rem;"></i></a>
                     <a href="#" onclick="fileSelect()">
                         <i class="fas fa-paperclip mx-3 text-white d-none d-md-block"></i></a>
                     <input type="text" name="message" id="msg-input" placeholder="Type a message"
@@ -148,10 +149,72 @@
 
     <form action="" id="leave-form" method="post">
         {% csrf_token %}
-        <input type="text" name="group-id" id="group-id">
+        <input type="text" hidden name="group-id" id="group-id">
     </form>
 
+
+    <div class="container">
+        <button id="test" class="btn btn-danger" hidden>Toggle The Emoji Picker</button>
+    </div>
+
     <script>
+        let zone = document.getElementById("msg-input");
+        var emojiKeyboard = new EmojiKeyboard;
+        {#emojiKeyboard.toggle_window();#}
+        /* you can edit a few attributes:
+            - callback: function called when a user clicks on an emoji, with the emoji and a boolean telling if the window got closed
+            - auto_reconstruction: boolean if we should recreate the keyboard when we cannot find it
+            - default_placeholder: placeholder text in the search bar
+            - resizable: boolean if the window can be resized (left side)
+        */
+        emojiKeyboard.callback = (emoji, closed) => {
+            console.info(emoji, closed)
+            zone.value += emoji.emoji;
+        };
+        emojiKeyboard.resizable = true;
+        emojiKeyboard.default_placeholder = "Emoji...";
+        emojiKeyboard.instantiate(document.getElementById("test"))
+    </script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <script>
+        try {
+            fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", {
+                method: 'HEAD',
+                mode: 'no-cors'
+            })).then(function (response) {
+                return true;
+            }).catch(function (e) {
+                var carbonScript = document.createElement("script");
+                carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CK7DKKQU&placement=wwwjqueryscriptnet";
+                carbonScript.id = "_carbonads_js";
+                document.getElementById("carbon-block").appendChild(carbonScript);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    </script>
+
+    <script>
+        function showEmoji() {
+            document.getElementById('test').click();
+        }
+
         function leaveGroup() {
             alertify.confirm("Leave group?", function (e) {
                 if (e) {
