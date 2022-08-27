@@ -150,6 +150,13 @@ let addDateToMessageArea = (date) => {
 };
 
 let addMessageToMessageArea = (msg) => {
+    let containImage = msg.contain_image;
+    let messageType;
+    if (containImage)
+        messageType =  `<img src="${msg.image}"  width="250px" height="250px"  alt="">`;
+    else
+        messageType = `<div class="body m-1 mr-2">${msg.body}</div>`;
+
     let msgDate = mDate(msg.time).getDate();
     if (lastDate !== msgDate) {
         addDateToMessageArea(msgDate);
@@ -171,7 +178,7 @@ let addMessageToMessageArea = (msg) => {
 		</div>
 		${chat.isGroup ? htmlForGroup : ""}
 		<div class="d-flex flex-row">
-			<div class="body m-1 mr-2">${msg.body}</div>
+			<div class="body m-1 mr-2">${messageType}</div>
 			<div class="time ml-auto small text-right flex-shrink-0 align-self-end text-muted" style="width:75px;">
 				${mDate(msg.time).getTime()}
 				${(msg.sender === user.id) ? sendStatus : ""}

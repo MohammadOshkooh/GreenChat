@@ -15,12 +15,13 @@ Online chat application <br>
 
 
 - [X] Send message to chat room
-- [ ] Send image to chat room
+- [X] Send image to chat room
 - [X] Create new group
 - [X] Search and join
 - [X] Update user profile
 - [X] User authentication
 - [ ] Update chat room profile
+- [ ] Use emoji
 
 
 <h3> 

@@ -30,17 +30,20 @@ class ChatConsumer(WebsocketConsumer):
         :return:
         """
         user = self.user
+        message = data['message']
+        chat_room = Chat.objects.get(id=message['recvId'])
 
         if contain_image is True:
             # convert base64 string to image
-            file = data['message']
+            file = message['image']
             format, imgstr = file.split(';base64,')
             ext = format.split('/')[-1]
             image_file = ContentFile(base64.b64decode(imgstr), name=get_random_string(6) + '.' + ext)
 
             # save image on db
-            message_model = Message.objects.create(sender=user, image=image_file, related_chat=self.related_chat,
-                                                   contain_image=True)
+            message_model = Message.objects.create(sender=user, image=image_file, related_chat=chat_room,
+                                                   time=message['time'], status=message['status'],
+                                                   received_from_the_group=message['recvIsGroup'], contain_image=True)
 
             # convert object to json
             message_model_json = self.serializers(message_model, MessageSerializers)
@@ -48,10 +51,6 @@ class ChatConsumer(WebsocketConsumer):
             self.send_to_room({'data': message_model_json, 'command': 'new_message', 'contain_image': True})
 
         else:
-            message = data['message']
-
-            chat_room = Chat.objects.get(id=message['recvId'])
-
             # save on db
             message_model = Message.objects.create(sender=user, body=message['body'], related_chat=chat_room,
                                                    time=message['time'], status=message['status'],
@@ -209,7 +208,7 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-        
+
         # assign user
         self.user = get_user_model().objects.get(username=text_data_json['username'])
 
@@ -217,7 +216,7 @@ class ChatConsumer(WebsocketConsumer):
 
         # check command
         if command == 'new_message':
-            self.new_message(data=text_data_json)
+            self.new_message(data=text_data_json, contain_image=text_data_json['contain_image'])
         elif command == 'fetch':
             self.fetch()
 

@@ -115,9 +115,13 @@
                 <div class="d-flex flex-column" id="messages"></div>
 
                 <!-- Input -->
-
+                <input type="file" id="file-input" style="display: none">
                 <div class="d-none justify-self-end align-items-center flex-row" id="input-area">
                     <a href="#"><i class="far fa-smile text-muted px-3" style="font-size:1.5rem;"></i></a>
+                    {#                    <label for="file-input">#}
+                    <a href="#" onclick="fileSelect()">
+                        <i class="fas fa-paperclip mx-3 text-white d-none d-md-block"></i></a>
+                    {#                    </label>#}
                     <input type="text" name="message" id="msg-input" placeholder="Type a message"
                            class="flex-grow-1 border-0 px-3 py-2 my-3 rounded shadow-sm">
                     <i id="chat-message-submit" class="fas fa-paper-plane text-muted px-3" style="cursor:pointer;"
@@ -145,13 +149,16 @@
     </form>
 
     <script>
+        function fileSelect() {
+            document.getElementById('file-input').click();
+        }
+
         function searchInputSubmit() {
             groupList = [];
             messages = [];
             generateChatList();
 
             let str = document.getElementById('search-in').value;
-            console.log(str)
             for (let i = 0; i < allGroups.length; i++)
                 if (allGroups[i].__str__.includes(str))
                     groupList.push(allGroups[i]);
@@ -161,8 +168,6 @@
                     groupList.push(contactList[i]);
 
             assignMessages();
-            console.log(chatList)
-            console.log(messages)
             generateChatList();
         }
 
@@ -240,6 +245,8 @@
             }, 500);
 
 
+
+
             if (data.event.command === 'fetch') {
 
 
@@ -271,37 +278,30 @@
                 'username': username,
                 'contain_image': false
             }));
-
-            {% comment %}
-                          chatSocket.addEventListener("add", (ev) => {
-                              chatSocket.send(JSON.stringify({
-                                  'message': msg.body,
-                                  'command': 'new_message',
-                                  'username': username
-                              }));
-                          });
-                          {% endcomment %}
         }
 
-        {% comment %}
-                    document.querySelector('#chat-profile').onclick = function (e) {
-                        document.getElementById('update-btn').style.display = ''
+        document.querySelector('#file-input').onchange = function (e) {
+            if (this.file || this.files[0]) {
+                let FR = new FileReader();
+                FR.addEventListener('load', function (e) {
+                    let msg = {
+                        sender: user.id,
+                        image: e.target.result,
+                        time: mDate().toString(),
+                        status: 1,
+                        recvId: chat.isGroup ? chat.group.id : chat.contact.id,
+                        recvIsGroup: chat.isGroup
                     };
-
-                    document.querySelector('#send-image').onchange = function (e) {
-                        if (this.file || this.files[0]) {
-                            var FR = new FileReader();
-                            FR.addEventListener('load', function (e) {
-                                chatSocket.send(JSON.stringify({
-                                    'message': e.target.result,
-                                    'command': 'img',
-                                    'username': username
-                                }));
-                            });
-                            FR.readAsDataURL(this.files[0]);
-                        }
-                    }
-              {% endcomment %}
+                    chatSocket.send(JSON.stringify({
+                        'message': msg,
+                        'command': 'new_message',
+                        'username': username,
+                        'contain_image': true
+                    }));
+                });
+                FR.readAsDataURL(this.files[0]);
+            }
+        }
 
     </script>
 

@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ['sender', 'body', 'time', 'related_chat', 'status']
+    list_display = ['sender', 'body', 'time', 'related_chat', 'status', 'contain_image']
 
 
 admin.site.register(Message, MessageAdmin)
