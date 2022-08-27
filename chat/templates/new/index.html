@@ -16,9 +16,6 @@
                            aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v text-white"></i></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#" onclick="createNewGroup()">New Group</a>
-                            {#                            <a class="dropdown-item" href="#">Archived</a>#}
-                            {#                            <a class="dropdown-item" href="#">Starred</a>#}
-                            {#                            <a class="dropdown-item" href="#">Settings</a>#}
                             <a class="dropdown-item" href="#" onclick="searchForChat()">Search</a>
                             <a class="dropdown-item" href="#" onclick="showProfileSettings()">Profile Update</a>
                             <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
@@ -27,7 +24,6 @@
                 </div>
 
                 <!-- Search Bar -->
-                {#                <form action="" method="get">#}
                 <div class="wrap" style="display: none;" id="searchbar">
                     <div class="search">
                         <input type="text" class="searchTerm" placeholder="Enter group link or username"
@@ -37,7 +33,6 @@
                         </button>
                     </div>
                 </div>
-                {#                </form>#}
 
                 <!-- Chat List -->
                 <div class="row" id="chat-list" style="overflow:auto;"></div>
@@ -57,27 +52,20 @@
                                  id="profile-pic">
 
                             {% csrf_token %}
-                            {#                             <input type="file" id="profile-pic-input" class="d-none" name="prof-pic">#}
                             {{ profile_form.image }}
                             <div class="bg-white px-3 py-2">
                                 <div class="text-muted mb-2"><label for="input-name">First Name</label></div>
-                                {#                            <input type="text" name="name" id="input-name" class="w-100 border-0 py-2 profile-input">#}
                                 {{ profile_form.first_name }}
                             </div>
                             <div class="bg-white px-3 py-2">
                                 <div class="text-muted mb-2"><label for="input-name">Last Name</label></div>
-                                {#                            <input type="text" name="name" id="input-name" class="w-100 border-0 py-2 profile-input">#}
                                 {{ profile_form.last_name }}
                             </div>
                             <div class="bg-white px-3 py-2">
-                                <div class="text-muted mb-2"><label for="input-name">User Name</label></div>
-                                {#                            <input type="text" name="name" id="input-name" class="w-100 border-0 py-2 profile-input">#}
                                 {{ profile_form.username }}
                             </div>
                             <div class="bg-white px-3 py-2">
                                 <div class="text-muted mb-2"><label for="input-about">About</label></div>
-                                {#                            <input type="text" name="name" id="input-about" value=""#}
-                                {#                                   class="w-100 border-0 py-2 profile-input">#}
                                 {{ profile_form.bio }}
                             </div>
                         </div>
@@ -86,6 +74,7 @@
                                class="btn btn-success">
                     </form>
                 </div>
+
             </div>
 
             <!-- Message Area -->
@@ -105,10 +94,16 @@
                         <div class="text-white small" id="details"></div>
                     </div>
                     <div class="d-flex flex-row align-items-center ml-auto">
-                        <a href="#"><i class="fas fa-search mx-3 text-white d-none d-md-block"></i></a>
-                        <a href="#"><i class="fas fa-paperclip mx-3 text-white d-none d-md-block"></i></a>
-                        <a href="#"><i class="fas fa-ellipsis-v mr-2 mx-sm-3 text-white"></i></a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v text-white"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" onclick="UpdateGroupInfo('name')">Change group name</a>
+                            <a class="dropdown-item" href="#" onclick="UpdateGroupInfo()">Change group id</a>
+                            <a class="dropdown-item" href="#" onclick="UpdateGroupInfo()">Update group information</a>
+                            <a class="dropdown-item" href="">Leave group</a>
+                        </div>
                     </div>
+
                 </div>
 
                 <!-- Messages -->
@@ -148,7 +143,29 @@
         <input type="hidden" name="join-input" id="join-input" value="">
     </form>
 
+    <form action="" method="post" id="update-group-name-form">
+        {% csrf_token %}
+        {{ update_group_name_form.room_name }}
+        <input type="text" hidden name="update-group-name-id" id="update-group-name-id">
+    </form>
+
     <script>
+        function UpdateGroupInfo(arg) {
+            if (arg === 'name') {
+                alertify.prompt("Enter new name",function (e, str) {
+                    if (e) {
+                        alertify.success("You've clicked OK and typed: " + str);
+                        document.getElementById('update-group-name').value = str;
+                        document.getElementById('update-group-name-id').value = chat.group.id;
+                        document.getElementById("update-group-name-form").submit();
+                    } else {
+                        alertify.error("You've clicked Cancel");
+                    }
+                }, chat.name);
+                return false;
+            }
+        }
+
         function fileSelect() {
             document.getElementById('file-input').click();
         }
@@ -243,8 +260,6 @@
                 init();
 
             }, 500);
-
-
 
 
             if (data.event.command === 'fetch') {

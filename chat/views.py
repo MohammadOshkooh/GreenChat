@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from accounts.forms import ProfileForm
 from accounts.models import CustomUser
 from chat.models import Message, Chat, ContactList
-from .forms import CreateNewGroupForm, UpdateChatProfileForm
+from .forms import CreateNewGroupForm, UpdateChatProfileForm, UpdateGroupName
 
 
 @login_required
@@ -148,17 +148,26 @@ def new(request):
                                    related_chat=new_chat, received_from_the_group=True)
 
         # Join (after search in search bar)
-        print(')))', request.POST)
         join_input = request.POST.get('join-input')
         if join_input is not None:
             search_chat = Chat.objects.get(id=join_input)
             search_chat.members.add(request.user)
 
+        # Update group name
+        chat_id = request.POST.get('update-group-name-id')
+        if chat_id is not None:
+            update_group_name_form = UpdateGroupName(request.POST, instance=Chat.objects.get(id=chat_id))
+            if update_group_name_form.is_valid():
+                print('>>>>>>>>>>>>>>>>>>DDDDDDDDD')
+                update_group_name_form.save()
+
         return redirect(reverse('chat:chat'))
     else:
-        profile_form = ProfileForm(instance=user_model, )
+        profile_form = ProfileForm(instance=user_model)
+        update_group_name_form = UpdateGroupName()
 
     context = {
+        'update_group_name_form': update_group_name_form,
         'profile_form': profile_form,
         'contact_list': contact_list,
         'user': request.user  # used in js

@@ -15,3 +15,12 @@ class CreateNewGroupForm(forms.Form):
                'placeholder': "create new group (Enter group name)",
                'style': "height: 12px;margin-left: 21px;width: 86%;"
                }))
+
+
+class UpdateGroupName(forms.ModelForm):
+    class Meta:
+        model = Chat
+        fields = ['room_name', 'id']
+        widgets = {
+            'room_name': forms.TextInput(attrs={'style': 'display:none', 'id': 'update-group-name'})
+        }

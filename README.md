@@ -17,10 +17,12 @@ Online chat application <br>
 - [X] Send message to chat room
 - [X] Send image to chat room
 - [X] Create new group
-- [X] Search and join
+- [X] Search for group
+- [X] Join
+- [ ] Leave group
 - [X] Update user profile
 - [X] User authentication
-- [ ] Update chat room profile
+- [ ] Update group information
 - [ ] Use emoji
 
 
