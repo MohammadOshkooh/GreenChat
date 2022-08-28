@@ -23,17 +23,17 @@
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
 
-        allMessages = fetchFromApi('http://127.0.0.1:8001/api/message/');
-
-        allGroups = fetchFromApi('http://127.0.0.1:8001/api/chat/');
-
-        contactList = fetchFromApi('http://127.0.0.1:8001/accounts/api/');
-
-        {#allMessages = fetchFromApi('https://green-chat-x.herokuapp.com/api/message/');#}
+        {#allMessages = fetchFromApi('http://127.0.0.1:8001/api/message/');#}
         {##}
-        {#allGroups = fetchFromApi('https://green-chat-x.herokuapp.com/api/chat/');#}
+        {#allGroups = fetchFromApi('http://127.0.0.1:8001/api/chat/');#}
         {##}
-        {#contactList = fetchFromApi('https://green-chat-x.herokuapp.com/accounts/api/');#}
+        {#contactList = fetchFromApi('http://127.0.0.1:8001/accounts/api/');#}
+
+        allMessages = fetchFromApi('https://green-chat-x.herokuapp.com/api/message/');
+
+        allGroups = fetchFromApi('https://green-chat-x.herokuapp.com/api/chat/');
+
+        contactList = fetchFromApi('https://green-chat-x.herokuapp.com/accounts/api/');
 
         setTimeout(() => {
             messages = [];
