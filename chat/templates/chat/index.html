@@ -1,114 +1,140 @@
-{% extends 'base/base.html' %}
-{% block title %}
-
-{% endblock %}
-
+{% extends 'chat/base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
 {% block content %}
-    <div class="container-fluid h-100">
-        <div class="row justify-content-center h-100">
-            <div class="col-md-4 col-xl-3 chat">
-                <div class="card mb-sm-3 mb-md-0 contacts_card" style="height: 930px;">
-                    <div class="img_cont"
-                         style="width: 150px;height: 150px;margin: 20px auto 16px;">
-                        <img src="{% if profile.image %}{{ profile.image.url }}{% endif %}"
-                             class="rounded-circle user_img" width="150px" height="150px"
-                             style="width: 150px; height: 150px;">
-                        <label for="prof-update">
-                            <i class="fa fa-camera" id="update"></i>
-                        </label>
-                    </div>
-                    <form action="" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" id="prof-update" name="image" style="display: none;">
-                        <div class="wrap" style="margin-top: 34px;margin-bottom: -20px;display: none" id="update-btn">
-                            <button class="button">save</button>
+    <div class="container-fluid" id="main-container">
+        <div class="row h-100">
+            <div class="col-12 col-sm-5 col-md-4 d-flex flex-column" id="chat-list-area" style="position:relative;">
+
+                <!-- Navbar -->
+                <div class="row d-flex flex-row align-items-center p-2" id="navbar">
+                    <img alt="Profile Photo" class="img-fluid rounded-circle mr-2" style="height:50px; cursor:pointer;"
+                         onclick="showProfileSettings()" id="display-pic">
+                    <div class="text-white font-weight-bold" id="username"></div>
+                    <div class="nav-item dropdown ml-auto">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v text-white"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" onclick="createNewGroup()">New Group</a>
+                            <a class="dropdown-item" href="#" onclick="searchForChat()">Search</a>
+                            <a class="dropdown-item" href="#" onclick="showProfileSettings()">Profile Update</a>
+                            <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="wrap" style="display: none;" id="searchbar">
+                    <div class="search">
+                        <input type="text" class="searchTerm" placeholder="Enter group link or username"
+                               style="height: 50px;" name="search" id="search-in">
+                        <button type="submit" class="searchButton" onclick="searchInputSubmit()">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat List -->
+                <div class="row" id="chat-list" style="overflow:auto;"></div>
+
+                <!-- Profile Settings -->
+                <div class="d-flex flex-column w-100 h-100" id="profile-settings">
+                    <div class="row d-flex flex-row align-items-center p-2 m-0"
+                         style="background:#009688; min-height:65px;">
+                        <i class="fas fa-arrow-left p-2 mx-3 my-1 text-white"
+                           style="font-size: 1.5rem; cursor: pointer;"
+                           onclick="hideProfileSettings()"></i>
+                        <div class="text-white font-weight-bold">Profile</div>
+                    </div>
+                    <form action="" id="profile-update-form" method="post" enctype="multipart/form-data">
+                        <div class="d-flex flex-column" style="overflow:auto;">
+                            <img alt="Profile Photo" class="img-fluid rounded-circle my-5 justify-self-center mx-auto"
+                                 id="profile-pic">
+
+                            {% csrf_token %}
+                            {{ profile_form.image }}
+                            <div class="bg-white px-3 py-2">
+                                <div class="text-muted mb-2"><label for="input-name">First Name</label></div>
+                                {{ profile_form.first_name }}
+                            </div>
+                            <div class="bg-white px-3 py-2">
+                                <div class="text-muted mb-2"><label for="input-name">Last Name</label></div>
+                                {{ profile_form.last_name }}
+                            </div>
+                            <div class="bg-white px-3 py-2">
+                                {{ profile_form.username }}
+                            </div>
+                            <div class="bg-white px-3 py-2">
+                                <div class="text-muted mb-2"><label for="input-about">About</label></div>
+                                {{ profile_form.bio }}
+                            </div>
+                        </div>
+                        <input type="submit" value="save"
+                               style="margin-left: 40%;width: 20%;margin-top: 12%;height: 40px;"
+                               class="btn btn-success">
                     </form>
-{#                    <form action="" method="get">#}
-{#                        <div class="card-header">#}
-{#                            <div class="input-group">#}
-{#                                <input type="text" placeholder="Search for new user or group..." name="link"#}
-{#                                       class="form-control search" id="chat-search">#}
-{#                                <div class="input-group-prepend">#}
-{#                                    <span class="input-group-text search_btn">#}
-{#                                        <label for="chat-search">#}
-{#                                        <i class="fas fa-search"></i>#}
-{#                                        </label>#}
-{#                                    </span>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </form>#}
-                    <div class="card-body contacts_body">
-                        <ui class="contacts">
-                            <form action="" method="POST" id="create-group">
-                                {% csrf_token %}
-                                <div class="input-group">
-                                    {{ create_new_group_form.room_name }}
-                                    <div class="input-group-append" id="chat-message-submit">
-                                        <span class="input-group-text send_btn"><i
-                                                class="fas fa-arrow-circle-up"></i></span>
-                                    </div>
-                                </div>
-                            </form>
-                            <hr>
-                        </ui>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{% url 'account_logout' %}">Logout</a>
-                    </div>
                 </div>
+
             </div>
-        
-        
-        
-            <div class="col-md-4 col-xl-3 chat">
-                <div class="card mb-sm-3 mb-md-0 contacts_card" style="height: 930px;">
-                    <hr>
-                    <div class="card-body contacts_body">
-                        <ui class="contacts">
-                            {% for chat in chats %}
-                                <li class="active">
-                                    <div class="d-flex bd-highlight">
-                                        <div class="img_cont">
-                                            <img src="{% if chat.image %}{{ chat.image.url }}{% endif %}"
-                                                 class="rounded-circle user_img">
-                                            <span class="online_icon"></span>
-                                        </div>
-                                        <div class="user_info">
-                                            <p style="font-size: 18px"><a
-                                                    href="{{ chat.get_absolute_url }}">{{ chat.room_name }}</a></p>
-                                        </div>
-                                    </div>
-                                </li>
-                            {% empty %}
-                                <p style="text-align: center;font-size: 21px;font-weight: bolder;">No chat yet</p>
-                            {% endfor %}
-                        </ui>
+
+            <!-- Message Area -->
+            <div class="d-none d-sm-flex flex-column col-12 col-sm-7 col-md-8 p-0 h-100" id="message-area">
+                <div class="w-100 h-100 overlay"></div>
+
+                <!-- Navbar -->
+                <div class="row d-flex flex-row align-items-center p-2 m-0 w-100" id="navbar">
+                    <div class="d-block d-sm-none">
+                        <i class="fas fa-arrow-left p-2 mr-2 text-white" style="font-size: 1.5rem; cursor: pointer;"
+                           onclick="showChatList()"></i>
                     </div>
-                    <div class="card-footer"></div>
+                    <a href="#"><img src="https://via.placeholder.com/400x400" alt="Profile Photo"
+                                     class="img-fluid rounded-circle mr-2" style="height:50px;" id="pic"></a>
+                    <div class="d-flex flex-column">
+                        <div class="text-white font-weight-bold" id="name"></div>
+                        <div class="text-white small" id="details"></div>
+                    </div>
+                    <div class="d-flex flex-row align-items-center ml-auto">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v text-white"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" onclick="UpdateGroupInfo('name')">Change group name</a>
+                            <a class="dropdown-item" href="#" onclick="UpdateGroupInfo()">Change group id</a>
+                            <a class="dropdown-item" href="#" onclick="leaveGroup()">Leave group</a>
+                        </div>
+                    </div>
+
                 </div>
+
+                <!-- Messages -->
+                <div class="d-flex flex-column" id="messages"></div>
+
+                <!-- Input -->
+                <input type="file" id="file-input" style="display: none">
+                <div class="d-none justify-self-end align-items-center flex-row" id="input-area">
+                    <a href="#" onclick="showEmoji()"><i class="far fa-smile text-muted px-3 emoji-picker-container"
+                                                         style="font-size:1.5rem;"></i></a>
+                    <a href="#" onclick="fileSelect()">
+                        <i class="fas fa-paperclip mx-3 text-white d-none d-md-block"></i></a>
+                    <input type="text" name="message" id="msg-input" placeholder="Type a message"
+                           class="flex-grow-1 border-0 px-3 py-2 my-3 rounded shadow-sm">
+                    <i id="chat-message-submit" class="fas fa-paper-plane text-muted px-3" style="cursor:pointer;"
+                       onclick="sendMessage()"></i>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <script>
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function (e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
 
-        document.querySelector('#chat-message-submit').onclick = function (e) {
-            document.getElementById('create-group').submit();
-        };
+    {{ room_name|json_script:"room-name" }}
+    {{ request.user.username|json_script:'user-name' }}
+    {{ link|json_script:'link' }}
 
-        document.querySelector('#update').onclick = function (e) {
-            document.getElementById('update-btn').style.display = '';
-        };
+    {% include 'chat/include/emoji.html' %}
 
-    </script>
+    {% include 'chat/include/hidden_forms.html' %}
+
+    {% include 'chat/include/chatSocket.html' %}
 
 {% endblock %}

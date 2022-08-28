@@ -1,0 +1,99 @@
+<form action="" id="new-group-form" style="display: none" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="new-group-name" id="new-group-name" value="">
+</form>
+
+<form action="" id="join-form" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="join-input" id="join-input" value="">
+</form>
+
+<form action="" method="post" id="update-group-name-form">
+    {% csrf_token %}
+    {{ update_group_name_form.room_name }}
+    <input type="text" hidden name="update-group-name-id" id="update-group-name-id">
+</form>
+
+<form action="" id="leave-form" method="post">
+    {% csrf_token %}
+    <input type="text" hidden name="group-id" id="group-id">
+</form>
+
+<script>
+    function showEmoji() {
+        document.getElementById('test').click();
+    }
+
+    function leaveGroup() {
+        alertify.confirm("Leave group?", function (e) {
+            if (e) {
+                alertify.success("You've clicked OK");
+                document.getElementById('group-id').value = chat.group.id;
+                document.getElementById('leave-form').submit();
+            } else {
+                alertify.error("You've clicked Cancel");
+            }
+        });
+        return false;
+    }
+
+
+    function UpdateGroupInfo(arg) {
+        if (arg === 'name') {
+            alertify.prompt("Enter new name", function (e, str) {
+                if (e) {
+                    alertify.success("You've clicked OK and typed: " + str);
+                    document.getElementById('update-group-name').value = str;
+                    document.getElementById('update-group-name-id').value = chat.group.id;
+                    document.getElementById("update-group-name-form").submit();
+                } else {
+                    alertify.error("You've clicked Cancel");
+                }
+            }, chat.name);
+            return false;
+        }
+    }
+
+    function fileSelect() {
+        document.getElementById('file-input').click();
+    }
+
+    function searchInputSubmit() {
+        groupList = [];
+        messages = [];
+        generateChatList();
+
+        let str = document.getElementById('search-in').value;
+        for (let i = 0; i < allGroups.length; i++)
+            if (allGroups[i].__str__.includes(str))
+                groupList.push(allGroups[i]);
+
+        for (let i = 0; i < contactList.length; i++)
+            if (contactList[i].name.includes(str))
+                groupList.push(contactList[i]);
+
+        assignMessages();
+        generateChatList();
+    }
+
+    function searchForChat() {
+        document.getElementById('searchbar').style.display = "";
+        groupList = [];
+        messages = [];
+        generateChatList();
+    }
+
+
+    function createNewGroup() {
+        alertify.prompt("Enter group name", function (e, str) {
+            if (e) {
+                alertify.success("You've clicked OK and typed: " + str);
+                document.getElementById('new-group-name').value = str;
+                document.getElementById("new-group-form").submit();
+            } else {
+                alertify.error("You've clicked Cancel");
+            }
+        }, "");
+        return false;
+    }
+</script>

@@ -72,4 +72,4 @@ def chat(request):
         'contact_list': contact_list,
         'user': request.user  # used in js
     }
-    return render(request, 'new/index.html', context)
+    return render(request, 'chat/index.html', context)

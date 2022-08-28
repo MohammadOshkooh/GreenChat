@@ -13,18 +13,12 @@ class Chat(models.Model):
     image = models.ImageField(upload_to='profile/group/%y/%m/%d/', blank=True, null=True,
                               default='../static/img/group_profile.png')
     link = models.CharField(default=get_random_string(20), max_length=50, unique=True)
-    # group_id = models.CharField(max_length=250, unique=True, blank=True, )
 
     def __str__(self):
         return self.room_name
 
     def get_absolute_url(self):
         return reverse('chat:chat')
-
-    def is_join(self, user):
-        if user in self.members.all():
-            return True
-        return False
 
 
 class Message(models.Model):
