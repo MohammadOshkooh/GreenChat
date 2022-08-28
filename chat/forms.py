@@ -24,3 +24,12 @@ class UpdateGroupName(forms.ModelForm):
         widgets = {
             'room_name': forms.TextInput(attrs={'style': 'display:none', 'id': 'update-group-name'})
         }
+
+
+class UpdateGroupLink(forms.ModelForm):
+    class Meta:
+        model = Chat
+        fields = ['link', 'id']
+        widgets = {
+            'link': forms.TextInput(attrs={'style': 'display:none', 'id': 'update-group-link'})
+        }

@@ -93,16 +93,19 @@
                         <div class="text-white font-weight-bold" id="name"></div>
                         <div class="text-white small" id="details"></div>
                     </div>
+
                     <div class="d-flex flex-row align-items-center ml-auto">
+                        <div style="text-align: center" id="link"></div>
+
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                            aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v text-white"></i></a>
+
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#" onclick="UpdateGroupInfo('name')">Change group name</a>
-                            <a class="dropdown-item" href="#" onclick="UpdateGroupInfo()">Change group id</a>
+                            <a class="dropdown-item" href="#" onclick="UpdateGroupInfo('link')">Change group id</a>
                             <a class="dropdown-item" href="#" onclick="leaveGroup()">Leave group</a>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Messages -->
@@ -129,7 +132,6 @@
 
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:'user-name' }}
-    {{ link|json_script:'link' }}
 
     {% include 'chat/include/emoji.html' %}
 

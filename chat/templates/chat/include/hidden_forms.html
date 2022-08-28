@@ -14,6 +14,12 @@
     <input type="text" hidden name="update-group-name-id" id="update-group-name-id">
 </form>
 
+<form action="" method="post" id="update-group-link-form">
+    {% csrf_token %}
+    {{ update_group_link_form.link }}
+    <input type="text" hidden name="update-group-link-id" id="update-group-link-id">
+</form>
+
 <form action="" id="leave-form" method="post">
     {% csrf_token %}
     <input type="text" hidden name="group-id" id="group-id">
@@ -42,14 +48,36 @@
         if (arg === 'name') {
             alertify.prompt("Enter new name", function (e, str) {
                 if (e) {
-                    alertify.success("You've clicked OK and typed: " + str);
                     document.getElementById('update-group-name').value = str;
                     document.getElementById('update-group-name-id').value = chat.group.id;
                     document.getElementById("update-group-name-form").submit();
+
                 } else {
                     alertify.error("You've clicked Cancel");
                 }
             }, chat.name);
+            return false;
+        } else if (arg === 'link') {
+            alertify.prompt("Enter new id", function (e, str) {
+                if (e) {
+                    document.getElementById('update-group-link').value = str;
+                    let is_exist = false
+                    for (let i = 0; i < groupList.length; i++) {
+                        console.log(groupList[i])
+                        if (groupList[i].link === str) {
+                            is_exist = true;
+                            alertify.error("this id is exist");
+                            break;
+                        }
+                    }
+                    if (is_exist === false) {
+                        document.getElementById('update-group-link-id').value = chat.group.id;
+                        document.getElementById("update-group-link-form").submit();
+                    }
+                } else {
+                    alertify.error("You've clicked Cancel");
+                }
+            }, chat.group.link);
             return false;
         }
     }
@@ -65,15 +93,19 @@
 
         let str = document.getElementById('search-in').value;
         for (let i = 0; i < allGroups.length; i++)
-            if (allGroups[i].__str__.includes(str))
+            if (allGroups[i].link.includes(str))
                 groupList.push(allGroups[i]);
 
-        for (let i = 0; i < contactList.length; i++)
-            if (contactList[i].name.includes(str))
-                groupList.push(contactList[i]);
+        {#for (let i = 0; i < contactList.length; i++)#}
+        {#    if (contactList[i].name.includes(str))#}
+        {#        groupList.push(contactList[i]);#}
 
         assignMessages();
         generateChatList();
+        if (groupList.length === 0) {
+            alertify.error("Not found id");
+        }
+
     }
 
     function searchForChat() {

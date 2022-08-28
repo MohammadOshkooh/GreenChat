@@ -6,7 +6,7 @@ from django.utils.crypto import get_random_string
 
 from accounts.forms import ProfileForm
 from chat.models import Message, Chat, ContactList
-from .forms import UpdateGroupName
+from .forms import UpdateGroupName, UpdateGroupLink
 
 
 @login_required
@@ -19,6 +19,7 @@ def chat(request):
     user_model = get_user_model().objects.get(username=request.user)
 
     if request.method == 'POST':
+        print(request.POST)
         # Update profile
         profile_form = ProfileForm(request.POST, request.FILES, instance=user_model)
         if profile_form.is_valid():
@@ -33,7 +34,7 @@ def chat(request):
 
         if group_name is not None:
             new_chat = Chat.objects.create(room_name=group_name, owner=request.user,
-                                           link=request.path + '/' + get_random_string(22))
+                                           link=get_random_string(21))
 
             # user join
             new_chat.members.add(request.user)
@@ -52,8 +53,16 @@ def chat(request):
         chat_id = request.POST.get('update-group-name-id')
         if chat_id is not None:
             update_group_name_form = UpdateGroupName(request.POST, instance=Chat.objects.get(id=chat_id))
+            chat_id = None
             if update_group_name_form.is_valid():
                 update_group_name_form.save()
+
+        # Update group link
+        chat_id = request.POST.get('update-group-link-id')
+        if chat_id is not None:
+            update_group_link_form = UpdateGroupLink(request.POST, instance=Chat.objects.get(id=chat_id))
+            if update_group_link_form.is_valid():
+                update_group_link_form.save()
 
         # Leave group
         group_id = request.POST.get('group-id')
@@ -65,9 +74,11 @@ def chat(request):
     else:
         profile_form = ProfileForm(instance=user_model)
         update_group_name_form = UpdateGroupName()
+        update_group_link_form = UpdateGroupLink()
 
     context = {
         'update_group_name_form': update_group_name_form,
+        'update_group_link_form': update_group_link_form,
         'profile_form': profile_form,
         'contact_list': contact_list,
         'user': request.user  # used in js

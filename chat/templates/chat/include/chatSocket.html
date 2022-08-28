@@ -1,10 +1,10 @@
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
-    const link = JSON.parse(document.getElementById('link').textContent);
+    {#const link = JSON.parse(document.getElementById('link').textContent);#}
     const username = JSON.parse(document.getElementById('user-name').textContent);
 
     const chatSocket = new WebSocket(
-        'ws://'
+        'wss://'
         + window.location.host
         {% comment %}       + '/ws/chat/'
                        + roomName

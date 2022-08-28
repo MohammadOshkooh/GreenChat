@@ -3,6 +3,7 @@ let getByClass = (className, parent) => parent ? parent.getElementsByClassName(c
 
 const DOM = {
     chatListArea: getById("chat-list-area"),
+    groupLink: getById("link"),
     messageArea: getById("message-area"),
     inputArea: getById("input-area"),
     chatList: getById("chat-list"),
@@ -153,7 +154,7 @@ let addMessageToMessageArea = (msg) => {
     let containImage = msg.contain_image;
     let messageType;
     if (containImage)
-        messageType =  `<img src="${msg.image}"  width="250px" height="250px"  alt="">`;
+        messageType = `<img src="${msg.image}"  width="250px" height="250px"  alt="">`;
     else
         messageType = `<div class="body m-1 mr-2">${msg.body}</div>`;
 
@@ -235,6 +236,7 @@ let generateMessageArea = (elem, chatIndex) => {
     }
 
     DOM.messageAreaName.innerHTML = chat.name;
+    DOM.groupLink.innerHTML = 'Group id : @' + chat.group.link;
     DOM.messageAreaPic.src = chat.isGroup ? chat.group.pic : chat.contact.pic;
 
     // Message Area details ("last seen ..." for contacts / "..names.." for groups)
