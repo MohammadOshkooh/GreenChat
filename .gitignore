@@ -198,8 +198,6 @@ cython_debug/
 
 # Gradle
 .idea/**/gradle.xml
-.idea/**/libraries
-
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
@@ -370,8 +368,6 @@ fabric.properties
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
 [Bb]in
 [Ii]nclude
-[Ll]ib
-[Ll]ib64
 [Ll]ocal
 [Ss]cripts
 pyvenv.cfg
