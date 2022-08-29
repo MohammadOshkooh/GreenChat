@@ -26,6 +26,9 @@ Online chat application <br>
 - [X] User authentication
 - [X] Custom emoji keyboard
 - [ ] Message status(sent, delivered, read)
+- [ ] Voice message
+- [ ] Replay
+- [ ] Notification
 
 <h3> 
 ⭐  Technologies used in GreenChat
