@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/MohammadOshkooh/chat-application/blob/master/static/img/47820_15_chat_green_icon.png?raw=true">
+<img src="https://github.com/MohammadOshkooh/chat-application/blob/master/static/img/47820_15_chat_green_icon.png?raw=true" alt="">
 </p>
 
 
@@ -35,6 +35,7 @@ Online chat application <br>
   <li>Django</li>
   <li>Python</li>
   <li>Django channels</li>
+  <li>Django rest framework</li>
   <li>Docker</li>
   <li>Django allauth</li>
   <li>PostgreSQL</li>

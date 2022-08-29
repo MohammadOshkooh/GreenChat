@@ -3,8 +3,6 @@ from django.db import models
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 
-from accounts.models import CustomUser
-
 
 class Chat(models.Model):
     room_name = models.CharField(max_length=50)
@@ -21,18 +19,22 @@ class Chat(models.Model):
         return reverse('chat:chat')
 
 
+class ContactList(models.Model):
+    owner = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+    contact = models.ManyToManyField(get_user_model(), related_name='contact_list')
+
+    def __str__(self):
+        return self.owner.username
+
+
 class Message(models.Model):
     """
-    Message model
-
-    message status = 0:sent, 1:delivered, 2:read
-
+       message status = 0:sent, 1:delivered, 2:read
     """
-
     sender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     body = models.TextField(null=True, blank=True, default='body')
     time = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(default=0)
+    status = models.IntegerField(default=2)
     related_chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='chat/image/%y/%m/%d/', blank=True, null=True,
                               default='../static/img/index.png')
@@ -41,14 +43,3 @@ class Message(models.Model):
 
     def __str__(self):
         return self.sender.username
-
-    def get_message(self, room_name):
-        return Message.objects.filter(related_chat__room_name=room_name).order_by('-created')
-
-
-class ContactList(models.Model):
-    owner = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    contact = models.ManyToManyField(get_user_model(), related_name='contact_list')
-
-    def __str__(self):
-        return self.owner.username
