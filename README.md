@@ -1,4 +1,6 @@
-<img src="https://github.com/MohammadOshkooh/chat-application/blob/master/static/img/47820_15_chat_green_icon.png?raw=true" alt="GreenChat" width="40%">
+<p align="center">
+<img src="https://github.com/MohammadOshkooh/chat-application/blob/master/static/img/47820_15_chat_green_icon.png?raw=true">
+</p>
 
 
 <h1>Green Chat</h1>
@@ -13,18 +15,17 @@ Online chat application <br>
 ⭐️ Green Chat features 
 </h3>
 
-
 - [X] Send message to chat room
 - [X] Send image to chat room
 - [X] Create new group
 - [X] Search for group
 - [X] Join the group
 - [X] Leave the group
-- [X] Update user profile
-- [X] User authentication
+- [X] Update user info
 - [X] Update group information
-- [X] Use emoji
-
+- [X] User authentication
+- [X] Custom emoji keyboard
+- [ ] Message status(sent, delivered, read)
 
 <h3> 
 ⭐  Technologies used in GreenChat
@@ -32,12 +33,14 @@ Online chat application <br>
 
 <ul>
   <li>Django</li>
+  <li>Python</li>
   <li>Django channels</li>
   <li>Docker</li>
   <li>Django allauth</li>
-  <li>Python</li>
   <li>PostgreSQL</li>
+  <li>Web Socket</li>
   <li>jQuery</li>
+
 
 </ul>
 
@@ -80,14 +83,9 @@ After creating a superuser you can login into your admin panels.
 </p>
 
 <hr>
-<h4>
-⭐️ Now you can use all the features of Green Chat.
-</h4>
 
-<hr/>
 <h3>
-✅ Online version
+✅ <a href="https://green-chat-x.herokuapp.com/" target="_blank">Link</a>
 </h3>
-<p>⭐️ soon...</p>
-https://greenchat.pythonanywhere.com/
+
 
