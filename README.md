@@ -21,7 +21,7 @@ Online chat application <br>
 - [X] Search for group
 - [X] Join the group
 - [X] Leave the group
-- [X] Update user info
+- [X] Update user information
 - [X] Update group information
 - [X] User authentication
 - [X] Custom emoji keyboard
