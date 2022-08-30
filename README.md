@@ -29,6 +29,9 @@ Online chat application <br>
 - [ ] Voice message
 - [ ] Replay
 - [ ] Notification
+- [ ] Is typing
+- [ ] Edit messages
+- [ ] Delete messages
 
 <h3> 
 ⭐  Technologies used in GreenChat
