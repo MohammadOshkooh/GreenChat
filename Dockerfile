@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
 
-v
+
 # install dependencies
 COPY ./requirements.txt /code/
 RUN pip install --upgrade pip
