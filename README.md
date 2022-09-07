@@ -5,7 +5,10 @@
 
 <h1>Green Chat</h1>
 
-  <hr>
+<hr>
+
+[![My Skills](https://skillicons.dev/icons?i=python,django,docker,js,postgresql)](https://skillicons.dev)
+<img src="https://img.shields.io/badge/django%20rest-ff1709?style=for-the-badge&logo=django&logoColor=white" alt="">
 
 <p>
 Online chat application <br>
@@ -53,46 +56,30 @@ Online chat application <br>
 
 <hr>
 
-<h3>
-⚙️ Config and run the project
-</h3>
+## ⚙️ Config and run the project
 
-<p>
-build and run with docker-compose file:
-</p>
-<pre>
+**1. Clone the application**
+
+```bash
+git clone https://github.com/MohammadOshkooh/blog.api
+```
+
+**2. Config environment variable**
+
+**3. Build and run**
+
+```bash
 docker-compose up --build
-</pre>
-<p>
+```
 
-<h5>
-Configuration of project almost done.
-</h5>
+**3. Migrate**
 
-<hr>
-
-✅ Use the project
-</h3>
-
-<pre>
-python manage.py migrate
-</pre>
-
-
-<p>
-For use the project first you should create a superuser. So type this command in Terminal or Console:
-</p>
-<pre>
-python manage.py createsuperuser
-</pre>
-<p>
-After creating a superuser you can login into your admin panels.
-</p>
+```bash
+docker-compose exec web python manage.py migrate
+```
 
 <hr>
 
-<h3>
-✅ <a href="https://green-chat-x.herokuapp.com/" target="_blank">Link</a>
-</h3>
+## Demo
 
-
+[Link](https://green-chat-x.herokuapp.com/)
